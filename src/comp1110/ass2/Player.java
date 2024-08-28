@@ -34,10 +34,14 @@ public class Player {
 
     }
 
-    public void choose_tiles_rules(String max_same_color, Event e){
+    public boolean choose_tiles_rules(TilesShape ts, String max_same_color, Event e){
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
-
+        boolean can_be_selected=false;
+        if(ts.color.equals(max_same_color)){
+            can_be_selected=true;
+        }
+        return can_be_selected;
     }
 
     public int get_num (){

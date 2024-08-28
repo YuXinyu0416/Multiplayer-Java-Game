@@ -21,13 +21,13 @@ public class BuildingRegion extends PlayerRegion{
         //draw the whole region
     }
 
-    public boolean placed_rules(TilesShape ts, Event e, int row, int column){
+    public void placed_rules(TilesShape ts, Event e, int row, int column){
         //determine whether the grid (players have chosen) is occupied, and whether this area is valid and
-        //whether this tiles shape is built on a previous one
-        if(!this.grids[row][column].isOccupied()){
+        //whether this tiles shape is built on a previous one, and here need to call the choose_tiles_rules
+        //method in Class Player to guarantee the tiles players have chosen are under the dice_color constraint
+        if(!this.grids[row][column].isOccupied()) {
 
         }
-        return false;
     }
 
     public boolean isFilled_row(int row){

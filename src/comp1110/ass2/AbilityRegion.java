@@ -5,9 +5,9 @@ import java.awt.*;
 public class AbilityRegion extends PlayerRegion {
     //this class is Ability tracks with different colors, can be chosen by players and there is some abilities
     //can be gotten
-    int width;  // width of the whole region
-    int height; // height of the whole region
-    int size;
+//    int width;  // width of the whole region
+//    int height; // height of the whole region
+//    int size;
     int step; // how many steps players have advanced in each ability track
     String color;
     int star1=1; // ability signs and locations
@@ -15,13 +15,13 @@ public class AbilityRegion extends PlayerRegion {
     int plus_sign1=2;
     int plus_sign2=4;
 
-    public AbilityRegion(){
-        this.width=0;
-        this.height=0;
-        this.size=width*height;
-    }
+//    public AbilityRegion(){
+//        this.width=0;
+//        this.height=0;
+//        this.size=width*height;
+//    }
 
-    public void paints(int x1,int y1, int x2, int y2, int row) {
+    static void paints(int x1,int y1, int x2, int y2, int row) {
         //draw this region in GUI, maybe need to implement an interface
     }
 
