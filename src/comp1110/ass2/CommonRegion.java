@@ -12,7 +12,6 @@ public class CommonRegion extends Regions{
         this.width=0;
         this.height=0;
         this.size=width*height;
-        TilesRegion tr;
     }
 
     public void paints(int x1, int y1, int x2,int y2){

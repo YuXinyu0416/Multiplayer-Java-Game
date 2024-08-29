@@ -6,7 +6,7 @@ public class BuildingRegion extends PlayerRegion{
     int width;
     int height;
     int size;
-    Grid[][] grids;
+    static Grid[][] grids;
     ShieldsShape row_ss=new ShieldsShape(2);
     ShieldsShape column_ss=new ShieldsShape(4);
 
@@ -32,7 +32,7 @@ public class BuildingRegion extends PlayerRegion{
 
     public boolean isFilled_row(int row){
         //determine whether this row is filled(and the situations of shields and windows), then players can get some scores
-        if(row_ss.isAttached(row)) {
+        if(row_ss.isTouched(row)) {
             String[] abilities = Abilities.get_ability_set();
             int index = 0;
             for (int i = 0; i < abilities.length; i++) {
@@ -48,7 +48,7 @@ public class BuildingRegion extends PlayerRegion{
 
     public boolean isFilled_column(int column){
         //determine whether this column is filled(and the situations of shields and windows), then players can get some scores
-        if(column_ss.isAttached(column)) {
+        if(column_ss.isTouched(column)) {
             String[] abilities = Abilities.get_ability_set();
             int index = 0;
             for (int i = 0; i < abilities.length; i++) {

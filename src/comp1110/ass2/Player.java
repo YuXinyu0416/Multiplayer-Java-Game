@@ -12,6 +12,7 @@ public class Player {
     static int number_players;
     String[] abilities= {}; //store abilities players have gotten before
 
+
     public Player(String name) {
        //create a player
         this.name = name;
@@ -29,12 +30,13 @@ public class Player {
         return score;
     }
 
-    public void Select(Event e){
-        //players can select other shapes or regions through clicking
-
+    public void makeMove(){
+        //players operate this game through clicking to select other shapes and regions, and there
+        //need to be some difference between active player in this round and other players
+        BuildingRegion.grids[1][2].place_window();
     }
 
-    public boolean choose_tiles_rules(TilesShape ts, String max_same_color, Event e){
+    public boolean choose_tiles_rules(TilesShape ts, String max_same_color){
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
         boolean can_be_selected=false;

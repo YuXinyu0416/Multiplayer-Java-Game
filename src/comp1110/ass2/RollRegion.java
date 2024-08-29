@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-import java.awt.*;
-
 public class RollRegion extends CommonRegion{
     //the region displays all dices and the result of rolling
     int width;

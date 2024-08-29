@@ -1,37 +1,48 @@
 package comp1110.ass2;
 
-import java.awt.*;
-
 public class TilesShape extends Shapes {
     int width;
     int height;
     String title;
     String color;
+    int num_of_tile;// how many tiles are contained in this whole shape
+    boolean state=true;// determine whether this tilesShape has been crossed out or not
+    Grid[] tiles;
 
-    public TilesShape(String title,String color){
+    public TilesShape(String title,String color, int num_of_tile){
         this.title=title;
         this.color=color;
+        this.num_of_tile=num_of_tile;
+        this.tiles=new Grid[num_of_tile];
         this.width=1;
         this.height=1;
     }
 
-    public void paints(int x, int y) {
+    public void paints(int x1, int y1,int x2, int y2) {
+        //draw
     }
 
-
-    public boolean isSelected(Event e) {
-        return false;
+    public boolean isSelected() {
+        //determine whether this tile has been selected or not
+        boolean isSelected=false;
+        if(isSelected){
+            this.CrossOut();
+        }
+        return isSelected;
     }
 
-    public void beColor(Color c){
-        this.setBackground(c);
+    public String get_Color(){
+        //return the color of this tilesShape to support other methods
+        return this.color;
     }
 
-    public boolean isExist(){
-        return false;
+    public int get_tileNum(){
+        //return the number_tile of this tilesShape to support other methods
+        return this.num_of_tile;
     }
 
     public void CrossOut(){
-
+       //if this tilesShape has been selected, then it will be crossed out and will not be selected again
+        this.state=false;
     }
 }

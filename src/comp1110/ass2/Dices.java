@@ -18,12 +18,12 @@ public class Dices extends Shapes {
         //draw
     }
 
-    public boolean isSelected(Event e) {
+    public boolean isSelected() {
         //determine whether this dice has been selected right now
         return false;
     }
 
-    public void rollDices(Event e){
+    public void rollDices(){
         Color[] colors=Colors.get_color_set();
         //get the 6 colors set and generate a color of dice
         Random random=new Random();

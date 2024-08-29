@@ -18,7 +18,7 @@ public class ButtonShape {
 
     }
 
-    public boolean isSelected(Event e){
+    public boolean isSelected(){
         //determine whether this button has been selected right now
         return false;
     }

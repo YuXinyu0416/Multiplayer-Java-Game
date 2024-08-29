@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-import java.awt.*;
-
 public class ScoreRegion extends PlayerRegion{
     int width;
     int height;
@@ -15,11 +13,13 @@ public class ScoreRegion extends PlayerRegion{
         this.size=width*height;
     }
 
-    public void paints(int x, int y) {
+    public void paints(int x1, int y1, int x2, int y2) {
+        //draw
 
     }
 
     public void score_display(int score){
+        //show how many scores this player get
 
     }
 }
