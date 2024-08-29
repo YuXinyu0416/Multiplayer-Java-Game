@@ -1,5 +1,5 @@
 package comp1110.ass2;
 
-public class Shapes extends RollWriteGame{
+public abstract class Shapes extends RollWriteGame{
 
 }
