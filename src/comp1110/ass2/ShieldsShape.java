@@ -1,14 +1,10 @@
 package comp1110.ass2;
 
 public class ShieldsShape extends Shapes{
-    int width;
-    int height;
     int position;
     boolean state=true;// determine whether this shield has been crossed out or not
 
     public ShieldsShape(int position){
-        this.width=1;
-        this.height=1;
         this.position=position;
     }
 

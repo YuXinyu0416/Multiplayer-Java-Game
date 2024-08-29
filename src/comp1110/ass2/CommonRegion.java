@@ -1,21 +1,14 @@
 package comp1110.ass2;
 
-import java.awt.*;
-
 public class CommonRegion extends Regions{
     //the region to display all tiles shapes to all players
-    int width;
-    int height;
-    int size;
-
-    public CommonRegion(){
-        this.width=0;
-        this.height=0;
-        this.size=width*height;
-    }
-
-    public void paints(int x1, int y1, int x2,int y2){
+    static TilesShape ts=new TilesShape("R1","RED",3);
+    static public Dices d=new Dices();
+    static void paints(int x1, int y1, int x2,int y2){
         //drawn the whole region on this location
-
+        OperateRegion.paints();
+        RollRegion.paints();
+        ts.paints();
+        d.paints();
     }
 }

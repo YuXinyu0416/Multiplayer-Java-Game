@@ -1,6 +1,6 @@
 package comp1110.ass2;
 
-public class Grid {
+public class Grid extends Shapes {
     //a grid in building sheet
     String[] content=new String[2]; //something in this grid
     Grid(){

@@ -5,13 +5,11 @@ import java.util.Random;
 
 public class Dices extends Shapes {
    //create a dice and roll its color
-    int width;
-    int height;
     Color c;
+    static String[] dices_color=new String[5];
 
     public Dices() {
-        this.width = 1;
-        this.height = 1;
+
     }
 
     public void paints(int x1, int y1, int x2, int y2){
@@ -34,4 +32,11 @@ public class Dices extends Shapes {
         //get the color of this dice
         return this.c.toString();
     }
+
+    static String[] get_dices_color(){
+        dices_color[0]=CommonRegion.d.get_color();
+        //......
+        return dices_color;
+    }
 }
+

@@ -1,17 +1,15 @@
 package comp1110.ass2;
 
-import jdk.jfr.Event;
-
 import java.util.UUID;
 
-public class Player {
+public class Player extends RollWriteGame {
     //create some players and support players' operations
     String id; // the primary key of player
     String name; // need to be scanner in by player
     int score=0;
     static int number_players;
     String[] abilities= {}; //store abilities players have gotten before
-
+    int [] steps=new int[5];// how many steps in this row that players have advanced
 
     public Player(String name) {
        //create a player
@@ -36,22 +34,34 @@ public class Player {
         BuildingRegion.grids[1][2].place_window();
     }
 
-    public boolean choose_tiles_rules(TilesShape ts, String max_same_color){
+    public void advance_steps(int row){
+        //add steps to make players advance in the ability track and return this step number to determine
+        //whether players can get corresponding abilities
+        this.steps[row]++;
+    }
+
+    public int get_stepNUM(int row){
+        //return how many steps in this row to support other method
+        return this.steps[row];
+    }
+
+    public boolean choose_tiles_rules(TilesShape ts){
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
         boolean can_be_selected=false;
+        String max_same_color=RollRegion.max_same_color();
         if(ts.color.equals(max_same_color)){
             can_be_selected=true;
         }
         return can_be_selected;
     }
 
-    public int get_num (){
+    static int get_num (){
         //return the number of players to support the turn method of Round
         return number_players;
     }
 
-    static void store_ability(String ability_name){
+    public void store_ability(String ability_name){
         //input some abilities name to store
 
     }

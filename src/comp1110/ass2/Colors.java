@@ -2,7 +2,7 @@ package comp1110.ass2;
 
 import java.awt.*;
 
-public class Colors {
+public class Colors extends Shapes {
     static Color[] get_color_set(){
         Color[] colors=new Color[6];
         colors[0]=Color.RED;

@@ -1,8 +1,6 @@
 package comp1110.ass2;
 
 public class TilesShape extends Shapes {
-    int width;
-    int height;
     String title;
     String color;
     int num_of_tile;// how many tiles are contained in this whole shape
@@ -14,12 +12,11 @@ public class TilesShape extends Shapes {
         this.color=color;
         this.num_of_tile=num_of_tile;
         this.tiles=new Grid[num_of_tile];
-        this.width=1;
-        this.height=1;
     }
 
     public void paints(int x1, int y1,int x2, int y2) {
         //draw
+        Grid.paints();
     }
 
     public boolean isSelected() {

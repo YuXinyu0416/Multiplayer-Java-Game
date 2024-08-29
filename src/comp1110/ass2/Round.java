@@ -1,6 +1,6 @@
 package comp1110.ass2;
 
-public class Round {
+public class Round extends RollWriteGame {
     static int number_rounds;
     Player[] players=new Player[Player.number_players];
 
@@ -20,7 +20,7 @@ public class Round {
         return number_rounds;
     }
 
-    public void last_round(){
+    static void last_round(){
         //need some if sentences to determine whether this round is the last round,
         //for example players[i].score>=12, and all players can make move in the last round
 

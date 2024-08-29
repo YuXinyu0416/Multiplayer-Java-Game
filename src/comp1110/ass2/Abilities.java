@@ -1,6 +1,6 @@
 package comp1110.ass2;
 
-public class Abilities {
+public class Abilities extends RollWriteGame{
     static String[] abilities={"red star", "blue star", "green star", "yellow star", "purple star", "plus sign", "shield"};
     // all abilities players can get in this game
 
