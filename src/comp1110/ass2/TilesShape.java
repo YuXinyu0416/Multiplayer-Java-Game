@@ -33,6 +33,20 @@ public class TilesShape{
         return this.num_of_tile;
     }
 
+    public boolean isPlaced(){
+        return false;
+    }
+
+    public int rotation(){
+        int rotation=0;
+        while(isSelected()&&!isPlaced()){
+            if(true){
+                rotation++;
+            }
+        }
+        return rotation;
+    }
+
     public void CrossOut(){
        //if this tilesShape has been selected, then it will be crossed out and will not be selected again
         this.state=false;

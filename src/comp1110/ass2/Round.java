@@ -6,7 +6,7 @@ public class Round{
     static int number_rounds;
     Player[] players=new Player[Player.number_players];
 
-    Round(){
+    public Round(){
         number_rounds++;
     }
 
