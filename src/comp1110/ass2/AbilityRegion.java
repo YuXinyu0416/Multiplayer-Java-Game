@@ -1,6 +1,6 @@
 package comp1110.ass2;
 
-public class AbilityRegion extends PlayerRegion {
+public class AbilityRegion{
     //this class is Ability tracks with different colors, can be chosen by players and there is some abilities
     //can be gotten
     static int star1=1; // ability signs and locations
@@ -8,10 +8,27 @@ public class AbilityRegion extends PlayerRegion {
     static int plus_sign1=2;
     static int plus_sign2=4;
     static String[] rows=new String[5];//store color of every row and distinguish them
+    static String[] abilities={"red star", "blue star", "green star", "yellow star", "purple star", "plus sign", "shield"};
+    // all abilities players can get in this game
 
+    static void use_abilities(String ability_name){
+        if(ability_name.equals("red star")){
 
-    static void paints(int x1,int y1, int x2, int y2, int row) {
-        //draw this region in GUI, maybe need to implement an interface
+        }
+        else if(ability_name.equals("green star")){
+
+        }
+        else if(ability_name.equals("plus sign")){
+
+        }
+        else if(ability_name.equals("shield")){
+
+        }
+        //......and so on, there are some abilities that players can get and use
+    }
+
+    static String[] get_ability_set(){
+        return abilities;
     }
 
     static void beColor(int row, String color){

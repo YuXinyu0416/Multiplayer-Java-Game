@@ -2,7 +2,7 @@ package comp1110.ass2;
 
 import java.util.UUID;
 
-public class Player extends RollWriteGame {
+public class Player{
     //create some players and support players' operations
     String id; // the primary key of player
     String name; // need to be scanner in by player
@@ -20,6 +20,11 @@ public class Player extends RollWriteGame {
 
     public void add_score(){
         //will call the isFilled methods of Class BuildingRegion, then add this play's score
+
+    }
+
+    public void score_display(int score){
+        //show how many scores this player get
 
     }
 
@@ -45,11 +50,11 @@ public class Player extends RollWriteGame {
         return this.steps[row];
     }
 
-    public boolean choose_tiles_rules(TilesShape ts){
+    public boolean choose_tiles_rules(TilesShape ts, Round rd){
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
         boolean can_be_selected=false;
-        String max_same_color=RollRegion.max_same_color();
+        String max_same_color=rd.max_same_color();
         if(ts.color.equals(max_same_color)){
             can_be_selected=true;
         }
@@ -67,7 +72,7 @@ public class Player extends RollWriteGame {
     }
 
     public void use_ability(String ability_name){
-        Abilities.use_abilities(ability_name);
+        AbilityRegion.use_abilities(ability_name);
     }
 
     public void show_abilities(){

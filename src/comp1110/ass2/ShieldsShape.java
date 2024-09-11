@@ -1,16 +1,11 @@
 package comp1110.ass2;
 
-public class ShieldsShape extends Shapes{
+public class ShieldsShape{
     int position;
     boolean state=true;// determine whether this shield has been crossed out or not
 
     public ShieldsShape(int position){
         this.position=position;
-    }
-
-    public void paints(int x1, int y1, int x2,int y2) {
-        //draw
-
     }
 
     public boolean isTouched(int position) {
