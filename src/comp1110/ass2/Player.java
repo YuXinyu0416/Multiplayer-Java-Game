@@ -10,6 +10,8 @@ public class Player{
     static int number_players;
     String[] abilities= {}; //store abilities players have gotten before
     int [] steps=new int[5];// how many steps in this row that players have advanced
+    AbilityRegion ar=new AbilityRegion();
+    BuildingRegion br=new BuildingRegion();
 
     public Player(String name) {
        //create a player
@@ -36,7 +38,7 @@ public class Player{
     public void makeMove(){
         //players operate this game through clicking to select other shapes and regions, and there
         //need to be some difference between active player in this round and other players
-        BuildingRegion.grids[1][2].place_window();
+        br.grids[1][2].place_window();
     }
 
     public void advance_steps(int row){
