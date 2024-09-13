@@ -9,13 +9,30 @@ public class BuildingRegion{
 
     }
 
-    public void placed_rules(TilesShape ts, int row, int column){
+    public boolean whether_Occupied(Grid grid){
         //determine whether the grid (players have chosen) is occupied, and whether this area is valid and
         //whether this tiles shape is built on a previous one, and here need to call the choose_tiles_rules
         //method in Class Player to guarantee the tiles players have chosen are under the dice_color constraint
-        if(!grids[row][column].isOccupied()) {
-
+        boolean whether=true; //here can be placed
+        grids[0][0].isOccupied();
+        grids[0][1].isOccupied();
+        grids[0][4].isOccupied();
+        grids[1][0].isOccupied();
+        grids[1][3].isOccupied();
+        grids[1][4].isOccupied();
+        grids[2][4].isOccupied();
+        if(grid.content[0]!=null){
+            whether=false;
         }
+        return whether;
+    }
+
+    public boolean whether_Above(int row, int column){
+        boolean whether=false;
+        if(row==0||(row!=0&&grids[row-1][column].content[0]!=null)){
+            whether=true;
+        }
+        return whether;
     }
 
     public boolean isFilled_row(int row){

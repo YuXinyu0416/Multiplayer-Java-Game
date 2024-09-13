@@ -1,7 +1,7 @@
 package comp1110.ass2;
 
 public class TilesShape{
-    String tileName;
+    String name;
     int x;
     int y;
     int rotation;
@@ -11,9 +11,12 @@ public class TilesShape{
     Grid[] tiles;
 
     public TilesShape(String name,String color, int num_of_tile, int x, int y, int r){
-        this.tileName = name;
+        this.name = name;
         this.color=color;
+        this.num_of_tile=num_of_tile;
         this.tiles=new Grid[num_of_tile];
+        tiles[0].position[0]=x;
+        tiles[0].position[1]=y;
         this.x = x;
         this.y = y;
         this.rotation = r;
@@ -42,14 +45,125 @@ public class TilesShape{
         return false;
     }
 
-    public int rotation(){
-        int rotation=0;
-        while(isSelected()&&!isPlaced()){
-            if(true){
-                rotation++;
+    public void rotation(){
+        this.rotation=(this.rotation+1)%4;
+
+
+    }
+
+    public void Shape_change(){
+        if(this.num_of_tile==2){
+            if(this.rotation==0){
+                this.tiles[1].position[0]=this.x+1;
+                this.tiles[1].position[1]=this.y;
+            }
+            else if(this.rotation==1){
+                this.tiles[1].position[0]=this.x;
+                this.tiles[1].position[1]=this.y+1;
             }
         }
-        return rotation;
+        else if(this.name.equals("Y3")||this.name.equals("B3")||this.name.equals("R3")){
+            if(this.rotation==0){
+                this.tiles[1].position[0]=this.x;
+                this.tiles[1].position[1]=this.y+1;
+                this.tiles[2].position[0]=this.x+1;
+                this.tiles[2].position[1]=this.y+1;
+            }
+            else if(this.rotation==1){
+                this.tiles[0].position[0]=this.x+1;
+                this.tiles[0].position[1]=this.y;
+                this.tiles[1].position[0]=this.x;
+                this.tiles[1].position[1]=this.y;
+                this.tiles[2].position[0]=this.x;
+                this.tiles[2].position[1]=this.y+1;
+            }
+            else if(this.rotation==2){
+                this.tiles[0].position[0]=this.x+1;
+                this.tiles[0].position[1]=this.y+1;
+                this.tiles[1].position[0]=this.x+1;
+                this.tiles[1].position[1]=this.y;
+                this.tiles[2].position[0]=this.x;
+                this.tiles[2].position[1]=this.y;
+            }
+            else if(this.rotation==3){
+                this.tiles[0].position[0]=this.x;
+                this.tiles[0].position[1]=this.y+1;
+                this.tiles[1].position[0]=this.x+1;
+                this.tiles[1].position[1]=this.y+1;
+                this.tiles[2].position[0]=this.x+1;
+                this.tiles[2].position[1]=this.y;
+            }
+        }
+        else if(this.name.equals("P3")||this.name.equals("G3")){
+            if(this.rotation==0){
+                this.tiles[1].position[0]=this.x+1;
+                this.tiles[1].position[1]=this.y;
+                this.tiles[2].position[0]=this.x+2;
+                this.tiles[2].position[1]=this.y;
+            }
+            else if(this.rotation==1){
+                this.tiles[1].position[0]=this.x;
+                this.tiles[1].position[1]=this.y+1;
+                this.tiles[2].position[0]=this.x;
+                this.tiles[2].position[1]=this.y+2;
+            }
+        }
+        else if(this.name.equals("P4")){
+            if(this.rotation==0){
+                this.tiles[1].position[0]=this.x+1;
+                this.tiles[1].position[1]=this.y;
+                this.tiles[2].position[0]=this.x+2;
+                this.tiles[2].position[1]=this.y;
+                this.tiles[3].position[0]=this.x+3;
+                this.tiles[3].position[1]=this.y;
+            }
+            else if(this.rotation==1){
+                this.tiles[1].position[0]=this.x;
+                this.tiles[1].position[1]=this.y+1;
+                this.tiles[2].position[0]=this.x;
+                this.tiles[2].position[1]=this.y+2;
+                this.tiles[3].position[0]=this.x;
+                this.tiles[3].position[1]=this.y+3;
+            }
+        }
+        else if(this.name.equals("P5")){
+            if(this.rotation==0){
+                this.tiles[1].position[0]=this.x;
+                this.tiles[1].position[1]=this.y+1;
+                this.tiles[2].position[0]=this.x;
+                this.tiles[2].position[1]=this.y+2;
+                this.tiles[3].position[0]=this.x;
+                this.tiles[3].position[1]=this.y+3;
+                this.tiles[4].position[0]=this.x;
+                this.tiles[4].position[1]=this.y+4;
+            }
+            else if(this.rotation==1){
+                this.tiles[1].position[0]=this.x+1;
+                this.tiles[1].position[1]=this.y;
+                this.tiles[2].position[0]=this.x+2;
+                this.tiles[2].position[1]=this.y;
+                this.tiles[3].position[0]=this.x+3;
+                this.tiles[3].position[1]=this.y;
+                this.tiles[3].position[0]=this.x+4;
+                this.tiles[3].position[1]=this.y;
+            }
+        }
+    }
+
+    public void UPPER(){
+        this.x++;
+    }
+
+    public void LOWER(){
+        this.x--;
+    }
+
+    public void RIGHTER(){
+        this.y++;
+    }
+
+    public void LEFTER(){
+        this.y--;
     }
 
     public void CrossOut(){

@@ -14,7 +14,7 @@ public class Dices{
 
     public boolean isSelected() {
         //determine whether this dice has been selected right now
-        return false;
+        return true;
     }
 
     public void rollDices(){
@@ -29,7 +29,7 @@ public class Dices{
         return this.c.toString();
     }
 
-    static String[] get_dices_color(){
+    public String[] get_dices_color(){
         dices_color= new String[]{"RED", "RED", "RED", "BLUE", "WHITE"};
         return dices_color;
     }

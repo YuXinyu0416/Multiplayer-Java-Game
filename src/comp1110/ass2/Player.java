@@ -1,6 +1,6 @@
 package comp1110.ass2;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Player{
     //create some players and support players' operations
@@ -52,13 +52,62 @@ public class Player{
         return this.steps[row];
     }
 
-    public boolean choose_tiles_rules(TilesShape ts, Round rd){
+    public boolean choose_tiles_rules(HashMap<String,Integer> colors_num,TilesShape ts, boolean isWhite){
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
+        List<String> max_color=new ArrayList<>();
+        int max_value=0;
+        for(Map.Entry<String,Integer> pair :colors_num.entrySet()){
+            if(max_value==0|| pair.getValue().compareTo(max_value)>0){
+                max_value=pair.getValue();
+                max_color.clear();
+                max_color.add(pair.getKey().toString());
+            }
+            else if(pair.getValue().compareTo(max_value)==0){
+                max_color.add(pair.getKey().toString());
+            }
+        }
+
+        String color1="";
+        String color2="";
         boolean can_be_selected=false;
-        String max_same_color=rd.max_same_color();
-        if(ts.color.equals(max_same_color)){
-            can_be_selected=true;
+        if(max_color.size()>2){
+            System.out.println("You cannot select any tiles!");
+        }
+        else if(max_color.size()<2){
+            color1=max_color.get(0);
+            if(ts.get_Color().equals(color1)){
+                int num=0;
+                for(Map.Entry<String,Integer> pair:colors_num.entrySet()){
+                    if(pair.getKey().equals(color1)){
+                        num=pair.getValue();
+                    }
+                }
+                if(isWhite&&(ts.num_of_tile==num||ts.num_of_tile==(num+1))){
+                    can_be_selected=true;
+                }
+                else if(!isWhite&&ts.num_of_tile==num){
+                    can_be_selected=true;
+                }
+            }
+        }
+        else{
+            color1=max_color.get(0);
+            color2=max_color.get(1);
+            if(ts.get_Color().equals(color1)||ts.get_Color().equals(color2)){
+                int num=0;
+                for(Map.Entry<String,Integer> pair:colors_num.entrySet()){
+                    if(pair.getKey().equals(color1)){
+                        num=pair.getValue();
+                    }
+                }
+                if(isWhite&&(ts.num_of_tile==num||ts.num_of_tile==num+1)){
+                    can_be_selected=true;
+                }
+                else if(!isWhite&&ts.num_of_tile==num){
+                    can_be_selected=true;
+                }
+            }
         }
         return can_be_selected;
     }

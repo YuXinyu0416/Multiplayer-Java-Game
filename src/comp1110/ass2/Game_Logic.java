@@ -8,6 +8,10 @@ public class Game_Logic {
     Player player2=new Player("name2");
     TilesShape B3=new TilesShape("B3","BLUE",3,0,0,1);
     TilesShape G4L=new TilesShape("G4L","GREEN",4,3,0,0);
+    TilesShape R3=new TilesShape("R3","RED",3,0,0,0);
+    TilesShape R4=new TilesShape("R4","RED",4,0,0,0);
+    TilesShape Y3=new TilesShape("Y3","YELLOW",3,1,0,0);
+
     Dices d=new Dices();
     Round rd=new Round();
     static Color[] get_color_set(){
@@ -25,7 +29,7 @@ public class Game_Logic {
 
     }
 
-    static void rules_display(){
+    public void rules_display(){
         //show players all rules of this game, it will appear at the beginning of game and can be called by button
         System.out.println("The rules of this game is as follow:" +
                 "" +
@@ -35,5 +39,24 @@ public class Game_Logic {
                 "" +
                 "" +
                 "");
+    }
+
+    public boolean Dices_canbe_Selected(TilesShape ts){
+        boolean whether;
+        if(ts.state) {
+        whether=player1.choose_tiles_rules(rd.max_same_color(d.get_dices_color()), ts, rd.isWhite(d.get_dices_color()));
+        }
+        else{
+            whether=false;
+        }
+        return whether;
+    }
+
+    public boolean Tiles_canbe_placed(TilesShape ts){
+        boolean wheter=true;
+
+
+
+        return wheter;
     }
 }

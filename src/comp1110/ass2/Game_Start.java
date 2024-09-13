@@ -63,8 +63,4 @@ public class Game_Start extends Application {
         stage.setTitle("Copenhagen Roll & Write");
         stage.show();
     }
-
-	Game_Logic logic=new Game_Logic();
-
-
 }

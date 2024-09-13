@@ -3,8 +3,14 @@ package comp1110.ass2;
 public class Grid{
     //a grid in building sheet
     String[] content=new String[2]; //something in this grid
+    int[] position=new int[2];// position[0]=row, position[1]=column
+    public Grid(int row, int column){
+        this.content=null;
+        this.position[0]=row;
+        this.position[1]=column;
+    }
     public Grid(){
-
+        this.content=null;
     }
 
     public  boolean isOccupied(){
