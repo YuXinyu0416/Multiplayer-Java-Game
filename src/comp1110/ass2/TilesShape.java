@@ -8,18 +8,22 @@ public class TilesShape{
     String color;
     int num_of_tile;// how many tiles are contained in this whole shape
     boolean state=true;// determine whether this tilesShape has been crossed out or not
-    Grid[] tiles;
 
     public TilesShape(String name,String color, int num_of_tile, int x, int y, int r){
         this.name = name;
         this.color=color;
         this.num_of_tile=num_of_tile;
-        this.tiles=new Grid[num_of_tile];
-        tiles[0].position[0]=x;
-        tiles[0].position[1]=y;
         this.x = x;
         this.y = y;
         this.rotation = r;
+    }
+
+    public Grid[] set_tiles(){
+        Grid[] tiles=new Grid[num_of_tile];
+        for(int i=0;i<num_of_tile;i++){
+            tiles[i]=new Grid(x,y);
+        }
+        return tiles;
     }
 
     public boolean isSelected() {
@@ -45,13 +49,8 @@ public class TilesShape{
         return false;
     }
 
-    public void rotation(){
-        this.rotation=(this.rotation+1)%4;
-
-
-    }
-
     public void Shape_change(){
+        this.rotation=(this.rotation+1)%4;
         if(this.num_of_tile==2){
             if(this.rotation==0){
                 this.tiles[1].position[0]=this.x+1;

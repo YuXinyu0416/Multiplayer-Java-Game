@@ -25,7 +25,7 @@ public class BuildingRegion{
         grids[1][3].isOccupied();
         grids[1][4].isOccupied();
         grids[2][4].isOccupied();
-        if(grids[row][column].content[0]!=null){
+        if(!grids[row][column].content[0].equals("null")){
             whether=false;
         }
         return whether;
@@ -33,7 +33,7 @@ public class BuildingRegion{
 
     public boolean whether_Above(int row, int column){
         boolean whether=false;
-        if(row==0||(row!=0&&grids[row-1][column].content[0]!=null)){
+        if(row==0||(row!=0&&!grids[row-1][column].content[0].equals("null"))){
             whether=true;
         }
         return whether;

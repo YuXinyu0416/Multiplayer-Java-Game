@@ -10,7 +10,6 @@ public class Game_Logic {
     TilesShape G4L=new TilesShape("G4L","GREEN",4,3,0,0);
     TilesShape R3=new TilesShape("R3","RED",3,0,0,0);
     TilesShape R4=new TilesShape("R4","RED",4,0,0,0);
-    TilesShape Y3=new TilesShape("Y3","YELLOW",3,1,0,0);
 
     Dices d=new Dices();
     Round rd=new Round();
@@ -66,5 +65,25 @@ public class Game_Logic {
             }
         }
         return whether;
+    }
+
+    public static void main(String[] args) {
+        Game_Logic gl=new Game_Logic();
+        TilesShape Y3=new TilesShape("Y3","YELLOW",3,1,0,0);
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
+        Y3.Shape_change();
+        Y3.Shape_change();
+        Y3.Shape_change();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
+        Y3.RIGHTER();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
+        Y3.Shape_change();
+        Y3.Shape_change();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
+        Y3.LEFTER();
+        Y3.UPPER();
+        Y3.Shape_change();
+        Y3.Shape_change();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
     }
 }
