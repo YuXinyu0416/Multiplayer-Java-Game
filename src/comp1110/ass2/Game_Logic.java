@@ -11,7 +11,6 @@ public class Game_Logic {
     TilesShape R3=new TilesShape("R3","RED",3,0,0,0);
     TilesShape R4=new TilesShape("R4","RED",4,0,0,0);
     TilesShape Y3=new TilesShape("Y3","YELLOW",3,1,0,0);
-    Grid[] tiles=Y3.set_tiles();
 
     Dices d=new Dices();
     Round rd=new Round();
@@ -83,20 +82,20 @@ public class Game_Logic {
 
     public static void main(String[] args) {
         Game_Logic gl=new Game_Logic();
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.tiles));
-        gl.Y3.Shape_change(gl.tiles);
-        gl.Y3.Shape_change(gl.tiles);
-        gl.Y3.Shape_change(gl.tiles);
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.Y3.set_tiles()));
+        gl.Y3.rotation();
+        gl.Y3.rotation();
+        gl.Y3.rotation();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.Y3.set_tiles()));
         gl.Y3.RIGHTER();
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
-        gl.Y3.Shape_change(gl.tiles);
-        gl.Y3.Shape_change(gl.tiles);
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.Y3.set_tiles()));
+        gl.Y3.rotation();
+        gl.Y3.rotation();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.Y3.set_tiles()));
         gl.Y3.LEFTER();
         gl.Y3.UPPER();
-        gl.Y3.Shape_change(gl.tiles);
-        gl.Y3.Shape_change(gl.tiles);
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
+        gl.Y3.rotation();
+        gl.Y3.rotation();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.Y3.set_tiles()));
     }
 }

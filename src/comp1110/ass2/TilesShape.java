@@ -49,8 +49,12 @@ public class TilesShape{
         return false;
     }
 
-    public void Shape_change(Grid[] tiles){
+    public  void rotation(){
         this.rotation=(this.rotation+1)%4;
+        Shape_change(set_tiles());
+    }
+
+    public void Shape_change(Grid[] tiles){
         if(this.num_of_tile==2){
              if(this.rotation==0){
                 tiles[1].position[0]=this.x;
@@ -151,18 +155,22 @@ public class TilesShape{
 
     public void UPPER(){
         this.y++;
+        Shape_change(set_tiles());
     }
 
     public void LOWER(){
         this.y--;
+        Shape_change(set_tiles());
     }
 
     public void RIGHTER(){
         this.x++;
+        Shape_change(set_tiles());
     }
 
     public void LEFTER(){
         this.x--;
+        Shape_change(set_tiles());
     }
 
     public void CrossOut(){
