@@ -9,7 +9,11 @@ public class BuildingRegion{
 
     }
 
-    public boolean whether_Occupied(Grid grid){
+    public void is_Occupied(int row, int column){
+        grids[row][column].isOccupied();
+    }
+
+    public boolean whether_Occupied(int row, int column){
         //determine whether the grid (players have chosen) is occupied, and whether this area is valid and
         //whether this tiles shape is built on a previous one, and here need to call the choose_tiles_rules
         //method in Class Player to guarantee the tiles players have chosen are under the dice_color constraint
@@ -21,7 +25,7 @@ public class BuildingRegion{
         grids[1][3].isOccupied();
         grids[1][4].isOccupied();
         grids[2][4].isOccupied();
-        if(grid.content[0]!=null){
+        if(grids[row][column].content[0]!=null){
             whether=false;
         }
         return whether;
@@ -30,6 +34,14 @@ public class BuildingRegion{
     public boolean whether_Above(int row, int column){
         boolean whether=false;
         if(row==0||(row!=0&&grids[row-1][column].content[0]!=null)){
+            whether=true;
+        }
+        return whether;
+    }
+
+    public boolean whether_beyond(int row, int column){
+        boolean whether=false;
+        if(row<0||row>8||column<0||column>4){
             whether=true;
         }
         return whether;

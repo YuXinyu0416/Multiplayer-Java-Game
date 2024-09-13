@@ -41,10 +41,10 @@ public class Game_Logic {
                 "");
     }
 
-    public boolean Dices_canbe_Selected(TilesShape ts){
+    public boolean Dices_canbe_Selected(Player p, TilesShape ts){
         boolean whether;
         if(ts.state) {
-        whether=player1.choose_tiles_rules(rd.max_same_color(d.get_dices_color()), ts, rd.isWhite(d.get_dices_color()));
+        whether=p.choose_tiles_rules(rd.max_same_color(d.get_dices_color()), ts, rd.isWhite(d.get_dices_color()));
         }
         else{
             whether=false;
@@ -52,11 +52,19 @@ public class Game_Logic {
         return whether;
     }
 
-    public boolean Tiles_canbe_placed(TilesShape ts){
-        boolean wheter=true;
-
-
-
-        return wheter;
+    public boolean Tiles_canbe_Placed(Player p, TilesShape ts){
+        boolean whether =true;
+        for(int i=0;i<ts.num_of_tile;i++) {
+            if (p.br.whether_beyond(ts.tiles[i].position[0],ts.tiles[i].position[1])){
+                whether=false;
+            }
+            if(p.br.whether_Occupied(ts.tiles[i].position[0],ts.tiles[i].position[1])){
+                whether=false;
+            }
+            if(!p.br.whether_Above(ts.tiles[i].position[0],ts.tiles[i].position[1])){
+                whether=false;
+            }
+        }
+        return whether;
     }
 }
