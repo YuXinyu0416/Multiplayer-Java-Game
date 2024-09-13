@@ -183,7 +183,7 @@ public class BuildingView extends GridPane {
         }
     }
 
-    void setSquare(int p, int x, int y, Colour colour, boolean window) {
+    public void setSquare(int p, int x, int y, Colour colour, boolean window) {
 	if (colour != Colour.WHITE)
 	    content[p][x][y] = new Square(window, colour);
 	else

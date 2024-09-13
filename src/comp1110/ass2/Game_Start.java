@@ -2,19 +2,19 @@ package comp1110.ass2;
 
 import comp1110.ass2.gui.*;
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.text.rtf.RTFEditorKit;
 import java.util.List;
 
-public class GameTemplate extends Application {
+public class Game_Start extends Application {
 
     GameGUI gui;
 
     @Override
     public void start(Stage stage) throws Exception {
-        gui = new GameGUI();
+		gui = new GameGUI();
         Scene scene = new Scene(gui, GameGUI.WINDOW_WIDTH, GameGUI.WINDOW_HEIGHT);
 
 	// This is where you should set up callbacks (or at least one
@@ -63,5 +63,8 @@ public class GameTemplate extends Application {
         stage.setTitle("Copenhagen Roll & Write");
         stage.show();
     }
+
+	Game_Logic logic=new Game_Logic();
+
 
 }

@@ -1,17 +1,22 @@
 package comp1110.ass2;
 
 public class TilesShape{
-    String title;
+    String tileName;
+    int x;
+    int y;
+    int rotation;
     String color;
     int num_of_tile;// how many tiles are contained in this whole shape
     boolean state=true;// determine whether this tilesShape has been crossed out or not
     Grid[] tiles;
 
-    public TilesShape(String title,String color, int num_of_tile){
-        this.title=title;
+    public TilesShape(String name,String color, int num_of_tile, int x, int y, int r){
+        this.tileName = name;
         this.color=color;
-        this.num_of_tile=num_of_tile;
         this.tiles=new Grid[num_of_tile];
+        this.x = x;
+        this.y = y;
+        this.rotation = r;
     }
 
     public boolean isSelected() {

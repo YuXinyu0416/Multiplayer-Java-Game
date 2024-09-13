@@ -20,11 +20,11 @@ public class Placement {
     }
 
     public String getTileName() {
-	return tileName;
+        return tileName;
     }
 
     public int getX() {
-	return x;
+        return x;
     }
 
     public int getY() {

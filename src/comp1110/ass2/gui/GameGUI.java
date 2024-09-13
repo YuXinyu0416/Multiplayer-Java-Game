@@ -43,7 +43,7 @@ public class GameGUI extends BorderPane {
     private Label current_player_view;
     private TabPane player_selector;
     private PlayerStateView player_view;
-    private BuildingView building_view;
+    public BuildingView building_view;
     private LibraryView library_view;
     private FlowPane price_view;
     private DiceView dice_view;
@@ -567,7 +567,7 @@ public class GameGUI extends BorderPane {
      * score sheet.
      */
     public void setOnTileSelected(Consumer<String> handler) {
-	onTileSelected = handler;
+        onTileSelected = handler;
     }
 
     /**
@@ -578,7 +578,7 @@ public class GameGUI extends BorderPane {
      * placement.
      */
     public void setOnTilePlaced(Consumer<Placement> handler) {
-	onTilePlaced = handler;
+        onTilePlaced = handler;
     }
 
     /**
@@ -635,7 +635,7 @@ public class GameGUI extends BorderPane {
      * argument, which is the label of the menu item.
      */
     public void setOnGameAction(Consumer<String> handler) {
-	onGameAction = handler;
+        onGameAction = handler;
     }
 
     // /**
@@ -643,9 +643,9 @@ public class GameGUI extends BorderPane {
     //  * pressed. The event handler will receive one argument, which is
     //  * the current label of the button.
     //  */
-    // public void setOnReroll(Consumer<String> handler) {
-    // 	onReroll = handler;
-    // }
+//    public void setOnReroll(Consumer<String> handler) {
+//        onReroll = handler;
+//     }
 
     // /**
     //  * Set the event handler to be called when an item from the "Change"

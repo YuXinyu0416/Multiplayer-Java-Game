@@ -18,7 +18,7 @@ public class Dices{
     }
 
     public void rollDices(){
-        Color[] colors=RollWriteGame.get_color_set();
+        Color[] colors= Game_Logic.get_color_set();
         //get the 6 colors set and generate a color of dice
         Random random=new Random();
         this.c=colors[random.nextInt(colors.length)];
@@ -29,9 +29,8 @@ public class Dices{
         return this.c.toString();
     }
 
-    static String[] get_dices_color(Dices d){
-        dices_color[0]=d.get_color();
-        //......
+    static String[] get_dices_color(){
+        dices_color= new String[]{"RED", "RED", "RED", "BLUE", "WHITE"};
         return dices_color;
     }
 }
