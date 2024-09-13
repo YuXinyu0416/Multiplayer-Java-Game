@@ -1,45 +1,49 @@
 package comp1110.ass2;
 
 public class BuildingRegion{
-    Grid[][] grids= new Grid[9][5];
+    Grid[][] grids= new Grid[5][9];
     ShieldsShape row_ss=new ShieldsShape(2);
     ShieldsShape column_ss=new ShieldsShape(4);
 
     public BuildingRegion(){
-
+        for(int i=0;i<5;i++){
+            for(int j=0;j<9;j++){
+                grids[i][j]=new Grid();
+            }
+        }
     }
 
-    public void is_Occupied(int row, int column){
-        grids[row][column].isOccupied();
+    public void is_Occupied(int column, int row){
+        grids[column][row].isOccupied();
     }
 
-    public boolean whether_Occupied(int row, int column){
+    public boolean whether_Occupied(int column, int row){
         //determine whether the grid (players have chosen) is occupied, and whether this area is valid and
         //whether this tiles shape is built on a previous one, and here need to call the choose_tiles_rules
         //method in Class Player to guarantee the tiles players have chosen are under the dice_color constraint
-        boolean whether=true; //here can be placed
+        boolean whether=false; //here can be placed
         grids[0][0].isOccupied();
-        grids[0][1].isOccupied();
-        grids[0][4].isOccupied();
         grids[1][0].isOccupied();
-        grids[1][3].isOccupied();
-        grids[1][4].isOccupied();
-        grids[2][4].isOccupied();
-        if(!grids[row][column].content[0].equals("null")){
-            whether=false;
-        }
-        return whether;
-    }
-
-    public boolean whether_Above(int row, int column){
-        boolean whether=false;
-        if(row==0||(row!=0&&!grids[row-1][column].content[0].equals("null"))){
+        grids[4][0].isOccupied();
+        grids[0][1].isOccupied();
+        grids[3][1].isOccupied();
+        grids[4][1].isOccupied();
+        grids[4][2].isOccupied();
+        if(!grids[column][row].content[0].equals("null")){
             whether=true;
         }
         return whether;
     }
 
-    public boolean whether_beyond(int row, int column){
+    public boolean whether_Above(int column, int row){
+        boolean whether=false;
+        if(row==0||(row!=0&&!grids[column][row-1].content[0].equals("null"))){
+            whether=true;
+        }
+        return whether;
+    }
+
+    public boolean whether_beyond(int column, int row){
         boolean whether=false;
         if(row<0||row>8||column<0||column>4){
             whether=true;

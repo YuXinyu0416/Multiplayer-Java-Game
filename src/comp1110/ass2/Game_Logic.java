@@ -10,6 +10,8 @@ public class Game_Logic {
     TilesShape G4L=new TilesShape("G4L","GREEN",4,3,0,0);
     TilesShape R3=new TilesShape("R3","RED",3,0,0,0);
     TilesShape R4=new TilesShape("R4","RED",4,0,0,0);
+    TilesShape Y3=new TilesShape("Y3","YELLOW",3,1,0,0);
+    Grid[] tiles=Y3.set_tiles();
 
     Dices d=new Dices();
     Round rd=new Round();
@@ -51,39 +53,50 @@ public class Game_Logic {
         return whether;
     }
 
-    public boolean Tiles_canbe_Placed(Player p, TilesShape ts){
-        boolean whether =true;
-        for(int i=0;i<ts.num_of_tile;i++) {
-            if (p.br.whether_beyond(ts.tiles[i].position[0],ts.tiles[i].position[1])){
-                whether=false;
-            }
-            if(p.br.whether_Occupied(ts.tiles[i].position[0],ts.tiles[i].position[1])){
-                whether=false;
-            }
-            if(!p.br.whether_Above(ts.tiles[i].position[0],ts.tiles[i].position[1])){
-                whether=false;
+    public boolean Tiles_canbe_Placed(Player p, TilesShape ts, Grid[] tiles){
+        boolean whether1 =true;
+        boolean whether2 =true;
+        boolean whether3 =false;
+        for(int i=0;i<ts.num_of_tile&&whether1;i++) {
+            if(p.br.whether_beyond(tiles[i].position[0],tiles[i].position[1])){
+                whether1=false;
             }
         }
-        return whether;
+        for(int i=0;i<ts.num_of_tile&&whether2;i++) {
+            if(p.br.whether_Occupied(tiles[i].position[0],tiles[i].position[1])){
+                whether2=false;
+            }
+        }
+        for(int i=0;i<ts.num_of_tile&&!whether3;i++) {
+            if(p.br.whether_Above(tiles[i].position[0],tiles[i].position[1])){
+                whether3=true;
+            }
+        }
+
+        if(whether1&&whether2&&whether3) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public static void main(String[] args) {
         Game_Logic gl=new Game_Logic();
-        TilesShape Y3=new TilesShape("Y3","YELLOW",3,1,0,0);
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
-        Y3.Shape_change();
-        Y3.Shape_change();
-        Y3.Shape_change();
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
-        Y3.RIGHTER();
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
-        Y3.Shape_change();
-        Y3.Shape_change();
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
-        Y3.LEFTER();
-        Y3.UPPER();
-        Y3.Shape_change();
-        Y3.Shape_change();
-        System.out.println(gl.Tiles_canbe_Placed(gl.player1,Y3));
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.tiles));
+        gl.Y3.Shape_change(gl.tiles);
+        gl.Y3.Shape_change(gl.tiles);
+        gl.Y3.Shape_change(gl.tiles);
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
+        gl.Y3.RIGHTER();
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
+        gl.Y3.Shape_change(gl.tiles);
+        gl.Y3.Shape_change(gl.tiles);
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
+        gl.Y3.LEFTER();
+        gl.Y3.UPPER();
+        gl.Y3.Shape_change(gl.tiles);
+        gl.Y3.Shape_change(gl.tiles);
+        System.out.println(gl.Tiles_canbe_Placed(gl.player1,gl.Y3,gl.tiles));
     }
 }

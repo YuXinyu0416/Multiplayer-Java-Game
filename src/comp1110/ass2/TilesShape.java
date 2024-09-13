@@ -49,120 +49,120 @@ public class TilesShape{
         return false;
     }
 
-    public void Shape_change(){
+    public void Shape_change(Grid[] tiles){
         this.rotation=(this.rotation+1)%4;
         if(this.num_of_tile==2){
-            if(this.rotation==0){
-                this.tiles[1].position[0]=this.x+1;
-                this.tiles[1].position[1]=this.y;
+             if(this.rotation==0){
+                tiles[1].position[0]=this.x;
+                tiles[1].position[1]=this.y+1;
             }
             else if(this.rotation==1){
-                this.tiles[1].position[0]=this.x;
-                this.tiles[1].position[1]=this.y+1;
+                tiles[1].position[0]=this.x+1;
+                tiles[1].position[1]=this.y;
             }
         }
         else if(this.name.equals("Y3")||this.name.equals("B3")||this.name.equals("R3")){
             if(this.rotation==0){
-                this.tiles[1].position[0]=this.x;
-                this.tiles[1].position[1]=this.y+1;
-                this.tiles[2].position[0]=this.x+1;
-                this.tiles[2].position[1]=this.y+1;
+                tiles[1].position[0]=this.x+1;
+                tiles[1].position[1]=this.y;
+                tiles[2].position[0]=this.x+1;
+                tiles[2].position[1]=this.y+1;
             }
             else if(this.rotation==1){
-                this.tiles[0].position[0]=this.x+1;
-                this.tiles[0].position[1]=this.y;
-                this.tiles[1].position[0]=this.x;
-                this.tiles[1].position[1]=this.y;
-                this.tiles[2].position[0]=this.x;
-                this.tiles[2].position[1]=this.y+1;
+                tiles[0].position[0]=this.x;
+                tiles[0].position[1]=this.y+1;
+                tiles[1].position[0]=this.x;
+                tiles[1].position[1]=this.y;
+                tiles[2].position[0]=this.x+1;
+                tiles[2].position[1]=this.y;
             }
             else if(this.rotation==2){
-                this.tiles[0].position[0]=this.x+1;
-                this.tiles[0].position[1]=this.y+1;
-                this.tiles[1].position[0]=this.x+1;
-                this.tiles[1].position[1]=this.y;
-                this.tiles[2].position[0]=this.x;
-                this.tiles[2].position[1]=this.y;
+                tiles[0].position[0]=this.x+1;
+                tiles[0].position[1]=this.y+1;
+                tiles[1].position[0]=this.x;
+                tiles[1].position[1]=this.y+1;
+                tiles[2].position[0]=this.x;
+                tiles[2].position[1]=this.y;
             }
             else if(this.rotation==3){
-                this.tiles[0].position[0]=this.x;
-                this.tiles[0].position[1]=this.y+1;
-                this.tiles[1].position[0]=this.x+1;
-                this.tiles[1].position[1]=this.y+1;
-                this.tiles[2].position[0]=this.x+1;
-                this.tiles[2].position[1]=this.y;
+                tiles[0].position[0]=this.x+1;
+                tiles[0].position[1]=this.y;
+                tiles[1].position[0]=this.x+1;
+                tiles[1].position[1]=this.y+1;
+                tiles[2].position[0]=this.x;
+                tiles[2].position[1]=this.y+1;
             }
         }
         else if(this.name.equals("P3")||this.name.equals("G3")){
             if(this.rotation==0){
-                this.tiles[1].position[0]=this.x+1;
-                this.tiles[1].position[1]=this.y;
-                this.tiles[2].position[0]=this.x+2;
-                this.tiles[2].position[1]=this.y;
+                tiles[1].position[0]=this.x;
+                tiles[1].position[1]=this.y+1;
+                tiles[2].position[0]=this.x;
+                tiles[2].position[1]=this.y+2;
             }
             else if(this.rotation==1){
-                this.tiles[1].position[0]=this.x;
-                this.tiles[1].position[1]=this.y+1;
-                this.tiles[2].position[0]=this.x;
-                this.tiles[2].position[1]=this.y+2;
+                tiles[1].position[0]=this.x+1;
+                tiles[1].position[1]=this.y;
+                tiles[2].position[0]=this.x+2;
+                tiles[2].position[1]=this.y;
             }
         }
         else if(this.name.equals("P4")){
             if(this.rotation==0){
-                this.tiles[1].position[0]=this.x+1;
-                this.tiles[1].position[1]=this.y;
-                this.tiles[2].position[0]=this.x+2;
-                this.tiles[2].position[1]=this.y;
-                this.tiles[3].position[0]=this.x+3;
-                this.tiles[3].position[1]=this.y;
+                tiles[1].position[0]=this.x;
+                tiles[1].position[1]=this.y+1;
+                tiles[2].position[0]=this.x;
+                tiles[2].position[1]=this.y+2;
+                tiles[3].position[0]=this.x;
+                tiles[3].position[1]=this.y+3;
             }
             else if(this.rotation==1){
-                this.tiles[1].position[0]=this.x;
-                this.tiles[1].position[1]=this.y+1;
-                this.tiles[2].position[0]=this.x;
-                this.tiles[2].position[1]=this.y+2;
-                this.tiles[3].position[0]=this.x;
-                this.tiles[3].position[1]=this.y+3;
+                tiles[1].position[0]=this.x+1;
+                tiles[1].position[1]=this.y;
+                tiles[2].position[0]=this.x+2;
+                tiles[2].position[1]=this.y;
+                tiles[3].position[0]=this.x+3;
+                tiles[3].position[1]=this.y;
             }
         }
         else if(this.name.equals("P5")){
             if(this.rotation==0){
-                this.tiles[1].position[0]=this.x;
-                this.tiles[1].position[1]=this.y+1;
-                this.tiles[2].position[0]=this.x;
-                this.tiles[2].position[1]=this.y+2;
-                this.tiles[3].position[0]=this.x;
-                this.tiles[3].position[1]=this.y+3;
-                this.tiles[4].position[0]=this.x;
-                this.tiles[4].position[1]=this.y+4;
+                tiles[1].position[0]=this.x+1;
+                tiles[1].position[1]=this.y;
+                tiles[2].position[0]=this.x+2;
+                tiles[2].position[1]=this.y;
+                tiles[3].position[0]=this.x+3;
+                tiles[3].position[1]=this.y;
+                tiles[4].position[0]=this.x+4;
+                tiles[4].position[1]=this.y;
             }
             else if(this.rotation==1){
-                this.tiles[1].position[0]=this.x+1;
-                this.tiles[1].position[1]=this.y;
-                this.tiles[2].position[0]=this.x+2;
-                this.tiles[2].position[1]=this.y;
-                this.tiles[3].position[0]=this.x+3;
-                this.tiles[3].position[1]=this.y;
-                this.tiles[3].position[0]=this.x+4;
-                this.tiles[3].position[1]=this.y;
+                tiles[1].position[0]=this.x;
+                tiles[1].position[1]=this.y+1;
+                tiles[2].position[0]=this.x;
+                tiles[2].position[1]=this.y+2;
+                tiles[3].position[0]=this.x;
+                tiles[3].position[1]=this.y+3;
+                tiles[3].position[0]=this.x;
+                tiles[3].position[1]=this.y+4;
             }
         }
     }
 
     public void UPPER(){
-        this.x++;
-    }
-
-    public void LOWER(){
-        this.x--;
-    }
-
-    public void RIGHTER(){
         this.y++;
     }
 
-    public void LEFTER(){
+    public void LOWER(){
         this.y--;
+    }
+
+    public void RIGHTER(){
+        this.x++;
+    }
+
+    public void LEFTER(){
+        this.x--;
     }
 
     public void CrossOut(){
