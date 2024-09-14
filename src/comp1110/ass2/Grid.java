@@ -25,5 +25,8 @@ public class Grid{
         //players can put a window in this grid and this method can be used to support the isFilled method
         //in Class BuildingRegion
         this.content[1]="window";
+
+
+
     }
 }
