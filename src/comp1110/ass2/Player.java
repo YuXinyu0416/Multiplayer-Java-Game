@@ -117,9 +117,9 @@ public class Player{
         return number_players;
     }
 
-    public void store_ability(String ability_name){
+    public String[] store_ability(String ability_name){
         //input some abilities name to store
-
+        return this.abilities;
     }
 
     public void use_ability(String ability_name){

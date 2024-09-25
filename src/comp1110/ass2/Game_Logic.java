@@ -42,7 +42,7 @@ public class Game_Logic {
                 "");
     }
 
-    public boolean Dices_canbe_Selected(Player p, TilesShape ts){
+    public boolean Dices_canbe_Selected (Player p, TilesShape ts){
         boolean whether;
         if(ts.state) {
         whether=p.choose_tiles_rules(rd.max_same_color(d.get_dices_color()), ts, rd.isWhite(d.get_dices_color()));
