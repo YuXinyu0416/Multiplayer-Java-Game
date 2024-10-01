@@ -7,43 +7,54 @@ import java.util.Map;
 
 public class Round{
     static int number_rounds;
-    Player[] players=new Player[Player.number_players];
+    Dices[] new_dices = new Dices[5];
+    HashMap<Game_Logic.Colors,Integer> dices_color=new HashMap<>();
+    {
+        dices_color.put(Game_Logic.Colors.RED,3);
+        dices_color.put(Game_Logic.Colors.BLUE,1);
+        dices_color.put(Game_Logic.Colors.WHITE,1);
+
+    }
+//    {
+//        for(int i=0; i<new_dices.length;i++){
+//            new_dices[i]=new Dices();
+//            new_dices[i].rollDices();
+//            Game_Logic.Colors d_c = new_dices[i].get_color();
+//            dices_color.put(d_c,dices_color.getOrDefault(d_c,0)+1);
+//        }
+//    }
+
+    //Player[] players=new Player[];
 
     public Round(){
         number_rounds++;
     }
 
-    public void turn(){
-       //which player is operating
-        for(int i=0;i<players.length;i++){
-            players[i].makeMove();
-        }
-    }
+//    public void turn(){
+//       //which player is operating
+//        for(int i=0;i<players.length;i++){
+//            players[i].makeMove();
+//        }
+//    }
 
-    public int get_num(){
-        //show which round now
-        return number_rounds;
-    }
+//    public int get_num(){
+//        //show which round now
+//        return number_rounds;
+//    }
 
-    static void last_round(){
-        //need some if sentences to determine whether this round is the last round,
-        //for example players[i].score>=12, and all players can make move in the last round
+//    public HashMap<String, Integer> max_same_color(String[] colors){
+//        //I need some ways to determine which color is the max_same, maybe by using HashMap
+//        HashMap<String,Integer> colors_num=new HashMap();
+//        for(String str:colors) {
+//            colors_num.put(str,colors_num.getOrDefault(str,0)+1);
+//        }
+//        return colors_num;
+//    }
 
-    }
-
-    public HashMap<String, Integer> max_same_color(String[] colors){
-        //I need some ways to determine which color is the max_same, maybe by using HashMap
-        HashMap<String,Integer> colors_num=new HashMap();
-        for(String str:colors) {
-            colors_num.put(str,colors_num.getOrDefault(str,0)+1);
-        }
-        return colors_num;
-    }
-
-    public boolean isWhite(String[] colors){
+    public boolean isWhite(HashMap<Game_Logic.Colors, Integer> dices_color){
         boolean isWhite=false;
-        for(String str:colors){
-            if(str.equals("WHITE")){
+        for(Map.Entry<Game_Logic.Colors, Integer> c:dices_color.entrySet()){
+            if(c.getKey().equals(Game_Logic.Colors.WHITE)){
                 isWhite=true;
             }
         }

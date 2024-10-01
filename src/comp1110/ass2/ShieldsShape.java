@@ -10,7 +10,7 @@ public class ShieldsShape{
 
     public boolean isTouched(int position) {
        //determine whether this shield can be used
-        if(this.position==position) {
+        if(this.position==position){
             this.CrossOut();
             return true;
         }

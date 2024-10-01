@@ -2,8 +2,11 @@ package comp1110.ass2;
 
 public class BuildingRegion{
     Grid[][] grids= new Grid[5][9];
-    ShieldsShape row_ss=new ShieldsShape(2);
-    ShieldsShape column_ss=new ShieldsShape(4);
+    ShieldsShape row_ss1=new ShieldsShape(1);
+    ShieldsShape row_ss2=new ShieldsShape(3);
+    ShieldsShape row_ss3=new ShieldsShape(5);
+    ShieldsShape column_ss1=new ShieldsShape(1);
+    ShieldsShape column_ss2=new ShieldsShape(3);
 
     public BuildingRegion(){
         for(int i=0;i<5;i++){
@@ -13,8 +16,18 @@ public class BuildingRegion{
         }
     }
 
-    public void is_Occupied(int column, int row){
-        grids[column][row].isOccupied();
+    public void is_Occupied(Player p, TilesShape ts){
+        Grid[] tiles = ts.set_tiles();
+        ts.Shape_change(tiles);
+        for(int i=0;i<tiles.length;i++){
+            grids[tiles[i].position[0]][tiles[i].position[1]].isOccupied();
+        }
+        for(int i=0;i<9;i++) {
+            isFilled_row(p,i);
+        }
+        for(int i=0;i<5;i++){
+            isFilled_column(p,i);
+        }
     }
 
     public boolean whether_Occupied(int column, int row){
@@ -22,13 +35,13 @@ public class BuildingRegion{
         //whether this tiles shape is built on a previous one, and here need to call the choose_tiles_rules
         //method in Class Player to guarantee the tiles players have chosen are under the dice_color constraint
         boolean whether=false; //here can be placed
-        grids[0][0].isOccupied();
-        grids[1][0].isOccupied();
-        grids[4][0].isOccupied();
-        grids[0][1].isOccupied();
-        grids[3][1].isOccupied();
-        grids[4][1].isOccupied();
-        grids[4][2].isOccupied();
+//        grids[0][0].isOccupied();
+//        grids[1][0].isOccupied();
+//        grids[4][0].isOccupied();
+//        grids[0][1].isOccupied();
+//        grids[3][1].isOccupied();
+//        grids[4][1].isOccupied();
+//        grids[4][2].isOccupied();
         if(!grids[column][row].content[0].equals("null")){
             whether=true;
         }
@@ -51,35 +64,53 @@ public class BuildingRegion{
         return whether;
     }
 
-    public boolean isFilled_row(int row){
+    public void isFilled_row(Player p, int row){
         //determine whether this row is filled(and the situations of shields and windows), then players can get some scores
-        if(row_ss.isTouched(row)) {
-            String[] abilities = AbilityRegion.get_ability_set();
-            int index = 0;
-            for (int i = 0; i < abilities.length; i++) {
-                if (abilities[i].equals("shield")) {
-                    index = i;
-                    break;
+        boolean isFilled= true;
+        for(int i=0;i<5;i++){
+            if(grids[i][row].content[0].equals("null")){
+                isFilled=false;
+            }
+        }
+        if(isFilled){
+           p.add_score(1);
+            boolean isWindow = true;
+            for(int i=0; i<5;i++){
+                if(grids[i][row].content[1].equals("null")){
+                    isWindow=false;
                 }
             }
-            AbilityRegion.use_abilities(abilities[index]);
+            if(isWindow){
+                p.add_score(1);
+            }
+            if(row_ss1.isTouched(row)||row_ss2.isTouched(row)||row_ss3.isTouched(row)){
+                p.ar.use_abilities(AbilityRegion.Abilities.Shield);
+            }
         }
-        return false;
     }
 
-    public boolean isFilled_column(int column){
+    public void isFilled_column(Player p, int column){
         //determine whether this column is filled(and the situations of shields and windows), then players can get some scores
-        if(column_ss.isTouched(column)) {
-            String[] abilities = AbilityRegion.get_ability_set();
-            int index = 0;
-            for (int i = 0; i < abilities.length; i++) {
-                if (abilities[i].equals("shield")) {
-                    index = i;
-                    break;
+        boolean isFilled= true;
+        for(int i=0;i<9;i++){
+            if(grids[column][i].content[0].equals("null")){
+                isFilled=false;
+            }
+        }
+        if(isFilled){
+            p.add_score(1);
+            boolean isWindow = true;
+            for(int i=0; i<9;i++){
+                if(grids[column][i].content[1].equals("null")){
+                    isWindow=false;
                 }
             }
-            AbilityRegion.use_abilities(abilities[index]);
+            if(isWindow){
+                p.add_score(1);
+            }
+            if(column_ss1.isTouched(column)|| column_ss2.isTouched(column)){
+                p.ar.use_abilities(AbilityRegion.Abilities.Shield);
+            }
         }
-        return false;
     }
 }

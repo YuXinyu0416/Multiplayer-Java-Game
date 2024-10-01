@@ -5,11 +5,11 @@ public class TilesShape{
     int x;
     int y;
     int rotation;
-    String color;
+    Game_Logic.Colors color;
     int num_of_tile;// how many tiles are contained in this whole shape
     boolean state=true;// determine whether this tilesShape has been crossed out or not
 
-    public TilesShape(String name,String color, int num_of_tile, int x, int y, int r){
+    public TilesShape(String name, Game_Logic.Colors color, int num_of_tile, int x, int y, int r){
         this.name = name;
         this.color=color;
         this.num_of_tile=num_of_tile;
@@ -26,28 +26,27 @@ public class TilesShape{
         return tiles;
     }
 
-    public boolean isSelected() {
-        //determine whether this tile has been selected or not
-        boolean isSelected=false;
-        if(isSelected){
-            this.CrossOut();
-        }
-        return isSelected;
-    }
+//    public void isPlaced() {
+//        //determine whether this tile has been selected or not
+//        boolean isSelected=false;
+//        if(isSelected){
+//            this.CrossOut();
+//        }
+//    }
 
-    public String get_Color(){
+    public Game_Logic.Colors get_Color(){
         //return the color of this tilesShape to support other methods
         return this.color;
     }
 
-    public int get_tileNum(){
-        //return the number_tile of this tilesShape to support other methods
-        return this.num_of_tile;
-    }
+//    public int get_tileNum(){
+//        //return the number_tile of this tilesShape to support other methods
+//        return this.num_of_tile;
+//    }
 
-    public boolean isPlaced(){
-        return false;
-    }
+//    public boolean isPlaced(){
+//        return false;
+//    }
 
     public  void rotation(Grid[] tiles){
         this.rotation=(this.rotation+1)%4;
