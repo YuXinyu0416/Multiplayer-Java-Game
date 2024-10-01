@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-import javafx.event.Event;
-
 import java.util.*;
 
 public class Player{
@@ -25,6 +23,9 @@ public class Player{
     public void add_score(int score){
         //will call the isFilled methods of Class BuildingRegion, then add this play's score
         this.score+=score;
+        if(this.score>=12){
+            //Game_Logic.last_round(this);
+        }
     }
 
 //    public void score_display(){

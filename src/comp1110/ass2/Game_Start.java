@@ -11,6 +11,7 @@ import java.util.List;
 public class Game_Start extends Application {
 
     GameGUI gui;
+	Game_Logic gl;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -62,5 +63,9 @@ public class Game_Start extends Application {
         stage.setScene(scene);
         stage.setTitle("Copenhagen Roll & Write");
         stage.show();
+
+		gl = new Game_Logic(2);
+		gl.set_players();
+		gl.play();
     }
 }

@@ -1,11 +1,14 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.GameGUI;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game_Logic {
     //players click the game start, and this will be a center control area
     int p_number;
+    boolean isRunning = true;
     List<Player> players= new ArrayList<>();
     TilesShape B3=new TilesShape("B3", Colors.BLUE,3,0,0,1);
     TilesShape G4L=new TilesShape("G4L", Colors.GREEN,4,3,0,0);
@@ -39,6 +42,13 @@ public class Game_Logic {
         }
         players.get(0).br.is_Occupied(players.get(0),B3);
         players.get(0).br.is_Occupied(players.get(0),G4L);
+    }
+
+    public void play(){
+
+
+
+
     }
 
     public void rules_display(){
@@ -92,11 +102,18 @@ public class Game_Logic {
         }
     }
 
-    static void last_round(){
+    public void last_round(Player p){
         //need some if sentences to determine whether this round is the last round,
         //for example players[i].score>=12, and all players can make move in the last round
+        int which_op = (players.indexOf(p)+1)%players.size();
+        //if(players[which_op].click(GameGUI.s))
 
 
+
+    }
+
+    public void end_game(){
+        isRunning = false;
     }
 
     public static void main(String[] args) {

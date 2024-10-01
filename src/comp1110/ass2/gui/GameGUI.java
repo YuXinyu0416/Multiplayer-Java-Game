@@ -647,7 +647,7 @@ public class GameGUI extends BorderPane {
      * the current label of the button.
      */
     public void setOnPass(Consumer<String> handler) {
-	onPass = handler;
+        onPass = handler;
     }
 
     /**
