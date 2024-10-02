@@ -1,15 +1,16 @@
 package comp1110.ass2;
 
-import comp1110.ass2.gui.GameGUI;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Game_Logic {
     //players click the game start, and this will be a center control area
     int p_number;
     boolean isRunning = true;
-    List<Player> players= new ArrayList<>();
+    List<Player> players = new ArrayList<>();
+    HashMap<Player,Integer> players_turn= new HashMap<>();
     TilesShape B3=new TilesShape("B3", Colors.BLUE,3,0,0,1);
     TilesShape G4L=new TilesShape("G4L", Colors.GREEN,4,3,0,0);
     TilesShape R3=new TilesShape("R3", Colors.RED,3,0,0,0);
@@ -17,16 +18,6 @@ public class Game_Logic {
     TilesShape Y3=new TilesShape("Y3", Colors.YELLOW,3,1,0,0);
     Grid[] tiles= Y3.set_tiles();
     Round rd=new Round();
-//    static Color[] get_color_set(){
-//        Color[] colors=new Color[6];
-//        colors[0]=Color.RED;
-//        colors[1]=Color.BLUE;
-//        colors[2]=Color.YELLOW;
-//        colors[3]=Color.GREEN;
-//        colors[4]=Color.WHITE;
-//        colors[5]=new Color(128,0,128);//purple
-//        return colors;
-//    }
     enum Colors{
         RED, BLUE, YELLOW, PURPLE, WHITE, GREEN
     }
@@ -44,11 +35,24 @@ public class Game_Logic {
         players.get(0).br.is_Occupied(players.get(0),G4L);
     }
 
+    public void add_turn(Player p){
+        players_turn.put(p,players_turn.getOrDefault(p,0)+1);
+    }
+
     public void play(){
+        while(isRunning){
+            if(players.get(0).get_score()>=12||players.get(1).get_score()>=12){
+                last_round();
+            }
+            else{
 
 
 
 
+
+
+            }
+        }
     }
 
     public void rules_display(){
@@ -102,14 +106,25 @@ public class Game_Logic {
         }
     }
 
-    public void last_round(Player p){
+    public void last_round(){
         //need some if sentences to determine whether this round is the last round,
         //for example players[i].score>=12, and all players can make move in the last round
-        int which_op = (players.indexOf(p)+1)%players.size();
-        //if(players[which_op].click(GameGUI.s))
-
-
-
+        //int which_op = (players.indexOf(p)+1)%players.size();
+        int max_turn=0;
+        for(Map.Entry<Player,Integer> pairs:players_turn.entrySet()) {
+            if (pairs.getValue().compareTo(max_turn)>0){
+                max_turn = pairs.getValue();
+            }
+        }
+        boolean whether_end = true;
+        for(Map.Entry<Player,Integer> pairs:players_turn.entrySet()){
+            if(pairs.getValue()!=max_turn){
+                whether_end = false;
+            }
+        }
+        if(whether_end){
+            end_game();
+        }
     }
 
     public void end_game(){

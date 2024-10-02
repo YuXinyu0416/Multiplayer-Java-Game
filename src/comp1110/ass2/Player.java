@@ -7,7 +7,6 @@ public class Player{
     //String id; // the primary key of player
     String name; // need to be scanner in by player
     int score=0;
-    //static int number_players;
     HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
     HashMap<Game_Logic.Colors,Integer> ability_steps = new HashMap<>();// how many steps in this row that players have advanced
     AbilityRegion ar=new AbilityRegion();
@@ -17,38 +16,23 @@ public class Player{
        //create a player
         this.name = name;
         //this.id= UUID.randomUUID().toString();
-        //number_players++;
     }
 
     public void add_score(int score){
         //will call the isFilled methods of Class BuildingRegion, then add this play's score
         this.score+=score;
-        if(this.score>=12){
-            //Game_Logic.last_round(this);
-        }
     }
-
-//    public void score_display(){
-//        //show how many scores this player get
-//
-//    }
 
     public int get_score(){
         //return this player's score to support other methods
         return this.score;
     }
 
-//    public void makeMove(){
-//        //players operate this game through clicking to select other shapes and regions, and there
-//        //need to be some difference between active player in this round and other players
-//        br.grids[1][2].place_window();
-//    }
-
-    public void advance_steps(Game_Logic.Colors c){
+    public void advance_steps(Game_Logic.Colors c, int step){
         //add steps to make players advance in the ability track and return this step number to determine
         //whether players can get corresponding abilities
         if(ability_steps.get(c)<5) {
-            ability_steps.put(c, ability_steps.getOrDefault(c, 0) + 1);
+            ability_steps.put(c, ability_steps.getOrDefault(c, 0) + step);
             ar.get_ability(this, c);
             ar.isFilled(this, c);
         }
@@ -119,18 +103,6 @@ public class Player{
         return can_be_selected;
     }
 
-//    static int get_num (){
-//        //return the number of players to support the turn method of Round
-//        return number_players;
-//    }
-
-//    public boolean use_now(Event e){
-//        //if players choose use the ability they get immediately, the boolean will be true, then call
-//        //the method use ability, if not ,then call the method store_ability
-//
-//        return true;
-//    }
-
     public HashMap<AbilityRegion.Abilities, Integer> store_ability(AbilityRegion.Abilities a){
         //input some abilities name to store
         this.abilities.put(a,abilities.getOrDefault(a,0)+1);
@@ -150,4 +122,17 @@ public class Player{
             System.out.println("("+(i)+") "+a+" "+abilities.get(a));
         }
     }
+
+//    public void makeMove(){
+//        //players operate this game through clicking to select other shapes and regions, and there
+//        //need to be some difference between active player in this round and other players
+//        br.grids[1][2].place_window();
+//    }
+
+//    public boolean use_now(Event e){
+//        //if players choose use the ability they get immediately, the boolean will be true, then call
+//        //the method use ability, if not ,then call the method store_ability
+//
+//        return true;
+//    }
 }

@@ -21,6 +21,9 @@ public class BuildingRegion{
         ts.Shape_change(tiles);
         for(int i=0;i<tiles.length;i++){
             grids[tiles[i].position[0]][tiles[i].position[1]].isOccupied();
+            if(ts.windows[i]){
+                grids[tiles[i].position[0]][tiles[i].position[1]].place_window();
+            }
         }
         for(int i=0;i<9;i++) {
             isFilled_row(p,i);
@@ -35,13 +38,6 @@ public class BuildingRegion{
         //whether this tiles shape is built on a previous one, and here need to call the choose_tiles_rules
         //method in Class Player to guarantee the tiles players have chosen are under the dice_color constraint
         boolean whether=false; //here can be placed
-//        grids[0][0].isOccupied();
-//        grids[1][0].isOccupied();
-//        grids[4][0].isOccupied();
-//        grids[0][1].isOccupied();
-//        grids[3][1].isOccupied();
-//        grids[4][1].isOccupied();
-//        grids[4][2].isOccupied();
         if(!grids[column][row].content[0].equals("null")){
             whether=true;
         }

@@ -1,9 +1,6 @@
 package comp1110.ass2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Round{
     static int number_rounds;
@@ -24,10 +21,12 @@ public class Round{
 //        }
 //    }
 
-    //Player[] players=new Player[];
-
     public Round(){
         number_rounds++;
+    }
+
+    public boolean isWhite(HashMap<Game_Logic.Colors, Integer> dices_color){
+        return dices_color.containsKey(Game_Logic.Colors.WHITE)? true:false;
     }
 
 //    public void turn(){
@@ -50,14 +49,4 @@ public class Round{
 //        }
 //        return colors_num;
 //    }
-
-    public boolean isWhite(HashMap<Game_Logic.Colors, Integer> dices_color){
-        boolean isWhite=false;
-        for(Map.Entry<Game_Logic.Colors, Integer> c:dices_color.entrySet()){
-            if(c.getKey().equals(Game_Logic.Colors.WHITE)){
-                isWhite=true;
-            }
-        }
-        return isWhite;
-    }
 }

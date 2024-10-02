@@ -4,8 +4,6 @@ import comp1110.ass2.gui.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import javax.swing.text.rtf.RTFEditorKit;
 import java.util.List;
 
 public class Game_Start extends Application {

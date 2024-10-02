@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import java.util.Random;
+
 public class TilesShape{
     String name;
     int x;
@@ -8,6 +10,7 @@ public class TilesShape{
     Game_Logic.Colors color;
     int num_of_tile;// how many tiles are contained in this whole shape
     boolean state=true;// determine whether this tilesShape has been crossed out or not
+    boolean[] windows;
 
     public TilesShape(String name, Game_Logic.Colors color, int num_of_tile, int x, int y, int r){
         this.name = name;
@@ -16,6 +19,16 @@ public class TilesShape{
         this.x = x;
         this.y = y;
         this.rotation = r;
+        Random random = new Random();
+        windows = new boolean[num_of_tile];
+        for(int i=0;i<windows.length;i++){
+            if(windows.length==1){
+                windows[i]=true;
+            }
+            else{
+                windows[i]=random.nextBoolean();
+            }
+        }
     }
 
     public Grid[] set_tiles(){
@@ -26,27 +39,10 @@ public class TilesShape{
         return tiles;
     }
 
-//    public void isPlaced() {
-//        //determine whether this tile has been selected or not
-//        boolean isSelected=false;
-//        if(isSelected){
-//            this.CrossOut();
-//        }
-//    }
-
     public Game_Logic.Colors get_Color(){
         //return the color of this tilesShape to support other methods
         return this.color;
     }
-
-//    public int get_tileNum(){
-//        //return the number_tile of this tilesShape to support other methods
-//        return this.num_of_tile;
-//    }
-
-//    public boolean isPlaced(){
-//        return false;
-//    }
 
     public  void rotation(Grid[] tiles){
         this.rotation=(this.rotation+1)%4;
