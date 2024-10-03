@@ -80,7 +80,8 @@ public class BuildingRegion{
                 p.add_score(1);
             }
             if(row_ss1.isTouched(row)||row_ss2.isTouched(row)||row_ss3.isTouched(row)){
-                p.ar.use_abilities(AbilityRegion.Abilities.Shield);
+                p.ar.use_abilities(AbilityRegion.Abilities.Shield1);
+                p.ar.use_abilities(AbilityRegion.Abilities.Shield2);
             }
         }
     }
@@ -105,7 +106,8 @@ public class BuildingRegion{
                 p.add_score(1);
             }
             if(column_ss1.isTouched(column)|| column_ss2.isTouched(column)){
-                p.ar.use_abilities(AbilityRegion.Abilities.Shield);
+                p.ar.use_abilities(AbilityRegion.Abilities.Shield1);
+                p.ar.use_abilities(AbilityRegion.Abilities.Shield2);
             }
         }
     }

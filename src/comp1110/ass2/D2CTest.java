@@ -23,11 +23,11 @@ public class D2CTest {
         TilesShape R4=new TilesShape("R4",RED,4,0,0,0);
 
         System.out.println("Checking gl.Dices_canbe_Selected(player1, R3)");
-        Assertions.assertEquals(true, gl.Dices_canbe_Selected(gl.players.get(0), R3));
+        Assertions.assertEquals(true, gl.diceCanBeSelected(gl.players.get(0), R3));
         System.out.println("Checking gl.Dices_canbe_Selected(player1, R4)");
-        Assertions.assertEquals(true, gl.Dices_canbe_Selected(gl.players.get(0), R4));
+        Assertions.assertEquals(true, gl.diceCanBeSelected(gl.players.get(0), R4));
         System.out.println("Checking gl.Dices_canbe_Selected(player1, B3)");
-        Assertions.assertEquals(false, gl.Dices_canbe_Selected(gl.players.get(0), B3));
+        Assertions.assertEquals(false, gl.diceCanBeSelected(gl.players.get(0), B3));
     }
 
     @Test

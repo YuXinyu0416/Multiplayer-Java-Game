@@ -223,6 +223,7 @@ public class LibraryView extends ListView<Object> {
 	     Map.entry("P5", new int[][]{{0, 1, 2, 3, 4}, {0, 0, 0, 0, 0}}),
 	     // Green
 	     Map.entry("G2", l2),
+		 //
 	     Map.entry("G3", l3), // TODO fix bug
 	     Map.entry("G4L", new int[][]{{0, 1, 1, 1}, {1, 0, 1, 2}}),
 	     Map.entry("G4R", new int[][]{{0, 0, 0, 1}, {0, 1, 2, 1}}),

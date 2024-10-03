@@ -13,7 +13,7 @@ public class AbilityRegion{
     List<Game_Logic.Colors> ability_region=new ArrayList<>();//store color of every row and distinguish them
     enum Abilities
     {
-        redStar, blueStar, greenStar, yellowStar, purpleStar, plusSign, Shield
+        redStar, blueStar, greenStar, yellowStar, purpleStar, plusSign, Shield1,Shield2
     }
     // all abilities players can get in this game
 
@@ -44,7 +44,11 @@ public class AbilityRegion{
         else if(a.equals(Abilities.plusSign)){
 
         }
-        else if(a.equals(Abilities.Shield)){
+        else if(a.equals(Abilities.Shield1)){
+            TilesShape one = new TilesShape("one", Game_Logic.Colors.PURPLE, 1,0,0,0);
+        }
+        else if(a.equals(Abilities.Shield2)){
+
 
         }
         //......and so on, there are some abilities that players can get and use

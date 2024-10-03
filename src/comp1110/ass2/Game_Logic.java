@@ -67,7 +67,7 @@ public class Game_Logic {
                 "");
     }
 
-    public boolean Dices_canbe_Selected (Player p, TilesShape ts){
+    public boolean diceCanBeSelected (Player p, TilesShape ts){
         boolean whether;
         if(ts.state) {
         whether=p.choose_tiles_rules(rd.dices_color, ts, rd.isWhite(rd.dices_color));
@@ -79,26 +79,27 @@ public class Game_Logic {
     }
 
     public boolean Tiles_canbe_Placed(Player p, TilesShape ts, Grid[] tiles){
-        boolean whether1 =true;
-        boolean whether2 =true;
-        boolean whether3 =false;
-        for(int i=0;i<ts.num_of_tile&&whether1;i++) {
+        boolean isBeyond =true;
+        boolean isOccupied =true;
+        boolean isAbove =false;
+        for(int i = 0; i<ts.num_of_tile&& isBeyond; i++) {
             if(p.br.whether_beyond(tiles[i].position[0],tiles[i].position[1])){
-                whether1=false;
+                isBeyond =false;
             }
         }
-        for(int i=0;i<ts.num_of_tile&&whether2;i++) {
+        for(int i=0;i<ts.num_of_tile&&isOccupied;i++) {
             if(p.br.whether_Occupied(tiles[i].position[0],tiles[i].position[1])){
-                whether2=false;
+                isOccupied=false;
             }
         }
-        for(int i=0;i<ts.num_of_tile&&!whether3;i++) {
+        //
+        for(int i = 0; i<ts.num_of_tile&&!isAbove; i++) {
             if(p.br.whether_Above(tiles[i].position[0],tiles[i].position[1])){
-                whether3=true;
+                isAbove =true;
             }
         }
 
-        if(whether1&&whether2&&whether3) {
+        if(isBeyond &&isOccupied&& isAbove) {
             return true;
         }
         else{
