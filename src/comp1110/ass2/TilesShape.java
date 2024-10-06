@@ -23,7 +23,7 @@ public class TilesShape{
         windows = new boolean[num_of_tile];
         for(int i=0;i<windows.length;i++){
             if(windows.length==1){
-                windows[i]=true;
+                windows[i]=false;
             }
             else{
                 windows[i]=random.nextBoolean();

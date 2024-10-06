@@ -28,6 +28,10 @@ public class Player{
         return this.score;
     }
 
+    public Game_Logic.Colors get_color(int row){
+        return ar.ability_region.get(row);
+    }
+
     public void advance_steps(Game_Logic.Colors c, int step){
         //add steps to make players advance in the ability track and return this step number to determine
         //whether players can get corresponding abilities
@@ -109,9 +113,8 @@ public class Player{
         return this.abilities;
     }
 
-    public void use_ability(AbilityRegion.Abilities a){
+    public void use_ability(Round rd, AbilityRegion.Abilities a){
         if(this.abilities.get(a)!=0){
-            ar.use_abilities(a);
             abilities.put(a,abilities.get(a)-1);
         }
     }

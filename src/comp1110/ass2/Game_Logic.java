@@ -16,8 +16,8 @@ public class Game_Logic {
     TilesShape R3=new TilesShape("R3", Colors.RED,3,0,0,0);
     TilesShape R4=new TilesShape("R4", Colors.RED,4,0,0,0);
     TilesShape Y3=new TilesShape("Y3", Colors.YELLOW,3,1,0,0);
+    List<Round> rounds = new ArrayList<>();
     Grid[] tiles= Y3.set_tiles();
-    Round rd=new Round();
     enum Colors{
         RED, BLUE, YELLOW, PURPLE, WHITE, GREEN
     }
@@ -44,14 +44,12 @@ public class Game_Logic {
             if(players.get(0).get_score()>=12||players.get(1).get_score()>=12){
                 last_round();
             }
-            else{
+            rounds.add(new Round());
 
 
 
 
 
-
-            }
         }
     }
 
@@ -67,10 +65,10 @@ public class Game_Logic {
                 "");
     }
 
-    public boolean diceCanBeSelected (Player p, TilesShape ts){
+    public boolean tilesCanBeSelected(Player p, TilesShape ts){
         boolean whether;
         if(ts.state) {
-        whether=p.choose_tiles_rules(rd.dices_color, ts, rd.isWhite(rd.dices_color));
+        whether=p.choose_tiles_rules(rounds.get(rounds.size()-1).dices_color, ts, rounds.get(rounds.size()-1).isWhite(rounds.get(rounds.size()-1).dices_color));
         }
         else{
             whether=false;

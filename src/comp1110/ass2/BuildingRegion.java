@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import comp1110.ass2.AbilityRegion.*;
+
 public class BuildingRegion{
     Grid[][] grids= new Grid[5][9];
     ShieldsShape row_ss1=new ShieldsShape(1);
@@ -80,8 +82,11 @@ public class BuildingRegion{
                 p.add_score(1);
             }
             if(row_ss1.isTouched(row)||row_ss2.isTouched(row)||row_ss3.isTouched(row)){
-                p.ar.use_abilities(AbilityRegion.Abilities.Shield1);
-                p.ar.use_abilities(AbilityRegion.Abilities.Shield2);
+                if(true) {
+                    p.ar.Shield1_window_tile();
+                }else {
+                    p.ar.Shield2_two_steps(p, 1);
+                }
             }
         }
     }
@@ -106,8 +111,11 @@ public class BuildingRegion{
                 p.add_score(1);
             }
             if(column_ss1.isTouched(column)|| column_ss2.isTouched(column)){
-                p.ar.use_abilities(AbilityRegion.Abilities.Shield1);
-                p.ar.use_abilities(AbilityRegion.Abilities.Shield2);
+                if(true) {
+                    p.ar.Shield1_window_tile();
+                }else {
+                    p.ar.Shield2_two_steps(p, 1);
+                }
             }
         }
     }
