@@ -39,6 +39,7 @@ public class AbilityRegion{
         for(int i=0;i<ts.windows.length;i++) {
             ts.windows[i] = true;
         }
+        return ts;
     }
 
     public void greenStar_change_color(HashMap<Game_Logic.Colors,Integer> dices_color, int num, Game_Logic.Colors c1, Game_Logic.Colors c2){
