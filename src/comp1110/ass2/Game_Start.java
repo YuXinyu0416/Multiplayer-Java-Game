@@ -16,7 +16,7 @@ public class Game_Start extends Application {
     public void start(Stage stage) throws Exception {
 		gui = new GameGUI();
         Scene scene = new Scene(gui, GameGUI.WINDOW_WIDTH, GameGUI.WINDOW_HEIGHT);
-
+		//scene.setFill(Color.LEMONCHIFFON);
 
 	// This is where you should set up callbacks (or at least one
 	// callback, for the start-of-game event).
@@ -26,9 +26,10 @@ public class Game_Start extends Application {
 	
 	gui.setOnStartGame((np, isAI) -> {
 		gui.setMessage("start new game with " + np + " players");
+		gl = new Game_Logic(np);
 		gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
-		gui.setAvailableDice(List.of("Red", "White", "Blue", "Red", "Yellow"));
-		gui.setAvailableActions(List.of("Reroll", "Give up", "End the game"));
+		gui.setAvailableDice(gl.rounds.get(0).colours);
+		gui.setAvailableActions(List.of("Reroll", "Give up", "End the game", "Colour change"));
 	    });
 
 //	gui.setOnTilePlaced((p) -> {
@@ -53,6 +54,10 @@ public class Game_Start extends Application {
 		if (s.equals("Give up")) {
 			gui.setAvailableActions(List.of("Reroll", "End the game"));
 		}
+		if(s.equals("Reroll")){
+			gl.rounds.add(gl.rounds.size(),new Round());
+			gui.setAvailableDice(gl.rounds.get(gl.rounds.size()-1).colours);
+		}
 	    });
 
 	gui.setOnConfirm((s) -> {
@@ -66,6 +71,7 @@ public class Game_Start extends Application {
 	// Start the application:
         stage.setScene(scene);
         stage.setTitle("Copenhagen Roll & Write");
+		stage.setFullScreen(true);
         stage.show();
 
 //		gl = new Game_Logic(2);

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class TilesShape {
-    String name;
+    public String name;
     int x;
     int y;
     int rotation;
@@ -42,14 +42,64 @@ public class TilesShape {
         return tiles;
     }
 
+    public String getTileName() {
+        return name;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public Colour get_Color(){
         //return the color of this tilesShape to support other methods
         return this.color;
     }
 
-    public  void rotation(Grid[] tiles){
+    public int getRotation(){
+        //return the color of this tilesShape to support other methods
+        return this.rotation;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void movePosition(int dx, int dy) {
+        this.x += dx;
+        this.y += dy;
+    }
+
+    public void rotateClockwise(Grid[] tiles){
         this.rotation=(this.rotation+1)%4;
         Shape_change(tiles);
+    }
+
+    public void setNoBrick() {
+        for (int i = 0; i < windows.length; i++) windows[i] = true;
+    }
+
+    public void setBrick(int i) {
+        if (i < windows.length) {
+            setNoBrick();
+            windows[i] = false;
+        }
+    }
+
+    public boolean getWindow(int i) {
+        return windows[i];
+    }
+
+    public String toString() {
+        return "(" + name
+                + ", x=" + Integer.toString(x)
+                + ", y=" + Integer.toString(y)
+                + ", r=" + Integer.toString(rotation)
+                + ", " + Arrays.toString(windows) + ")";
     }
 
     public void Shape_change(Grid[] tiles) {

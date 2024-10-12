@@ -26,6 +26,7 @@ public class Game_Logic {
 
     public Game_Logic(int player_number){
         this.p_number=player_number;
+        rounds.add(new Round());
     }
 
     public void set_players(){
@@ -41,19 +42,19 @@ public class Game_Logic {
         players_turn.put(p,players_turn.getOrDefault(p,0)+1);
     }
 
-    public void play(){
-        while(isRunning){
-            if(players.get(0).get_score()>=12||players.get(1).get_score()>=12){
-                last_round();
-            }
-            rounds.add(new Round());
-
-
-
-
-
-        }
-    }
+//    public void play(){
+//        while(isRunning){
+//            if(players.get(0).get_score()>=12||players.get(1).get_score()>=12){
+//                last_round();
+//            }
+//            rounds.add(new Round());
+//
+//
+//
+//
+//
+//        }
+//    }
 
     public void rules_display(){
         //show players all rules of this game, it will appear at the beginning of game and can be called by button
@@ -135,19 +136,19 @@ public class Game_Logic {
     public static void main(String[] args) {
         Game_Logic gl=new Game_Logic(2);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
         gl.Y3.RIGHTER(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
         gl.Y3.LEFTER(gl.tiles);
         gl.Y3.UPPER(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
     }
 }

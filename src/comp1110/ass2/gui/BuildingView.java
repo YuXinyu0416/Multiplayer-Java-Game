@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.TilesShape;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,7 +23,6 @@ public class BuildingView extends GridPane {
     // Display coat-of-arms on building edges
     private final ImageView[] topRow;
     private final ImageView[] rightCol;
-
     static final Image redRabbit = new Image("red_rabbit.png");
     static final Image yellowRabbit = new Image("yellow_rabbit.png");
 
@@ -142,15 +142,15 @@ public class BuildingView extends GridPane {
         }
     }
 
-    void show(int player, Placement p, boolean valid) {
+    void show(int player, TilesShape ts, boolean valid) {
         show(player);
-	var mark = new LibraryView.LibraryItem(p);
+        var mark = new LibraryView.LibraryItem(ts.name);
         for (int i = 0; i < mark.getSize(); i++) {
-            int x = p.getX() + mark.getX(i);
-            int y = p.getY() + mark.getY(i);
+            int x = ts.getX() + mark.getX(i);
+            int y = ts.getY() + mark.getY(i);
             if (0 <= x && x < grid.length)
                 if (0 <= y && y < grid[x].length)
-                    grid[x][y].markPlacement(valid, p.getWindow(i));
+                    grid[x][y].markPlacement(valid, ts.getWindow(i));
         }
     }
 

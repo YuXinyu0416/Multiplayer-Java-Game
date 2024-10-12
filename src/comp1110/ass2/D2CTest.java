@@ -42,9 +42,9 @@ public class D2CTest {
         Assertions.assertEquals(false, gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
 
         System.out.println("Rotating Y3 clockwise by 270 degrees");
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
         System.out.println("Checking gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.tiles)");
         Assertions.assertEquals(true, gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
 
@@ -54,16 +54,16 @@ public class D2CTest {
         Assertions.assertEquals(false, gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
 
         System.out.println("Rotating Y3 clockwise by 180 degrees");
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
         System.out.println("checking gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.tiles)");
         Assertions.assertEquals(true, gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
 
         System.out.println("Moving Y3 one space to the left and one space to the top, then rotating Y3 clockwise by 180 degrees");
         gl.Y3.LEFTER(gl.tiles);
         gl.Y3.UPPER(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
-        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotateClockwise(gl.tiles);
         System.out.println("checking gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.tiles)");
         Assertions.assertEquals(false, gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
     }

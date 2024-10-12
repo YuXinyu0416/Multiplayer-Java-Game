@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
+import comp1110.ass2.TilesShape;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -119,7 +120,7 @@ public class LibraryView extends ListView<Object> {
     }
 
     LibraryItem getItem(String name) {
-	return new LibraryItem(name);
+		return new LibraryItem(name);
     }
 
     static class Coordinate {
@@ -185,14 +186,14 @@ public class LibraryView extends ListView<Object> {
 	    if (name.equals("S1O")) this.setAllWindows(true);
 	}
 
-	LibraryItem(Placement p) {
-	    name = p.tileName;
+	LibraryItem(TilesShape ts) {
+	    name = ts.name;
 	    var coordinates = tiles.get(name);
 	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
 	    this.windows = new boolean[this.getSize()];
 	    this.setBrick(0); // default all windows except 1st brick
 	    if (name.equals("S1O")) this.setAllWindows(true);
-	    for (int k = 0; k < p.getRotation(); k++)
+	    for (int k = 0; k < ts.getRotation(); k++)
 		this.rotateAndShift();
 	}
 

@@ -15,6 +15,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -24,6 +26,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
 
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
@@ -66,7 +69,7 @@ public class GameGUI extends BorderPane {
     //private Consumer<String> onReroll;
     //private Consumer<String> onColourChange;
 
-    private Placement candidate = null;
+    private TilesShape candidate = null;
     private int candidate_index = -1;
 
     private void makeSetupControls() {
@@ -184,15 +187,15 @@ public class GameGUI extends BorderPane {
 	//     });
         b_confirm = new Button("Confirm (player #)");
         controls.add(b_confirm, 0, 1);
-	b_confirm.setOnAction((e) -> {
+	    b_confirm.setOnAction((e) -> {
 		if (candidate != null) {
 		    TilesShape tmp = candidate;
 		    candidate = null;
 		    library_view.clearSelection();
 		    if (onTilePlaced != null) {
                 onTilePlaced.accept(tmp);
-                setOnTilePlaced((Consumer<Placement>) e,tmp);
             }
+            setOnTilePlaced(onTilePlaced,tmp);
 		    showState();
 		}
 		else if (onConfirm != null) {
@@ -208,6 +211,14 @@ public class GameGUI extends BorderPane {
 		    showState();
 		}
 	    });
+//        b_reroll = new Button("Reroll");
+//        b_reroll.setOnAction((e) -> {
+//            if (onPass != null) {
+//                onPass.accept(b_pass.getText());
+//                showState();
+//            }
+//        });
+       // controls.add(b_reroll,0,3);
         b_colour_change = new MenuButton("Action...");
         // for (int i = 0; i < 5; i++) {
         //     Colour c = Colour.values()[i];
@@ -241,10 +252,30 @@ public class GameGUI extends BorderPane {
         current_player_view.setFont(Font.font(24));
         this.setTop(current_player_view);
 
-        VBox left = new VBox();
+        //StackPane play_region = new StackPane();
+        //Image sky = new Image("sky.png");
+        //ImageView bg = new ImageView(sky);
+//        bg.setOpacity(0.5);
+//        bg.setFitWidth(500);
+//        bg.setFitHeight(500);
+//        bg.setImage(sky);
+//        bg.setVisible(true);
+//        play_region.setStyle(String.valueOf(css));
+//        play_region.setOpacity(0.3);
+
+        StackPane left = new StackPane();
+        //Image sky = new Image("sky.png");
+        //left.setImage(sky);
+        //left.setOpacity(0.3);
         left.setBorder(boxBorder);
         left.setAlignment(Pos.CENTER);
-        left.setFillWidth(true);
+        //left.setFillWidth(true);
+        //BackgroundImage bg = new BackgroundImage(sky,BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        //Background        Color c = new Color.rbg(255,248,220);
+        // cloud = new Background(bg);
+        Color yellow = Color.rgb(250, 249, 240);
+        left.setBackground(new Background(new BackgroundFill(yellow,CornerRadii.EMPTY, Insets.EMPTY)));
+        //play_region.getChildren().add(left);
 
         player_selector = new TabPane();
         //player_selector.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
@@ -257,6 +288,8 @@ public class GameGUI extends BorderPane {
         player_pane.setVgap(4);
         player_pane.setPadding(new Insets(2, 2, 2, 2));
         player_pane.setAlignment(Pos.CENTER);
+//        Image sky = new Image("sky.png");
+//        player_pane.setStyle(sky.toString());
 
         player_view = new PlayerStateView();
         player_pane.add(player_view, 0, 0);
@@ -267,6 +300,7 @@ public class GameGUI extends BorderPane {
         //building_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE, CornerRadii.EMPTY,Insets.EMPTY)));
         player_pane.add(building_view, 1, 0, 1, 2);
         //player_pane.setHgrow(building_view, Priority.ALWAYS);
+
         for (int x = 0; x < BUILDING_WIDTH; x++)
             for (int y = 0; y < BUILDING_HEIGHT; y++) {
                 final int fx = x;
@@ -308,7 +342,7 @@ public class GameGUI extends BorderPane {
 		    showState();
 		}
                 case SPACE, R -> {
-		    candidate.rotateClockwise();
+		    candidate.rotateClockwise(candidate.set_tiles());
                     showState();
                 }
                 case DIGIT0, NUMPAD0 -> { candidate.setNoBrick(); showState(); }
@@ -322,6 +356,7 @@ public class GameGUI extends BorderPane {
 	    });
 
         left.getChildren().add(player_pane);
+        //play_region.getChildren().addAll(left, bg);
         VBox.setVgrow(player_pane, Priority.ALWAYS);
         this.setCenter(left);
         BorderPane.setAlignment(left, Pos.CENTER);
@@ -338,7 +373,7 @@ public class GameGUI extends BorderPane {
         library_view.setPadding(new Insets(2, 2, 2, 2));
 	library_view.setOnSelectionChanged((tile) -> {
 		if (tile != null) {
-		    candidate = new Placement(tile, library_view.getItemSize(tile), 0, 0, 0);
+		    candidate = new TilesShape(tile, Colour.RED, library_view.getItemSize(tile), 0, 0, 0);
 		    if (tile.equals("S1O")) candidate.setNoBrick();
 		    candidate_index = player_selector.getSelectionModel().getSelectedIndex();
 		}
@@ -622,7 +657,7 @@ public class GameGUI extends BorderPane {
      * type `Placement` that contains all the details of the intended
      * placement.
      */
-    public void setOnTilePlaced(Consumer<Placement> handler, TilesShape ts) {
+    public void setOnTilePlaced(Consumer<TilesShape> handler, TilesShape ts) {
         onTilePlaced = handler;
         for(int i=0;i<ts.num_of_tile;i++) {
             Grid[] tiles = ts.set_tiles();
