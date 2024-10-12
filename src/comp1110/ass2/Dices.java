@@ -1,20 +1,22 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.Colour;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Dices{
    //create a dice and roll its color
-    Game_Logic.Colors c;
-    List<Game_Logic.Colors> colors = new ArrayList<>();
+    Colour c;
+    List<Colour> colors = new ArrayList<>();
     {
-        colors.add(Game_Logic.Colors.RED);
-        colors.add(Game_Logic.Colors.BLUE);
-        colors.add(Game_Logic.Colors.GREEN);
-        colors.add(Game_Logic.Colors.YELLOW);
-        colors.add(Game_Logic.Colors.PURPLE);
-        colors.add(Game_Logic.Colors.WHITE);
+        colors.add(Colour.RED);
+        colors.add(Colour.BLUE);
+        colors.add(Colour.GREEN);
+        colors.add(Colour.YELLOW);
+        colors.add(Colour.PURPLE);
+        colors.add(Colour.WHITE);
     }
 
     public Dices() {
@@ -27,7 +29,7 @@ public class Dices{
         this.c= colors.get(random.nextInt(colors.size()));
     }
 
-    public Game_Logic.Colors get_color(){
+    public Colour get_color(){
         //get the color of this dice
         return this.c;
     }

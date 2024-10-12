@@ -1,18 +1,21 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.Colour;
+
+import java.util.Arrays;
 import java.util.Random;
 
-public class TilesShape{
+public class TilesShape {
     String name;
     int x;
     int y;
     int rotation;
-    Game_Logic.Colors color;
-    int num_of_tile;// how many tiles are contained in this whole shape
+    Colour color;
+    public int num_of_tile;// how many tiles are contained in this whole shape
     boolean state=true;// determine whether this tilesShape has been crossed out or not
-    boolean[] windows;
+    public boolean[] windows;
 
-    public TilesShape(String name, Game_Logic.Colors color, int num_of_tile, int x, int y, int r){
+    public TilesShape(String name, Colour color, int num_of_tile, int x, int y, int r){
         this.name = name;
         this.color=color;
         this.num_of_tile=num_of_tile;
@@ -39,7 +42,7 @@ public class TilesShape{
         return tiles;
     }
 
-    public Game_Logic.Colors get_Color(){
+    public Colour get_Color(){
         //return the color of this tilesShape to support other methods
         return this.color;
     }

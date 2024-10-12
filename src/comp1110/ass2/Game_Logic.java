@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.Colour;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,16 +13,16 @@ public class Game_Logic {
     boolean isRunning = true;
     List<Player> players = new ArrayList<>();
     HashMap<Player,Integer> players_turn= new HashMap<>();
-    TilesShape B3=new TilesShape("B3", Colors.BLUE,3,0,0,1);
-    TilesShape G4L=new TilesShape("G4L", Colors.GREEN,4,3,0,0);
-    TilesShape R3=new TilesShape("R3", Colors.RED,3,0,0,0);
-    TilesShape R4=new TilesShape("R4", Colors.RED,4,0,0,0);
-    TilesShape Y3=new TilesShape("Y3", Colors.YELLOW,3,1,0,0);
+    TilesShape B3=new TilesShape("B3", Colour.BLUE,3,0,0,1);
+    TilesShape G4L=new TilesShape("G4L", Colour.GREEN,4,3,0,0);
+    TilesShape R3=new TilesShape("R3", Colour.RED,3,0,0,0);
+    TilesShape R4=new TilesShape("R4", Colour.RED,4,0,0,0);
+    TilesShape Y3=new TilesShape("Y3", Colour.YELLOW,3,1,0,0);
     List<Round> rounds = new ArrayList<>();
     Grid[] tiles= Y3.set_tiles();
-    enum Colors{
-        RED, BLUE, YELLOW, PURPLE, WHITE, GREEN
-    }
+//    enum Colors{
+//        RED, BLUE, YELLOW, PURPLE, WHITE, GREEN
+//    }
 
     public Game_Logic(int player_number){
         this.p_number=player_number;
@@ -28,7 +30,7 @@ public class Game_Logic {
 
     public void set_players(){
         for(int i=0; i< p_number;i++){
-            String name = "player"+(i+1);
+            int name = i;
             players.add(new Player(name));
         }
         players.get(0).br.is_Occupied(players.get(0),B3);

@@ -1,15 +1,17 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.Colour;
+
 import java.util.HashMap;
 
 public class Round{
     static int number_rounds;
     Dices[] new_dices = new Dices[5];
-    HashMap<Game_Logic.Colors,Integer> dices_color=new HashMap<>();
+    HashMap<Colour,Integer> dices_color=new HashMap<>();
     {
-        dices_color.put(Game_Logic.Colors.RED,3);
-        dices_color.put(Game_Logic.Colors.BLUE,1);
-        dices_color.put(Game_Logic.Colors.WHITE,1);
+        dices_color.put(Colour.RED,3);
+        dices_color.put(Colour.BLUE,1);
+        dices_color.put(Colour.WHITE,1);
 
     }
 //    {
@@ -25,8 +27,8 @@ public class Round{
         number_rounds++;
     }
 
-    public boolean isWhite(HashMap<Game_Logic.Colors, Integer> dices_color){
-        return dices_color.containsKey(Game_Logic.Colors.WHITE)? true:false;
+    public boolean isWhite(HashMap<Colour, Integer> dices_color){
+        return dices_color.containsKey(Colour.WHITE)? true:false;
     }
 
 //    public void turn(){

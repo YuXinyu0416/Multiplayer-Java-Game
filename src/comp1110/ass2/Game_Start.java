@@ -3,6 +3,7 @@ package comp1110.ass2;
 import comp1110.ass2.gui.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Game_Start extends Application {
 		gui = new GameGUI();
         Scene scene = new Scene(gui, GameGUI.WINDOW_WIDTH, GameGUI.WINDOW_HEIGHT);
 
+
 	// This is where you should set up callbacks (or at least one
 	// callback, for the start-of-game event).
 
@@ -24,16 +26,16 @@ public class Game_Start extends Application {
 	
 	gui.setOnStartGame((np, isAI) -> {
 		gui.setMessage("start new game with " + np + " players");
-		gui.setAvailableTiles(List.of("R2", "R3", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5"));
+		gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
 		gui.setAvailableDice(List.of("Red", "White", "Blue", "Red", "Yellow"));
-		gui.setAvailableActions(List.of("Reroll", "Give up"));
+		gui.setAvailableActions(List.of("Reroll", "Give up", "End the game"));
 	    });
 
-	gui.setOnTilePlaced((p) -> {
-		gui.setMessage("tile placed: " + p);
-		if (p.getTileName().equals("R5"))
-		    gui.endGame(new int[4]);
-	    });
+//	gui.setOnTilePlaced((p) -> {
+//		gui.setMessage("tile placed: " + p);
+//		if (p.getTileName().equals("R5"))
+//		    gui.endGame(new int[4]);
+//	    });
 
 	gui.setOnDiceSelectionChanged((i) -> {
 		gui.setMessage("dice selection: " + gui.getSelectedDice());
@@ -45,8 +47,12 @@ public class Game_Start extends Application {
 
 	gui.setOnGameAction((s) -> {
 		gui.setMessage("action: " + s);
-		if (s.equals("Give up"))
-		    gui.setAvailableActions(List.of("Reroll"));
+		if(s.equals("End the game")){
+			gui.endGame(new int[gl.p_number]);
+		}
+		if (s.equals("Give up")) {
+			gui.setAvailableActions(List.of("Reroll", "End the game"));
+		}
 	    });
 
 	gui.setOnConfirm((s) -> {
@@ -62,8 +68,8 @@ public class Game_Start extends Application {
         stage.setTitle("Copenhagen Roll & Write");
         stage.show();
 
-		gl = new Game_Logic(2);
-		gl.set_players();
-		gl.play();
+//		gl = new Game_Logic(2);
+//		gl.set_players();
+//		gl.play();
     }
 }

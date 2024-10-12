@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.Comparator;
 import java.util.Objects;
 
 import javafx.scene.shape.Rectangle;

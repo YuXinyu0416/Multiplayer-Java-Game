@@ -28,23 +28,23 @@ public class Placement {
     }
 
     public int getY() {
-	return y;
+        return y;
     }
 
     public int getRotation() {
-	return rotation;
+        return rotation;
     }
 
     public boolean getWindow(int i) {
-	return windows[i];
+        return windows[i];
     }
 
     public String toString() {
-	return "(" + tileName
-	    + ", x=" + Integer.toString(x)
-	    + ", y=" + Integer.toString(y)
-	    + ", r=" + Integer.toString(rotation)
-	    + ", " + Arrays.toString(windows) + ")";
+        return "(" + tileName
+                + ", x=" + Integer.toString(x)
+                + ", y=" + Integer.toString(y)
+                + ", r=" + Integer.toString(rotation)
+                + ", " + Arrays.toString(windows) + ")";
     }
 
     void setPosition(int x, int y) {
@@ -70,10 +70,9 @@ public class Placement {
     }
 
     void setBrick(int i) {
-	if (i < windows.length) {
-	    setNoBrick();
-	    windows[i] = false;
-	}
+        if (i < windows.length) {
+            setNoBrick();
+            windows[i] = false;
+        }
     }
-
 }

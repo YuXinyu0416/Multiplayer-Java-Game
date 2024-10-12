@@ -1,5 +1,7 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Grid;
+import comp1110.ass2.TilesShape;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -57,7 +59,7 @@ public class GameGUI extends BorderPane {
 
     private BiConsumer<Integer, boolean[]> onStartGame;
     private Consumer<String> onTileSelected;
-    private Consumer<Placement> onTilePlaced;
+    private Consumer<TilesShape> onTilePlaced;
     private Consumer<String> onConfirm;
     private Consumer<String> onPass;
     private Consumer<String> onGameAction;
@@ -184,11 +186,13 @@ public class GameGUI extends BorderPane {
         controls.add(b_confirm, 0, 1);
 	b_confirm.setOnAction((e) -> {
 		if (candidate != null) {
-		    Placement tmp = candidate;
+		    TilesShape tmp = candidate;
 		    candidate = null;
 		    library_view.clearSelection();
-		    if (onTilePlaced != null)
-			onTilePlaced.accept(tmp);
+		    if (onTilePlaced != null) {
+                onTilePlaced.accept(tmp);
+                setOnTilePlaced((Consumer<Placement>) e,tmp);
+            }
 		    showState();
 		}
 		else if (onConfirm != null) {
@@ -233,6 +237,7 @@ public class GameGUI extends BorderPane {
 
     private void makeMainLayout() {
         current_player_view = new Label("                 ");
+        //current_player_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         current_player_view.setFont(Font.font(24));
         this.setTop(current_player_view);
 
@@ -242,6 +247,7 @@ public class GameGUI extends BorderPane {
         left.setFillWidth(true);
 
         player_selector = new TabPane();
+        //player_selector.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         player_selector.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         left.getChildren().add(player_selector);
         GridPane player_pane = new GridPane();
@@ -254,9 +260,11 @@ public class GameGUI extends BorderPane {
 
         player_view = new PlayerStateView();
         player_pane.add(player_view, 0, 0);
+        //player_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE, CornerRadii.EMPTY,Insets.EMPTY)));
         //player_pane.setHgrow(player_view, Priority.ALWAYS);
         building_view = new BuildingView(BUILDING_WIDTH, BUILDING_HEIGHT);
         building_view.setFocusTraversable(true);
+        //building_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE, CornerRadii.EMPTY,Insets.EMPTY)));
         player_pane.add(building_view, 1, 0, 1, 2);
         //player_pane.setHgrow(building_view, Priority.ALWAYS);
         for (int x = 0; x < BUILDING_WIDTH; x++)
@@ -323,6 +331,7 @@ public class GameGUI extends BorderPane {
         right.setSpacing(4);
         right.setFillWidth(true);
         library_view = new LibraryView();
+        library_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         library_view.setPrefWidth(400);
         library_view.setPrefHeight(200);
         library_view.setBorder(boxBorder);
@@ -342,16 +351,19 @@ public class GameGUI extends BorderPane {
 	    });
         right.getChildren().add(library_view);
         price_view = new FlowPane();
+        //price_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         price_view.setAlignment(Pos.CENTER_LEFT);
         price_view.setBorder(boxBorder);
         price_view.setPadding(new Insets(2, 2, 2, 2));
         price_view.setMinHeight(40);
         // right.getChildren().add(price_view);
         dice_view = new DiceView(5);
+        dice_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         dice_view.setBorder(boxBorder);
         dice_view.setPadding(new Insets(2, 2, 2, 2));
         right.getChildren().add(dice_view);
         control_view = new StackPane();
+        control_view.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         control_view.setBorder(boxBorder);
         control_view.setPadding(new Insets(2, 2, 2, 2));
         control_view.setAlignment(Pos.CENTER);
@@ -469,12 +481,12 @@ public class GameGUI extends BorderPane {
      * Toggle display status of the coat-of-arms on top of a column
      * @param player The player whose building should be updated
      *        (0 to number of players - 1).
-     * @param y The row index. Note that this must be one of 1 or 3.
+     * @param x The row index. Note that this must be one of 1 or 3.
      * @param highlightOn Whether the CoA should be highlighted (shown
      *        in gold colour) or not (shown in black).
      */
     public void setColumnCoA(int player, int x, boolean highlightOn) {
-	building_view.setColumnCoA(player, x, highlightOn);
+	    building_view.setColumnCoA(player, x, highlightOn);
     }
 
     /**
@@ -509,7 +521,7 @@ public class GameGUI extends BorderPane {
      * Clear track selection.
      */
     public void clearTrackSelection() {
-	player_view.getTrackSelectors().clearSelection();
+	    player_view.getTrackSelectors().clearSelection();
     }
 
     /**
@@ -517,7 +529,7 @@ public class GameGUI extends BorderPane {
      * @return a list of indices of the currently selected track(s).
      */
     public List<Integer> getSelectedTracks() {
-	return player_view.getTrackSelectors().getSelection();
+	    return player_view.getTrackSelectors().getSelection();
     }
 
     /**
@@ -527,9 +539,9 @@ public class GameGUI extends BorderPane {
      * quit or play again.
      */
     public void endGame(int[] finalScores) {
-	Pane gameOverControls = makeGameOverControls(finalScores);
-	control_view.getChildren().clear();
-	control_view.getChildren().add(gameOverControls);
+	    Pane gameOverControls = makeGameOverControls(finalScores);
+	    control_view.getChildren().clear();
+	    control_view.getChildren().add(gameOverControls);
     }
 
     /**
@@ -586,7 +598,7 @@ public class GameGUI extends BorderPane {
      * can ignore the second argument.)
      */
     public void setOnStartGame(BiConsumer<Integer, boolean[]> handler) {
-	onStartGame = handler;
+	    onStartGame = handler;
     }
 
     /**
@@ -610,8 +622,13 @@ public class GameGUI extends BorderPane {
      * type `Placement` that contains all the details of the intended
      * placement.
      */
-    public void setOnTilePlaced(Consumer<Placement> handler) {
+    public void setOnTilePlaced(Consumer<Placement> handler, TilesShape ts) {
         onTilePlaced = handler;
+        for(int i=0;i<ts.num_of_tile;i++) {
+            Grid[] tiles = ts.set_tiles();
+            ts.Shape_change(tiles);
+            building_view.setSquare(getSelectedPlayer(),tiles[i].position[0], tiles[i].position[1],ts.get_Color(), ts.windows[i]);
+        }
     }
 
     /**

@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-import comp1110.ass2.AbilityRegion.*;
-
 public class BuildingRegion{
     Grid[][] grids= new Grid[5][9];
     ShieldsShape row_ss1=new ShieldsShape(1);

@@ -3,7 +3,7 @@ package comp1110.ass2;
 public class Grid{
     //a grid in building sheet
     String[] content=new String[2]; //something in this grid
-    int[] position=new int[2];// position[0]=column, position[1]=row
+    public int[] position=new int[2];// position[0]=column, position[1]=row
 
     public Grid(int column, int row){
         this.content[0]="null";

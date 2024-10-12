@@ -1,21 +1,27 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.Colour;
+
 import java.util.*;
 
 public class Player{
     //create some players and support players' operations
     //String id; // the primary key of player
-    String name; // need to be scanner in by player
+    int name; // need to be scanner in by player
     int score=0;
     HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
-    HashMap<Game_Logic.Colors,Integer> ability_steps = new HashMap<>();// how many steps in this row that players have advanced
+    HashMap<Colour,Integer> ability_steps = new HashMap<>();// how many steps in this row that players have advanced
     AbilityRegion ar=new AbilityRegion();
     BuildingRegion br=new BuildingRegion();
 
-    public Player(String name) {
+    public Player(int name) {
        //create a player
         this.name = name;
         //this.id= UUID.randomUUID().toString();
+    }
+
+    public int return_Player(){
+        return this.name;
     }
 
     public void add_score(int score){
@@ -28,11 +34,11 @@ public class Player{
         return this.score;
     }
 
-    public Game_Logic.Colors get_color(int row){
+    public Colour get_color(int row){
         return ar.ability_region.get(row);
     }
 
-    public void advance_steps(Game_Logic.Colors c, int step){
+    public void advance_steps(Colour c, int step){
         //add steps to make players advance in the ability track and return this step number to determine
         //whether players can get corresponding abilities
         if(ability_steps.get(c)<5) {
@@ -42,17 +48,17 @@ public class Player{
         }
     }
 
-    public int get_stepNUM(Game_Logic.Colors c){
+    public int get_stepNUM(Colour c){
         //return how many steps in this row to support other method
        return ability_steps.get(c);
     }
 
-    public boolean choose_tiles_rules(HashMap<Game_Logic.Colors,Integer> dices_color, TilesShape ts, boolean isWhite){
+    public boolean choose_tiles_rules(HashMap<Colour,Integer> dices_color, TilesShape ts, boolean isWhite){
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
-        List<Game_Logic.Colors> max_color=new ArrayList<>();
+        List<Colour> max_color=new ArrayList<>();
         int max_value=0;
-        for(Map.Entry<Game_Logic.Colors,Integer> pair :dices_color.entrySet()){
+        for(Map.Entry<Colour,Integer> pair :dices_color.entrySet()){
             if(max_value==0|| pair.getValue().compareTo(max_value)>0){
                 max_value=pair.getValue();
                 max_color.clear();
@@ -63,8 +69,8 @@ public class Player{
             }
         }
 
-        Game_Logic.Colors color1;
-        Game_Logic.Colors color2;
+        Colour color1;
+        Colour color2;
         boolean can_be_selected=false;
         if(max_color.size()>2){
             System.out.println("You cannot select any tiles!");
@@ -73,7 +79,7 @@ public class Player{
             color1=max_color.get(0);
             if(ts.get_Color().equals(color1)){
                 int num=0;
-                for(Map.Entry<Game_Logic.Colors,Integer> pair:dices_color.entrySet()){
+                for(Map.Entry<Colour,Integer> pair:dices_color.entrySet()){
                     if(pair.getKey().equals(color1)){
                         num=pair.getValue();
                     }
@@ -91,7 +97,7 @@ public class Player{
             color2=max_color.get(1);
             if(ts.get_Color().equals(color1)||ts.get_Color().equals(color2)){
                 int num=0;
-                for(Map.Entry<Game_Logic.Colors,Integer> pair:dices_color.entrySet()){
+                for(Map.Entry<Colour,Integer> pair:dices_color.entrySet()){
                     if(pair.getKey().equals(color1)){
                         num=pair.getValue();
                     }

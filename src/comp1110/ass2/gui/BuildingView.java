@@ -1,15 +1,15 @@
 package comp1110.ass2.gui;
 
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineJoin;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,14 +17,14 @@ import java.util.List;
  */
 public class BuildingView extends GridPane {
     private final SquareView[][] grid;
-    static final int SQUARE_SIZE = 50;
+    static final int SQUARE_SIZE = 60;
 
     // Display coat-of-arms on building edges
     private final ImageView[] topRow;
     private final ImageView[] rightCol;
 
-    static final Image goldCoA = new Image("goldCoA.png");
-    static final Image blackCoA = new Image("blackCoA.png");
+    static final Image redRabbit = new Image("red_rabbit.png");
+    static final Image yellowRabbit = new Image("yellow_rabbit.png");
 
     private int width;
     private int height;
@@ -40,6 +40,8 @@ public class BuildingView extends GridPane {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++) {
                 grid[x][y] = new SquareView(SQUARE_SIZE);
+                //Background b = new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY,Insets.EMPTY));
+                //grid[x][y].setBackground(b);
                 add(grid[x][y], x, height - y);
 		for (int i = 0; i < GameGUI.MAX_N_PLAYERS; i++)
 		    content[i][x][y] = new Square();
@@ -117,11 +119,25 @@ public class BuildingView extends GridPane {
         }
 
         for (int x : List.of(1, 3)) {
-            Image image = ((player >= 0) && showColCoA[player][x] ? goldCoA : blackCoA);
+            //Image image = ((player >= 0) && showColCoA[player][x] ? redRabbit : yellowRabbit);
+            Image image;
+            if(x ==1) {
+                image = yellowRabbit;
+            }
+            else{
+                image = redRabbit;
+            }
             topRow[x].setImage(image);
         }
         for (int y : List.of(1, 3, 5)) {
-            Image image = ((player >= 0) && showRowCoA[player][y] ? goldCoA : blackCoA);
+            //Image image = ((player >= 0) && showRowCoA[player][y] ? redRabbit : yellowRabbit);
+            Image image;
+            if(y ==3) {
+                image = redRabbit;
+            }
+            else{
+                image = yellowRabbit;
+            }
             rightCol[y].setImage(image);
         }
     }
@@ -140,16 +156,17 @@ public class BuildingView extends GridPane {
 
     static class SquareView extends StackPane {
         Rectangle outer;
-        Rectangle inner;
+        ImageView inner;
         Rectangle border;
 
         SquareView(int width) {
             outer = new Rectangle(width, width);
             outer.setStroke(Color.BLACK);
             outer.setFill(Color.WHITE);
-            inner = new Rectangle(width / 2.0, width / 2.0);
-            inner.setStroke(Color.BLACK);
-            inner.setFill(Color.WHITE);
+            inner = new ImageView("carrot.png");
+            inner.setFitHeight(60.0);
+            inner.setFitWidth(60.0);
+            //inner.setClip(new Rectangle(2.0, 2.0));
             border = new Rectangle(width - 8, width - 8);
             border.setStroke(Color.BLACK);
             border.setFill(null);
@@ -163,7 +180,7 @@ public class BuildingView extends GridPane {
 
         void setState(boolean filled, boolean window, Color colour) {
             if (!filled) {
-                outer.setFill(Color.WHITE);
+                outer.setFill(Color.LIGHTGREEN);
                 inner.setVisible(false);
             } else {
                 outer.setFill(colour);
@@ -175,17 +192,26 @@ public class BuildingView extends GridPane {
 
         void markPlacement(boolean valid, boolean window) {
             border.setVisible(true);
+            Image image = new Image("carrot.png");
+            inner.setImage(image);
             if (valid) border.setStroke(Color.BLACK);
-            else border.setStroke(Color.GRAY);
+            else border.setStroke(Color.GREY);
             inner.setVisible(window);
         }
     }
 
     public void setSquare(int p, int x, int y, Colour colour, boolean window) {
-	if (colour != Colour.WHITE)
-	    content[p][x][y] = new Square(window, colour);
-	else
-	    content[p][x][y] = new Square();
+        if (colour != Colour.WHITE) {
+            content[p][x][y] = new Square(window, colour);
+            SquareView sv = new SquareView(SQUARE_SIZE);
+            Image carrot = new Image("carrot.png");
+            BackgroundFill fill = new BackgroundFill(colour.getFXColor(), CornerRadii.EMPTY, Insets.EMPTY);
+            BackgroundImage image = new BackgroundImage(carrot,BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+            Background b = new Background(Collections.singletonList(fill), Collections.singletonList(image));
+            sv.setBackground(b);
+        } else {
+            content[p][x][y] = new Square();
+        }
     }
 
     void setRowCoA(int player, int y, boolean highlightOn) {
