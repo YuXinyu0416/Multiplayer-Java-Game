@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import comp1110.ass2.gui.Colour;
+import comp1110.ass2.gui.TilesShape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +71,7 @@ public class Game_Logic {
 
     public boolean tilesCanBeSelected(Player p, TilesShape ts){
         boolean whether;
-        if(ts.state) {
+        if(ts.get_state()) {
         whether=p.choose_tiles_rules(rounds.get(rounds.size()-1).dices_color, ts, rounds.get(rounds.size()-1).isWhite(rounds.get(rounds.size()-1).dices_color));
         }
         else{
@@ -136,19 +137,19 @@ public class Game_Logic {
     public static void main(String[] args) {
         Game_Logic gl=new Game_Logic(2);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
-        gl.Y3.rotateClockwise(gl.tiles);
-        gl.Y3.rotateClockwise(gl.tiles);
-        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
         gl.Y3.RIGHTER(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
-        gl.Y3.rotateClockwise(gl.tiles);
-        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
         gl.Y3.LEFTER(gl.tiles);
         gl.Y3.UPPER(gl.tiles);
-        gl.Y3.rotateClockwise(gl.tiles);
-        gl.Y3.rotateClockwise(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
+        gl.Y3.rotation(gl.tiles);
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3,gl.tiles));
     }
 }

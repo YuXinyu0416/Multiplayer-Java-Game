@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.TilesShape;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -203,12 +202,12 @@ public class BuildingView extends GridPane {
     public void setSquare(int p, int x, int y, Colour colour, boolean window) {
         if (colour != Colour.WHITE) {
             content[p][x][y] = new Square(window, colour);
-            SquareView sv = new SquareView(SQUARE_SIZE);
-            Image carrot = new Image("carrot.png");
-            BackgroundFill fill = new BackgroundFill(colour.getFXColor(), CornerRadii.EMPTY, Insets.EMPTY);
-            BackgroundImage image = new BackgroundImage(carrot,BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-            Background b = new Background(Collections.singletonList(fill), Collections.singletonList(image));
-            sv.setBackground(b);
+//            SquareView sv = new SquareView(SQUARE_SIZE);
+//            Image carrot = new Image("carrot.png");
+//            BackgroundFill fill = new BackgroundFill(colour.getFXColor(), CornerRadii.EMPTY, Insets.EMPTY);
+//            BackgroundImage image = new BackgroundImage(carrot,BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+//            Background b = new Background(Collections.singletonList(fill), Collections.singletonList(image));
+//            sv.setBackground(b);
         } else {
             content[p][x][y] = new Square();
         }

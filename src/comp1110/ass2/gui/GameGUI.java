@@ -1,7 +1,6 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Grid;
-import comp1110.ass2.TilesShape;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -15,8 +14,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -26,7 +23,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
 
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
@@ -160,6 +156,7 @@ public class GameGUI extends BorderPane {
 	}
         Button b_again = new Button("Play again");
         b_again.setOnAction(e -> {
+
 		control_view.getChildren().clear();
 		control_view.getChildren().add(game_setup_controls);
 		showState();
@@ -207,6 +204,7 @@ public class GameGUI extends BorderPane {
         controls.add(b_pass, 0, 2);
 	b_pass.setOnAction((e) -> {
 		if (onPass != null) {
+           // int which = (player_selector.getSelectionModel().getSelectedIndex()+1) %
 		    onPass.accept(b_pass.getText());
 		    showState();
 		}
@@ -342,7 +340,12 @@ public class GameGUI extends BorderPane {
 		    showState();
 		}
                 case SPACE, R -> {
-		    candidate.rotateClockwise(candidate.set_tiles());
+                    Grid[] tiles = candidate.set_tiles();
+		            candidate.rotation(tiles);
+                    //building_view.setSquare(player_selector.getSelectionModel().getSelectedIndex(), candidate,  );
+//                    for (int i=0;i<tiles.length;i++) {
+//                        building_view.setSquare(player_selector.getSelectionModel().getSelectedIndex(), tiles[i].position[0], tiles[i].position[1], candidate.get_Color(), candidate.windows[i]);
+//                    }
                     showState();
                 }
                 case DIGIT0, NUMPAD0 -> { candidate.setNoBrick(); showState(); }
@@ -373,7 +376,21 @@ public class GameGUI extends BorderPane {
         library_view.setPadding(new Insets(2, 2, 2, 2));
 	library_view.setOnSelectionChanged((tile) -> {
 		if (tile != null) {
-		    candidate = new TilesShape(tile, Colour.RED, library_view.getItemSize(tile), 0, 0, 0);
+		    if(tile.contains("R")&&tile.length()<3) {
+                candidate = new TilesShape(tile,Colour.RED, library_view.getItemSize(tile), 0, 0, 0);
+            }
+            else if(tile.contains("B")) {
+                candidate = new TilesShape(tile,Colour.BLUE, library_view.getItemSize(tile), 0, 0, 0);
+            }
+            else if(tile.contains("G")) {
+                candidate = new TilesShape(tile,Colour.GREEN, library_view.getItemSize(tile), 0, 0, 0);
+            }
+            else if(tile.contains("Y")) {
+                candidate = new TilesShape(tile,Colour.YELLOW, library_view.getItemSize(tile), 0, 0, 0);
+            }
+            else if(tile.contains("P")) {
+                candidate = new TilesShape(tile,Colour.PURPLE, library_view.getItemSize(tile), 0, 0, 0);
+            }
 		    if (tile.equals("S1O")) candidate.setNoBrick();
 		    candidate_index = player_selector.getSelectionModel().getSelectedIndex();
 		}
@@ -659,9 +676,9 @@ public class GameGUI extends BorderPane {
      */
     public void setOnTilePlaced(Consumer<TilesShape> handler, TilesShape ts) {
         onTilePlaced = handler;
+        Grid[] tiles = ts.set_tiles();
+        ts.Shape_change(tiles);
         for(int i=0;i<ts.num_of_tile;i++) {
-            Grid[] tiles = ts.set_tiles();
-            ts.Shape_change(tiles);
             building_view.setSquare(getSelectedPlayer(),tiles[i].position[0], tiles[i].position[1],ts.get_Color(), ts.windows[i]);
         }
     }

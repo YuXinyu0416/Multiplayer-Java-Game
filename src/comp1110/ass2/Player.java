@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import comp1110.ass2.gui.Colour;
+import comp1110.ass2.gui.TilesShape;
 
 import java.util.*;
 

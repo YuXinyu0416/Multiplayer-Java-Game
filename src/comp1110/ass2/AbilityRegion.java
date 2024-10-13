@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import comp1110.ass2.gui.Colour;
+import comp1110.ass2.gui.TilesShape;
 
 import java.util.*;
 
@@ -52,8 +53,8 @@ public class AbilityRegion{
     public boolean yellowStar_pick_one(TilesShape ts){
         boolean whether =false;
         if(ts.num_of_tile==4||ts.num_of_tile==5){
-            if(ts.state==false){
-                ts.state=true;
+            if(ts.get_state()==false){
+                ts.set_state(true);
             }
             whether = true;
         }

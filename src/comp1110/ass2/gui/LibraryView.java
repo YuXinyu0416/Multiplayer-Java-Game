@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
-import comp1110.ass2.TilesShape;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
