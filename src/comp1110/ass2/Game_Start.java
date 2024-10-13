@@ -27,6 +27,7 @@ public class Game_Start extends Application {
 	gui.setOnStartGame((np, isAI) -> {
 		gui.setMessage("start new game with " + np + " players");
 		gl = new Game_Logic(np);
+		gl.set_players();
 		gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
 		gui.setAvailableDice(gl.rounds.get(0).colours);
 		gui.setAvailableActions(List.of("Reroll", "Give up", "End the game", "Colour change"));

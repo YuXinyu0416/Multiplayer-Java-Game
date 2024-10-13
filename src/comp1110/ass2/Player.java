@@ -9,7 +9,7 @@ public class Player{
     //create some players and support players' operations
     //String id; // the primary key of player
     int name; // need to be scanner in by player
-    int score=0;
+    int score;
     HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
     HashMap<Colour,Integer> ability_steps = new HashMap<>();// how many steps in this row that players have advanced
     public AbilityRegion ar=new AbilityRegion();
@@ -18,6 +18,7 @@ public class Player{
     public Player(int name) {
        //create a player
         this.name = name;
+        score=0;
         //this.id= UUID.randomUUID().toString();
     }
 
@@ -25,9 +26,9 @@ public class Player{
         return this.name;
     }
 
-    public void add_score(int score){
+    public void add_score(int s){
         //will call the isFilled methods of Class BuildingRegion, then add this play's score
-        this.score+=score;
+        this.score+=s;
     }
 
     public int get_score(){

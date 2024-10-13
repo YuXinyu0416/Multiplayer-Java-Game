@@ -27,12 +27,15 @@ public class BuildingRegion{
                 grids[tiles[i].position[0]][tiles[i].position[1]].place_window();
             }
         }
-        for(int i=0;i<9;i++) {
-            isFilled_row(p,i);
+        if(ts.num_of_tile>3){
+            ts.cross_out();
         }
-        for(int i=0;i<5;i++){
-            isFilled_column(p,i);
-        }
+//        for(int i=0;i<9;i++) {
+//            isFilled_row(p,i);
+//        }
+//        for(int i=0;i<5;i++){
+//            isFilled_column(p,i);
+//        }
     }
 
     public boolean whether_Occupied(int column, int row){
@@ -100,7 +103,7 @@ public class BuildingRegion{
             }
         }
         if(isFilled){
-            p.add_score(1);
+            p.add_score(2);
             boolean isWindow = true;
             for(int i=0; i<9;i++){
                 if(grids[column][i].content[1].equals("null")){
@@ -108,7 +111,7 @@ public class BuildingRegion{
                 }
             }
             if(isWindow){
-                p.add_score(1);
+                p.add_score(2);
             }
             if(column_ss1.isTouched(column)|| column_ss2.isTouched(column)){
                 if(true) {

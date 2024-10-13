@@ -55,6 +55,10 @@ public class TilesShape {
         return tiles;
     }
 
+    public void cross_out(){
+        this.state = false;
+    }
+
     public String getTileName() {
         return name;
     }

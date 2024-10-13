@@ -188,28 +188,42 @@ public class GameGUI extends BorderPane {
         b_confirm = new Button("Confirm (player #)");
         controls.add(b_confirm, 0, 1);
 	    b_confirm.setOnAction((e) -> {
-		if (candidate != null) {
+            int p = player_selector.getSelectionModel().getSelectedIndex();
+            Player player = Game_Start.gl.players.get(p);
+		if (candidate != null&&Game_Start.gl.tilesCanBeSelected(player, candidate)) {
 		    TilesShape tmp = new TilesShape(candidate);
 		    candidate = null;
 		    library_view.clearSelection();
 		    if (onTilePlaced != null) {
                 onTilePlaced.accept(tmp);
             }
-            int p = player_selector.getSelectionModel().getSelectedIndex();
-            Player player = Game_Start.gl.players.get(p);
             if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tmp.set_tiles())){
                 setOnTilePlaced(onTilePlaced,tmp);
+               // LibraryView.LibraryItem.tiles.remove(tmp.name);
                 showState();
                 player.br.is_Occupied(player,tmp);
-                for(int i=0; i<9;i++){
-                    player.br.isFilled_row(player,i);
-                }
-                for(int i=0; i<5;i++){
-                    player.br.isFilled_column(player,i);
+                Grid[] tiles = tmp.set_tiles();
+                for(int i=0;i<tiles.length;i++) {
+                    if (i == 0) {
+                        player.br.isFilled_row(player, tiles[i].position[1]);
+                        player.br.isFilled_column(player, tiles[i].position[0]);
+                    } else {
+                        if (tiles[i].position[1] != tiles[i - 1].position[1]) {
+                            player.br.isFilled_row(player, tiles[i].position[1]);
+                        }
+                        if (tiles[i].position[0] != tiles[i - 1].position[0]) {
+                            player.br.isFilled_column(player, tiles[i].position[0]);
+                        }
+                    }
                 }
                 player_view.setScore(p,player.get_score());
+                showState();
             }
 		}
+        else if(!Game_Start.gl.tilesCanBeSelected(player,candidate)){
+            candidate = null;
+            showState();
+        }
 		else if (onConfirm != null) {
 		    onConfirm.accept(b_confirm.getText());
 		    showState();
@@ -676,6 +690,15 @@ public class GameGUI extends BorderPane {
      */
     public void setOnTileSelected(Consumer<String> handler) {
         onTileSelected = handler;
+//        boolean whether = true;
+//        if(onTilePlaced!=null) {
+//            int p = player_selector.getSelectionModel().getSelectedIndex();
+//            Player player = Game_Start.gl.players.get(p);
+//            if(!Game_Start.gl.tilesCanBeSelected(player, candidate)){
+//                whether = false;
+//            }
+//        }
+//        return whether;
     }
 
     /**
