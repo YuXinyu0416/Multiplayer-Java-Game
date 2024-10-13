@@ -1,11 +1,7 @@
 package comp1110.ass2.gui;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
-
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
@@ -180,16 +176,25 @@ public class LibraryView extends ListView<Object> {
 	    this.name = name;
 	    var coordinates = tiles.get(name);
 	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
-	    this.windows = new boolean[this.getSize()];
+		this.windows = new boolean[this.getSize()];
+		windows[0] = false;
 	    this.setBrick(0); // default all windows except 1st brick
 	    if (name.equals("S1O")) this.setAllWindows(true);
+		Random random = new Random();
+		for(int i=0;i< windows.length;i++){
+			windows[i]= random.nextBoolean();
+		}
 	}
 
 	LibraryItem(TilesShape ts) {
 	    name = ts.name;
 	    var coordinates = tiles.get(name);
 	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
-	    this.windows = new boolean[this.getSize()];
+		windows = new boolean[this.getSize()];
+		windows[0] = false;
+		for(int i=0;i< windows.length;i++){
+			windows[i]= ts.getWindow(i);
+		}
 	    this.setBrick(0); // default all windows except 1st brick
 	    if (name.equals("S1O")) this.setAllWindows(true);
 	    for (int k = 0; k < ts.getRotation(); k++)

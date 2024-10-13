@@ -186,7 +186,7 @@ public class GameGUI extends BorderPane {
         controls.add(b_confirm, 0, 1);
 	    b_confirm.setOnAction((e) -> {
 		if (candidate != null) {
-		    TilesShape tmp = candidate;
+		    TilesShape tmp = new TilesShape(candidate);
 		    candidate = null;
 		    library_view.clearSelection();
 		    if (onTilePlaced != null) {
