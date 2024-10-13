@@ -1,6 +1,9 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.BuildingRegion;
+import comp1110.ass2.Game_Start;
 import comp1110.ass2.Grid;
+import comp1110.ass2.Player;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -192,8 +195,20 @@ public class GameGUI extends BorderPane {
 		    if (onTilePlaced != null) {
                 onTilePlaced.accept(tmp);
             }
-            setOnTilePlaced(onTilePlaced,tmp);
-		    showState();
+            int p = player_selector.getSelectionModel().getSelectedIndex();
+            Player player = Game_Start.gl.players.get(p);
+            if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tmp.set_tiles())){
+                setOnTilePlaced(onTilePlaced,tmp);
+                showState();
+                player.br.is_Occupied(player,tmp);
+                for(int i=0; i<9;i++){
+                    player.br.isFilled_row(player,i);
+                }
+                for(int i=0; i<5;i++){
+                    player.br.isFilled_column(player,i);
+                }
+                player_view.setScore(p,player.get_score());
+            }
 		}
 		else if (onConfirm != null) {
 		    onConfirm.accept(b_confirm.getText());
@@ -340,13 +355,9 @@ public class GameGUI extends BorderPane {
 		    showState();
 		}
                 case SPACE, R -> {
-                    Grid[] tiles = candidate.set_tiles();
-		            candidate.rotation(tiles);
-                    //building_view.setSquare(player_selector.getSelectionModel().getSelectedIndex(), candidate,  );
-//                    for (int i=0;i<tiles.length;i++) {
-//                        building_view.setSquare(player_selector.getSelectionModel().getSelectedIndex(), tiles[i].position[0], tiles[i].position[1], candidate.get_Color(), candidate.windows[i]);
-//                    }
+		            candidate.rotateClockwise();
                     showState();
+
                 }
                 case DIGIT0, NUMPAD0 -> { candidate.setNoBrick(); showState(); }
                 case DIGIT1, NUMPAD1 -> { candidate.setBrick(0); showState(); }
@@ -678,8 +689,16 @@ public class GameGUI extends BorderPane {
         onTilePlaced = handler;
         Grid[] tiles = ts.set_tiles();
         ts.Shape_change(tiles);
-        for(int i=0;i<ts.num_of_tile;i++) {
-            building_view.setSquare(getSelectedPlayer(),tiles[i].position[0], tiles[i].position[1],ts.get_Color(), ts.windows[i]);
+        if(ts.getRotation()!=0) {
+            ts.Shape_change(tiles);
+            for (int i = 0; i < ts.num_of_tile; i++) {
+                building_view.setSquare(getSelectedPlayer(), tiles[i].position[0], tiles[i].position[1], ts.get_Color(), ts.windows[i]);
+            }
+        }
+        else {
+            for (int i = 0; i < ts.num_of_tile; i++) {
+                building_view.setSquare(getSelectedPlayer(), tiles[i].position[0], tiles[i].position[1], ts.get_Color(), ts.windows[i]);
+            }
         }
     }
 

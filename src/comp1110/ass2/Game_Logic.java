@@ -12,7 +12,7 @@ public class Game_Logic {
     //players click the game start, and this will be a center control area
     int p_number;
     boolean isRunning = true;
-    List<Player> players = new ArrayList<>();
+    public List<Player> players = new ArrayList<>();
     HashMap<Player,Integer> players_turn= new HashMap<>();
     TilesShape B3=new TilesShape("B3", Colour.BLUE,3,0,0,1);
     TilesShape G4L=new TilesShape("G4L", Colour.GREEN,4,3,0,0);
@@ -35,8 +35,8 @@ public class Game_Logic {
             int name = i;
             players.add(new Player(name));
         }
-        players.get(0).br.is_Occupied(players.get(0),B3);
-        players.get(0).br.is_Occupied(players.get(0),G4L);
+//        players.get(0).br.is_Occupied(players.get(0),B3);
+//        players.get(0).br.is_Occupied(players.get(0),G4L);
     }
 
     public void add_turn(Player p){

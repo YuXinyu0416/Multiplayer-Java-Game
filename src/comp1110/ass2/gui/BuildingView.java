@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Grid;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -144,14 +145,17 @@ public class BuildingView extends GridPane {
     void show(int player, TilesShape ts, boolean valid) {
         show(player);
         var mark = new LibraryView.LibraryItem(ts.name);
+        //mark.rotate();
         for (int i = 0; i < mark.getSize(); i++) {
-            int x = ts.getX() + mark.getX(i);
-            int y = ts.getY() + mark.getY(i);
-            if (0 <= x && x < grid.length)
-                if (0 <= y && y < grid[x].length)
-                    grid[x][y].markPlacement(valid, ts.getWindow(i));
+                int x = ts.x + mark.getX(i);
+                int y = ts.y + mark.getY(i);
+                if (0 <= x && x < grid.length)
+                    if (0 <= y && y < grid[x].length)
+                        grid[x][y].markPlacement(valid, ts.getWindow(i));
+            }
         }
-    }
+
+
 
     static class SquareView extends StackPane {
         Rectangle outer;
@@ -220,4 +224,5 @@ public class BuildingView extends GridPane {
     void setColumnCoA(int player, int x, boolean highlightOn) {
 	showColCoA[player][x] = highlightOn;
     }
+
 }

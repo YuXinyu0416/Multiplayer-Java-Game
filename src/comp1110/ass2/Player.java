@@ -12,8 +12,8 @@ public class Player{
     int score=0;
     HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
     HashMap<Colour,Integer> ability_steps = new HashMap<>();// how many steps in this row that players have advanced
-    AbilityRegion ar=new AbilityRegion();
-    BuildingRegion br=new BuildingRegion();
+    public AbilityRegion ar=new AbilityRegion();
+    public BuildingRegion br=new BuildingRegion();
 
     public Player(int name) {
        //create a player

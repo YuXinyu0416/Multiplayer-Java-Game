@@ -152,7 +152,7 @@ class PlayerStateView extends GridPane {
         }
     }
 
-    void setScore(int player, int score) {
+    public void setScore(int player, int score) {
         this.score[player] = score;
     }
 

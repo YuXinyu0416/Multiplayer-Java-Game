@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Game_Start extends Application {
 
-    GameGUI gui;
-	Game_Logic gl;
+    static GameGUI gui;
+	public static Game_Logic gl;
 
     @Override
     public void start(Stage stage) throws Exception {
