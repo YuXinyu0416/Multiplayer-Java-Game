@@ -5,12 +5,14 @@ import comp1110.ass2.gui.Colour;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Round{
     static int number_rounds;
     Dices[] new_dices = new Dices[5];
     public HashMap<Colour,Integer> dices_color=new HashMap<>();
     public List<String> colours = new ArrayList<>();
+    public List<String> selected = new ArrayList<>();
 //    {
 //        dices_color.put(Colour.RED,3);
 //        dices_color.put(Colour.BLUE,1);
@@ -34,6 +36,7 @@ public class Round{
     public boolean isWhite(HashMap<Colour, Integer> dices_color){
         return dices_color.containsKey(Colour.WHITE)? true:false;
     }
+
 
 //    public void turn(){
 //       //which player is operating

@@ -3,6 +3,11 @@ package comp1110.ass2.gui;
 import java.util.List;
 import java.util.ArrayList;
 
+import comp1110.ass2.Game_Start;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
@@ -29,11 +34,11 @@ public class CheckBoxGroup {
 
     public void setOnSelectionChanged(IntConsumer handler) {
         for (int i = 0; i < size; i++) {
-	    final int fi = i;
+            final int fi = i;
             selectors[i].setOnAction(e -> {
-		    if (!inhibitSelectionEvent) handler.accept(fi);
-		});
-	}
+                if (!inhibitSelectionEvent) handler.accept(fi);
+            });
+        }
     }
 
     public List<Integer> getSelection() {
@@ -64,4 +69,23 @@ public class CheckBoxGroup {
         inhibitSelectionEvent = false;
     }
 
+    public void Listener_dices(IntConsumer handler) {
+        //BooleanProperty f = new SimpleBooleanProperty(true);
+        //selectors[i].setSelected(false);
+        inhibitSelectionEvent = true;
+        for(int i=0; i<size; i++) {
+            int finalI = i;
+                selectors[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                        int index = Game_Start.gl.rounds.size() - 1;
+                        if (!Game_Start.gl.Dices_canbe_selected(finalI)&&!Game_Start.gl.rounds.get(index).colours.get(finalI).equals(Colour.WHITE.name)) {
+                            selectors[finalI].setSelected(false);
+                            selectors[finalI].setDisable(true);
+                        }
+                    }
+                });
+            }
+        inhibitSelectionEvent=false;
+    }
 }

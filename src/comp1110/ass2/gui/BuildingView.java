@@ -144,13 +144,15 @@ public class BuildingView extends GridPane {
 
     void show(int player, TilesShape ts, boolean valid) {
         show(player);
-        var mark = new LibraryView.LibraryItem(ts.name);
+        Grid[] tiles = ts.set_tiles();
+        ts.Shape_change(tiles);
+        //var mark = new LibraryView.LibraryItem(ts.name);
         //mark.rotate();
-        for (int i = 0; i < mark.getSize(); i++) {
-                int x = ts.x + mark.getX(i);
-                int y = ts.y + mark.getY(i);
-                if (0 <= x && x < grid.length)
-                    if (0 <= y && y < grid[x].length)
+        for (int i = 0; i < tiles.length; i++) {
+                int x = tiles[i].position[0];
+                int y = tiles[i].position[1];
+                if (0 <= x && x < 5)
+                    if (0 <= y && y < 9)
                         grid[x][y].markPlacement(valid, ts.getWindow(i));
             }
         }

@@ -15,7 +15,7 @@ class DiceView extends GridPane {
 
     private int maxShowing;
     private Rectangle[] dice;
-    private CheckBoxGroup selected;
+    public CheckBoxGroup selected;
 
     // Make the constructor non-public
     DiceView(int width) {
@@ -40,7 +40,7 @@ class DiceView extends GridPane {
         }
     }
 
-    CheckBoxGroup selectors() {
+    public CheckBoxGroup selectors() {
         return selected;
     }
 
@@ -57,4 +57,7 @@ class DiceView extends GridPane {
         selected.disableRange(diceToShow.size(), maxShowing);
     }
 
+    public void setFalse (int i){
+        selected.selectors[i].setSelected(false);
+    }
 }

@@ -19,18 +19,19 @@ public class Game_Logic {
     TilesShape R3=new TilesShape("R3", Colour.RED,3,0,0,0);
     TilesShape R4=new TilesShape("R4", Colour.RED,4,0,0,0);
     TilesShape Y3=new TilesShape("Y3", Colour.YELLOW,3,1,0,0);
-    List<Round> rounds = new ArrayList<>();
+    public List<Round> rounds = new ArrayList<>();
     Grid[] tiles= Y3.set_tiles();
 //    enum Colors{
 //        RED, BLUE, YELLOW, PURPLE, WHITE, GREEN
 //    }
 
-    public Game_Logic(int player_number){
-        this.p_number=player_number;
+    public Game_Logic(){
+        //this.p_number=player_number;
         rounds.add(new Round());
     }
 
-    public void set_players(){
+    public void set_players(int player_number){
+        this.p_number = player_number;
         for(int i=0; i< p_number;i++){
             int name = i;
             players.add(new Player(name));
@@ -67,6 +68,56 @@ public class Game_Logic {
                 "" +
                 "" +
                 "");
+    }
+
+    public boolean Dices_canbe_selected(int i) {
+        int index = rounds.size() - 1;
+        boolean whether = true;
+        List<String> max_color = new ArrayList<>();
+        int max_value = 0;
+        for (Map.Entry<Colour, Integer> pair : rounds.get(index).dices_color.entrySet()) {
+            if (max_value == 0 || pair.getValue().compareTo(max_value) > 0) {
+                max_value = pair.getValue();
+                max_color.clear();
+                max_color.add(pair.getKey().toString());
+            } else if (pair.getValue().compareTo(max_value) == 0) {
+                max_color.add(pair.getKey().toString());
+            }
+        }
+
+        if(max_color.size()==1&&!max_color.get(0).equals(rounds.get(index).colours.get(i))){
+            whether = false;
+        }
+        else if(max_color.size()>2){
+            whether =false;
+            System.out.println("Must be rerolled!");
+        }
+        else{
+            boolean whether1 = true;
+            boolean whether2 = true;
+            whether = false;
+            if(!rounds.get(index).colours.get(i).equals(max_color.get(0))){
+                whether1 = false;
+            }
+            if(!rounds.get(index).colours.get(i).equals(max_color.get(1))){
+                whether2 = false;
+            }
+            if(whether1||whether2){
+                whether =true;
+            }
+        }
+
+        if(whether){
+            if(rounds.get(index).selected.isEmpty()){
+                rounds.get(index).selected.add(rounds.get(index).colours.get(i));
+            }
+            else{
+                if(!rounds.get(index).selected.contains(rounds.get(index).colours.get(i))){
+                    whether=false;
+                }
+            }
+        }
+        return whether;
     }
 
     public boolean tilesCanBeSelected(Player p, TilesShape ts){
@@ -135,7 +186,7 @@ public class Game_Logic {
     }
 
     public static void main(String[] args) {
-        Game_Logic gl=new Game_Logic(2);
+        Game_Logic gl=new Game_Logic();
         System.out.println(gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
         gl.Y3.rotation(gl.tiles);
         gl.Y3.rotation(gl.tiles);

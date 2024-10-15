@@ -173,32 +173,46 @@ public class LibraryView extends ListView<Object> {
 	private int rotation = 0; // 0-3
 
 	LibraryItem(String name) {
-	    this.name = name;
-	    var coordinates = tiles.get(name);
-	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
+//	    this.name = name;
+//	    var coordinates = tiles.get(name);
+//	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
+//		this.windows = new boolean[this.getSize()];
+//		windows[0] = false;
+//	    this.setBrick(0); // default all windows except 1st brick
+//	    if (name.equals("S1O")) this.setAllWindows(true);
+//		Random random = new Random();
+//		for(int i=0;i< windows.length;i++){
+//			windows[i]= random.nextBoolean();
+//		}
+		this.name = name;
+		var coordinates = tiles.get(name);
+		this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
 		this.windows = new boolean[this.getSize()];
-		windows[0] = false;
-	    this.setBrick(0); // default all windows except 1st brick
-	    if (name.equals("S1O")) this.setAllWindows(true);
-		Random random = new Random();
-		for(int i=0;i< windows.length;i++){
-			windows[i]= random.nextBoolean();
-		}
+		this.setBrick(0); // default all windows except 1st brick
+		if (name.equals("S1O")) this.setAllWindows(true);
 	}
 
 	LibraryItem(TilesShape ts) {
-	    name = ts.name;
-	    var coordinates = tiles.get(name);
-	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
-		windows = new boolean[this.getSize()];
-		windows[0] = false;
-		for(int i=0;i< windows.length;i++){
-			windows[i]= ts.getWindow(i);
-		}
-	    this.setBrick(0); // default all windows except 1st brick
-	    if (name.equals("S1O")) this.setAllWindows(true);
-	    for (int k = 0; k < ts.getRotation(); k++)
-		this.rotateAndShift();
+//	    name = ts.name;
+//	    var coordinates = tiles.get(name);
+//	    this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
+//		windows = new boolean[this.getSize()];
+//		windows[0] = false;
+//		for(int i=0;i< windows.length;i++){
+//			windows[i]= ts.getWindow(i);
+//		}
+//	    this.setBrick(0); // default all windows except 1st brick
+//	    if (name.equals("S1O")) this.setAllWindows(true);
+//	    for (int k = 0; k < ts.getRotation(); k++)
+//		this.rotateAndShift();
+		name = ts.name;
+		var coordinates = tiles.get(name);
+		this.brickCoords = fromCoordArrays(coordinates[0], coordinates[1]);
+		this.windows = new boolean[this.getSize()];
+		this.setBrick(0); // default all windows except 1st brick
+		if (name.equals("S1O")) this.setAllWindows(true);
+		for (int k = 0; k < ts.getRotation(); k++)
+			this.rotateAndShift();
 	}
 
 	static int[][] l2 = new int[][]{{0, 0}, {0, 1}};

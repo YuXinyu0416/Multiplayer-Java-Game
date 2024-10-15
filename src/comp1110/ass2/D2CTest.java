@@ -13,8 +13,8 @@ public class D2CTest {
     @Test
     public void test_tilesCanBeSelected(){
         System.out.println("Game_Logic gl=new Game_Logic(2)");
-        Game_Logic gl=new Game_Logic(2);
-        gl.set_players();
+        Game_Logic gl=new Game_Logic();
+        gl.set_players(2);
 
         System.out.println("TilesShape B3=new TilesShape(B3,BLUE,3,0,0,1)");
         TilesShape B3=new TilesShape("B3", Colour.BLUE,3,0,0,1);
@@ -34,8 +34,8 @@ public class D2CTest {
     @Test
     public void testTiles_canbe_Placed() {
         System.out.println("Game_Logic gl=new Game_Logic(2)");
-        Game_Logic gl=new Game_Logic(2);
-        gl.set_players();
+        Game_Logic gl=new Game_Logic();
+        gl.set_players(2);
 
         System.out.println("TilesShape Y3=new TilesShape(Y3,YELLOW,3,1,0,0)");
         TilesShape Y3=new TilesShape("Y3",Colour.YELLOW,3,1,0,0);

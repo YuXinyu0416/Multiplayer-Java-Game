@@ -16,7 +16,7 @@ public enum Colour {
 
 
     private Color fxColor;
-    private String name;
+    public String name;
 
     Colour(Color fxColor, String name) {
         this.fxColor = fxColor;

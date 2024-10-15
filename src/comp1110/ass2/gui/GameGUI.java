@@ -1,9 +1,6 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.BuildingRegion;
-import comp1110.ass2.Game_Start;
-import comp1110.ass2.Grid;
-import comp1110.ass2.Player;
+import comp1110.ass2.*;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -26,10 +23,10 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
 
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
-import java.util.List;
 
 public class GameGUI extends BorderPane {
 
@@ -40,17 +37,19 @@ public class GameGUI extends BorderPane {
     static final int LARGE_FONT_SIZE = 20;
     static final int MEDIUM_FONT_SIZE = 18;
     static final int SMALL_FONT_SIZE = 12;
+    static int current_now = 0;
 
     private static final Border boxBorder = new Border(new BorderStroke(Color.GREY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderStroke.MEDIUM));
 
     // GUI components
+    //public static Game_Logic gl;
     private Label current_player_view;
     private TabPane player_selector;
     private PlayerStateView player_view;
     public BuildingView building_view;
     private LibraryView library_view;
     private FlowPane price_view;
-    private DiceView dice_view;
+    public DiceView dice_view;
     private StackPane control_view;
     private Node game_setup_controls;
     private Node current_player_controls;
@@ -70,6 +69,10 @@ public class GameGUI extends BorderPane {
 
     private TilesShape candidate = null;
     private int candidate_index = -1;
+    private static List<String> availableTS = new ArrayList<>();
+    {
+        Collections.addAll(availableTS,"R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5");
+    }
 
     private void makeSetupControls() {
         VBox controls = new VBox();
@@ -163,6 +166,7 @@ public class GameGUI extends BorderPane {
 		control_view.getChildren().clear();
 		control_view.getChildren().add(game_setup_controls);
 		showState();
+        new Game_Start();
 	    });
 	int n = Math.min(finalScores.length, 4);
         controls.add(b_again, 0, n + 1, 2, 1);
@@ -199,6 +203,10 @@ public class GameGUI extends BorderPane {
             }
             if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tmp.set_tiles())){
                 setOnTilePlaced(onTilePlaced,tmp);
+                if(tmp.num_of_tile>3) {
+                    availableTS.remove(tmp.name);
+                    setAvailableTiles(availableTS);
+                }
                // LibraryView.LibraryItem.tiles.remove(tmp.name);
                 showState();
                 player.br.is_Occupied(player,tmp);
@@ -232,10 +240,42 @@ public class GameGUI extends BorderPane {
         b_pass = new Button("Pass (player #)");
         controls.add(b_pass, 0, 2);
 	b_pass.setOnAction((e) -> {
-		if (onPass != null) {
-           // int which = (player_selector.getSelectionModel().getSelectedIndex()+1) %
-		    onPass.accept(b_pass.getText());
-		    showState();
+		List<Player> players = Game_Start.gl.players;
+        if (onPass != null) {
+            int pno = players.size();
+            int which = (player_selector.getSelectionModel().getSelectedIndex()+1) % pno;
+            if(which == 0){
+                current_now=(current_now+1)%pno;
+                setSelectedPlayer(current_now);
+                setMessage("Now You Are Active Player!" );
+                onPass.accept(b_pass.getText());
+                setAvailableTiles(availableTS);
+                setAvailableActions(List.of("Reroll", "Give up", "End the game", "Colour change"));
+                Game_Start.gl.rounds.add(Game_Start.gl.rounds.size(),new Round());
+                setAvailableDice(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).colours);
+                clear_DicesSelection();
+                showState();
+            }
+            else {
+                if(Math.abs(current_now-which)<current_now) {
+                    setSelectedPlayer(Math.abs(current_now - which));
+                    setMessage("Now You Are Other Player!" );
+                    onPass.accept(b_pass.getText());
+                    setAvailableTiles(List.of(""));
+                    setAvailableActions(List.of("Give up", "End the game", "Colour change"));
+                    dices_remainder();
+                    showState();
+                }
+                else if(Math.abs(current_now-which)>=current_now){
+                    setSelectedPlayer((Math.abs(current_now - which)+1)%pno);
+                    setMessage("Now You Are Other Player!" );
+                    onPass.accept(b_pass.getText());
+                    setAvailableTiles(List.of(""));
+                    setAvailableActions(List.of("Give up", "End the game", "Colour change"));
+                    dices_remainder();
+                    showState();
+                }
+            }
 		}
 	    });
 //        b_reroll = new Button("Reroll");
@@ -518,8 +558,52 @@ public class GameGUI extends BorderPane {
      * @return a list of indices of the currently selected dice.
      */
     public List<Integer> getSelectedDice() {
-	return dice_view.selectors().getSelection();
+        return dice_view.selectors().getSelection();
     }
+
+    public void dices_remainder(){
+        //HashMap<Colour,Integer> all = new HashMap<>(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).dices_color);
+        //List<String> all = new ArrayList<>(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).colours);
+//        List<Integer> chosen = getSelectedDice();
+//        for(int i=0; i< 5; i++){
+//            if(!chosen.contains(i)){
+//                remainder.add(i);
+//            }
+//        }
+//        //return remainder;
+//        int index = Game_Start.gl.rounds.size()-1;
+//        HashMap<Colour,Integer> dices_colors = Game_Start.gl.rounds.get(index).dices_color;
+//        List<String> max_color = new ArrayList<>();
+//        int max_value = 0;
+//        for (Map.Entry<Colour, Integer> pair : dices_colors.entrySet()) {
+//            if (max_value == 0 || pair.getValue().compareTo(max_value) > 0) {
+//                max_value = pair.getValue();
+//                max_color.clear();
+//                max_color.add(pair.getKey().toString());
+//            } else if (pair.getValue().compareTo(max_value) == 0) {
+//                max_color.add(pair.getKey().toString());
+//            }
+//        }
+//        List<String> colours = Game_Start.gl.rounds.get(index).colours;
+//
+//        for(String c:max_color){
+//            for(int i=0; i< dice_view.selected.size;i++){
+//                if(colours.get(i).equals(c)){
+//
+//                }
+//            }
+//        }
+        dice_view.selected.enableRange(0,4);
+        List<Integer> exclude = getSelectedDice();
+        for(int index:exclude) {
+            for (int i = 0; i < dice_view.selected.size; i++) {
+                if (i == index) {
+                    dice_view.selected.selectors[i].setDisable(true);
+                }
+            }
+            }
+        }
+
 
     /**
      * Set the square at (x,y) in the specified player's building
@@ -675,7 +759,7 @@ public class GameGUI extends BorderPane {
      * can ignore the second argument.)
      */
     public void setOnStartGame(BiConsumer<Integer, boolean[]> handler) {
-	    onStartGame = handler;
+        onStartGame = handler;
     }
 
     /**
@@ -734,13 +818,41 @@ public class GameGUI extends BorderPane {
      * changed, not whether the die is now selected or unselected. You
      * can use the `getSelectedDice()` method to get the indices of
      * currently selected dice.
+     *
      */
+
     public void setOnDiceSelectionChanged(IntConsumer handler) {
-	dice_view.selectors().setOnSelectionChanged((i) -> {
-		handler.accept(i);
-		showState();
-	    });
+//        List<Integer> which = dice_view.selectors().getSelection();
+//        if (!which.isEmpty()) {
+//            int dice = which.get(which.size() - 1);
+//            dice_view.selectors().Listener_dices(dice);
+//
+//        }
+
+            dice_view.selectors().Listener_dices((i) -> {
+            });
+//        }
+//        else{
+//            dice_view.selected.setOnSelectionChanged((i)-> {
+//            });
+
     }
+
+    public void clear_DicesSelection(){
+        dice_view.selectors().clearSelection();
+    }
+
+
+
+
+
+//    public void setOnDiceSelectionChanged(IntConsumer handler) {
+//        dice_view.selectors().setOnSelectionChanged((i) -> {
+//            handler.accept(i);
+//            showState();
+//        });
+//    }
+
 
     /**
      * Set the event handler to be called when the user changes the
@@ -753,10 +865,19 @@ public class GameGUI extends BorderPane {
      * of currently selected tracks.
      */
     public void setOnTrackSelectionChanged(IntConsumer handler) {
-	player_view.getTrackSelectors().setOnSelectionChanged((i) -> {
-		handler.accept(i);
-		showState();
-	    });
+        player_view.getTrackSelectors().setOnSelectionChanged((i) -> {
+            int p = getSelectedPlayer();
+            List<Integer> index = getSelectedTracks();
+            if(index.size()==1) {
+                int e = Game_Start.gl.rounds.size()-1;
+                List<String> colours = Game_Start.gl.rounds.get(e).colours;
+                Colour c = Game_Start.gl.players.get(p).ar.get_color(index.get(0));
+                Game_Start.gl.players.get(p).advance_steps(c,1);
+                player_view.setTrackInfo(p,c.toString(),1,0,0,0,0);
+            }
+            handler.accept(i);
+            showState();
+        });
     }
 
     /**
@@ -787,6 +908,10 @@ public class GameGUI extends BorderPane {
     public void setOnGameAction(Consumer<String> handler) {
         onGameAction = handler;
     }
+
+//    public List<Integer> getSelectionD(){
+//        return dice_view.selected.getSelection();
+//    }
 
     // /**
     //  * Set the event handler to be called when the "Reroll" button is

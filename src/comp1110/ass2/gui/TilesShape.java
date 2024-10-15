@@ -105,7 +105,7 @@ public class TilesShape {
     }
 
     public void rotateClockwise(){
-        this.rotation=(this.rotation+1)%4;
+        rotation=(rotation+1)%4;
     }
 
     public void setNoBrick() {
