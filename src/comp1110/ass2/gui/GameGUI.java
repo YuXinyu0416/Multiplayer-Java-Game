@@ -58,6 +58,7 @@ public class GameGUI extends BorderPane {
     private Button b_pass;
     private MenuButton b_colour_change;
 
+
     private BiConsumer<Integer, boolean[]> onStartGame;
     private Consumer<String> onTileSelected;
     private Consumer<TilesShape> onTilePlaced;
@@ -67,11 +68,22 @@ public class GameGUI extends BorderPane {
     //private Consumer<String> onReroll;
     //private Consumer<String> onColourChange;
 
-    private TilesShape candidate = null;
+    public TilesShape candidate = null;
     private int candidate_index = -1;
-    private static List<String> availableTS = new ArrayList<>();
+    private static String[] players;
+    public static List<String> availableTS = new ArrayList<>();
     {
         Collections.addAll(availableTS,"R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5");
+    }
+//    {
+//        players[0] = "has player one time";
+//    }
+    private static int which_player= 1;
+    private static boolean last_round;
+
+    public void setonAvailablePlayers(int np){
+        players = new String[np];
+        players[0] = "has player one time";
     }
 
     private void makeSetupControls() {
@@ -240,13 +252,15 @@ public class GameGUI extends BorderPane {
         b_pass = new Button("Pass (player #)");
         controls.add(b_pass, 0, 2);
 	b_pass.setOnAction((e) -> {
-		List<Player> players = Game_Start.gl.players;
         if (onPass != null) {
-            int pno = players.size();
-            int which = (player_selector.getSelectionModel().getSelectedIndex()+1) % pno;
-            if(which == 0){
+            int pno = players.length;
+            //int which = speed-1;
+            if(which_player == 0){
+                players = new String[pno];
                 current_now=(current_now+1)%pno;
+                players[current_now]= "has played one time";
                 setSelectedPlayer(current_now);
+                last_round =false;
                 setMessage("Now You Are Active Player!" );
                 onPass.accept(b_pass.getText());
                 setAvailableTiles(availableTS);
@@ -255,28 +269,33 @@ public class GameGUI extends BorderPane {
                 setAvailableDice(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).colours);
                 clear_DicesSelection();
                 showState();
+                which_player = (which_player+1)%pno;
             }
             else {
-                if(Math.abs(current_now-which)<current_now) {
-                    setSelectedPlayer(Math.abs(current_now - which));
-                    setMessage("Now You Are Other Player!" );
-                    onPass.accept(b_pass.getText());
-                    setAvailableTiles(List.of(""));
-                    setAvailableActions(List.of("Give up", "End the game", "Colour change"));
-                    dices_remainder();
-                    showState();
+                int this_turn = 0;
+//                boolean isFull = true;
+                for(int i=0;i<pno;i++){
+                    if(players[i]==null){
+                        //isFull=false;
+                        this_turn=i;
+                        break;
+                    }
                 }
-                else if(Math.abs(current_now-which)>=current_now){
-                    setSelectedPlayer((Math.abs(current_now - which)+1)%pno);
-                    setMessage("Now You Are Other Player!" );
+                    setSelectedPlayer(this_turn);
+                    which_player = (which_player+1)%pno;
+                    players[this_turn] = "has played one time";
+                    setAvailableActions(List.of("Give up", "End the game", "Colour change"));
+                    if(!last_round) {
+                        dices_remainder();
+                        last_round = true;
+                    }
+                    clear_DicesSelection();
+                    setMessage("Now You Are Other Player!");
                     onPass.accept(b_pass.getText());
                     setAvailableTiles(List.of(""));
-                    setAvailableActions(List.of("Give up", "End the game", "Colour change"));
-                    dices_remainder();
                     showState();
                 }
             }
-		}
 	    });
 //        b_reroll = new Button("Reroll");
 //        b_reroll.setOnAction((e) -> {
@@ -543,6 +562,10 @@ public class GameGUI extends BorderPane {
     public void setAvailableDice(List<String> colours) {
 	dice_view.selectors().clearSelection();
 	dice_view.show(colours);
+    }
+
+    public int getCurrent_now(){
+        return current_now;
     }
 
     /**

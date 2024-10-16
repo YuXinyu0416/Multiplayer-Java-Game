@@ -113,6 +113,7 @@ public class Game_Logic {
             }
             else{
                 if(!rounds.get(index).selected.contains(rounds.get(index).colours.get(i))){
+                    if(!max_color.get(0).equals(Colour.WHITE.name))
                     whether=false;
                 }
             }

@@ -1,5 +1,6 @@
 package comp1110.ass2;
 
+import com.sun.jdi.Value;
 import comp1110.ass2.gui.Colour;
 import comp1110.ass2.gui.TilesShape;
 
@@ -29,11 +30,12 @@ public class AbilityRegion{
     }
     // all abilities players can get in this game
 
-    public void redStar_reroll(HashMap<Colour,Integer> dices_color, List<Colour> change){
+    public void redStar_reroll(HashMap<Colour,Integer> dices_color, List<String> colours, List<Integer> change){
         for(int i=0;i<change.size();i++){
             Random random = new Random();
-            dices_color.put(change.get(i), dices_color.get(change.get(i))-1);
+            dices_color.put(Colour.valueOf(colours.get(change.get(i))), dices_color.get(change.get(i))-1);
             Colour new_color = AbilityRegion.colors.get(random.nextInt(6));
+            colours.set(change.get(i),new_color.toString());
             dices_color.put(new_color, dices_color.getOrDefault(new_color,0)+1);
         }
     }

@@ -10,7 +10,7 @@ public class Player{
     //String id; // the primary key of player
     int name; // need to be scanner in by player
     int score;
-    HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
+    public HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
     HashMap<Colour,Integer> ability_steps = new HashMap<>();// how many steps in this row that players have advanced
     public AbilityRegion ar=new AbilityRegion();
     public BuildingRegion br=new BuildingRegion();
