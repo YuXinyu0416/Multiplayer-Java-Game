@@ -6,11 +6,14 @@ import comp1110.ass2.Player;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -25,10 +28,21 @@ public class Dialogs extends Application {
     int height = 40;
 
     @Override
-    public void start(Stage stage) {
-        dialog.setX(stage.getX() + (stage.getWidth() - dialog.getWidth()) / 2);
-        dialog.setY(stage.getY() + (stage.getHeight() - dialog.getHeight()) / 2);
-        dialog.showAndWait();
+    public  void start(Stage stage){
+
+    }
+
+    public void show() {
+//        dialog.setX(stage.getX() + (stage.getWidth() - dialog.getWidth()) / 2);
+//        dialog.setY(stage.getY() + (stage.getHeight() - dialog.getHeight()) / 2);
+//        dialog.showAndWait();
+            dialog.setResizable(true);
+            dialog.getDialogPane().setStyle("-fx-padding: 20; -fx-background-color: #dafafa;");
+        Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        dialogStage.setX((screenBounds.getWidth() - dialogStage.getWidth()) / 2);
+        dialogStage.setY((screenBounds.getHeight() - dialogStage.getHeight()) / 2);
+        dialog.show();
     }
 
     public void setShieldChoice(int p) {
@@ -41,6 +55,9 @@ public class Dialogs extends Application {
         choiceBox.setItems(options);
         dialog.setTitle(title);
         GridPane grid = new GridPane();
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(10));
         grid.add(new Label("Rabbit Ability:"), 0, 0);
         grid.add(choiceBox, 1, 0);
         dialog.getDialogPane().setContent(grid);
@@ -50,15 +67,15 @@ public class Dialogs extends Application {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 String selectedOption = choiceBox.getValue();
-                handleSelectedOption(selectedOption, p);
+                //handleSelectedOption(selectedOption, p);
                 return selectedOption;
             }
             return null;
         });
-        dialog.showAndWait();
+        //dialog.showAndWait();
     }
 
-public void setAbilityChoice(int player){
+    public void setAbilityChoice(int player){
         this.title = "Make a choice please~";
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         List<String> p_abilities = new ArrayList<>();
@@ -69,6 +86,9 @@ public void setAbilityChoice(int player){
         choiceBox.setItems(options);
         dialog.setTitle(title);
         GridPane grid = new GridPane();
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(10));
         grid.add(new Label("Your Ability:"), 0, 0);
         grid.add(choiceBox, 1, 0);
         dialog.getDialogPane().setContent(grid);
@@ -78,12 +98,12 @@ public void setAbilityChoice(int player){
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 String selectedOption = choiceBox.getValue();
-                handleSelectedOption(selectedOption, player);
+                //handleSelectedOption(selectedOption, player);
                 return selectedOption;
             }
             return null;
         });
-        dialog.showAndWait();
+        //dialog.showAndWait();
     }
 
 
@@ -96,6 +116,9 @@ public void setAbilityChoice(int player){
         choiceBox.setItems(options);
         dialog.setTitle(title);
         GridPane grid = new GridPane();
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(10));
         grid.add(new Label("Colours:"), 0, 0);
         grid.add(choiceBox, 1, 0);
         dialog.getDialogPane().setContent(grid);
@@ -116,7 +139,7 @@ public void setAbilityChoice(int player){
             }
             return null;
         });
-        dialog.showAndWait();
+        //dialog.showAndWait();
     }
 
     public void setHint(){
@@ -125,54 +148,6 @@ public void setAbilityChoice(int player){
 
     //, , , , , , , , ,
     //        ,
-    private void handleSelectedOption(String selectedOption, int player) {
-        Player which_player = Game_Start.gl.players.get(player);
-        int i=Game_Start.gl.rounds.size()-1;
-        switch (selectedOption){
-            case "Draw one tile with carrot":
-                TilesShape S1O = which_player.ar.Shield1_window_tile();
-                GameGUI.availableTS.add("S1O");
-                Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
-                break;
-            case "Choose an ability track and advance 2 steps":
-                int index = Game_Start.gui.dice_view.selected.getSelection().get(0);
-                which_player.advance_steps(which_player.ar.get_color(index),2);
-                break;
-            case "redStar":
-                which_player.ar.redStar_reroll(Game_Start.gl.rounds.get(i).dices_color,Game_Start.gl.rounds.get(i).colours, Game_Start.gui.dice_view.selected.getSelection());
-                Game_Start.gui.setAvailableDice(Game_Start.gl.rounds.get(i).colours);
-                break;
-            case "blueStar":
-                which_player.ar.blueStar_all_windows(Game_Start.gui.candidate);
-                break;
-            case "greenStar":
-                setColourChoice(player);
-                break;
-            case "yellowStar":
-                Game_Start.gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
-                which_player.ar.yellowStar_pick_one(Game_Start.gui.candidate);
-                Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
-                break;
-            case "purpleStar":
-                TilesShape S1X = which_player.ar.purpleStar_extra_tile();
-                GameGUI.availableTS.add("S1X");
-                Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
-                break;
-            case "RedPlusSign":
-                Game_Start.gl.rounds.get(i).dices_color.put(Colour.RED, Game_Start.gl.rounds.get(i).dices_color.getOrDefault(Colour.RED, 0) + 1);
-                break;
-            case "YellowPlusSign":
-                Game_Start.gl.rounds.get(i).dices_color.put(Colour.YELLOW, Game_Start.gl.rounds.get(i).dices_color.getOrDefault(Colour.YELLOW, 0) + 1);
-                break;
-            case "GreenPlusSign":
-                Game_Start.gl.rounds.get(i).dices_color.put(Colour.GREEN, Game_Start.gl.rounds.get(i).dices_color.getOrDefault(Colour.GREEN, 0) + 1);
-                break;
-            case "PurplePlusSign":
-                Game_Start.gl.rounds.get(i).dices_color.put(Colour.PURPLE, Game_Start.gl.rounds.get(i).dices_color.getOrDefault(Colour.PURPLE, 0) + 1);
-                break;
-            case "BluePlusSign":
-                Game_Start.gl.rounds.get(i).dices_color.put(Colour.BLUE, Game_Start.gl.rounds.get(i).dices_color.getOrDefault(Colour.BLUE, 0) + 1);
-                break;
-        }
-    }
+
 }
+

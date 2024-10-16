@@ -40,13 +40,13 @@ public class Player{
         return ar.ability_region.get(row);
     }
 
-    public void advance_steps(Colour c, int step){
+    public void advance_steps(Player p, Colour c, int step){
         //add steps to make players advance in the ability track and return this step number to determine
         //whether players can get corresponding abilities
         if(ability_steps.get(c)<5) {
             ability_steps.put(c, ability_steps.getOrDefault(c, 0) + step);
-            ar.get_ability(this, c);
-            ar.isFilled(this, c);
+            ar.get_ability(p, c);
+            ar.isFilled(p, c);
         }
     }
 

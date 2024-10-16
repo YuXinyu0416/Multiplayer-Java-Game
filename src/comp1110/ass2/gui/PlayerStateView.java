@@ -156,14 +156,15 @@ class PlayerStateView extends GridPane {
         this.score[player] = score;
     }
 
-    void setTrackInfo(int player, String colour, int nMarked,
-		      int nBonusAvailable, int nAbilityAvailable,
-		      int nBonusToNext, int nAbilityToNext) {
-	trackInfo.get(player).get(colour)[0] = nMarked;
-	trackInfo.get(player).get(colour)[1] = nBonusToNext;
-	trackInfo.get(player).get(colour)[2] = nAbilityToNext;
-	trackInfo.get(player).get(colour)[3] = nBonusAvailable;
-	trackInfo.get(player).get(colour)[4] = nAbilityAvailable;
+    void setTrackInfo(int player, String colour, int[] info) {
+	trackInfo.get(player).get(colour)[0] = info[0];
+	trackInfo.get(player).get(colour)[1] = info[1];
+	trackInfo.get(player).get(colour)[2] = info[2];
+	trackInfo.get(player).get(colour)[3] = info[3];
+	trackInfo.get(player).get(colour)[4] = info[4];
     }
 
+    int[] getTrackInfo(int player, String colour) {
+        return trackInfo.get(player).get(colour);
+    }
 }

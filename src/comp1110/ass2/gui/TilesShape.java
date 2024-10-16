@@ -132,7 +132,11 @@ public class TilesShape {
     }
 
     public void Shape_change(Grid[] tiles) {
-        if (this.num_of_tile==2) {
+        if(this.num_of_tile==1){
+            tiles[0].position[0]=this.x;
+            tiles[0].position[1]=this.y;
+        }
+        else if (this.num_of_tile==2) {
             if (this.rotation==0) {
                 tiles[1].position[0]=this.x;
                 tiles[1].position[1]=this.y+1;

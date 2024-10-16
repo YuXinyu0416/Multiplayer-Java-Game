@@ -1,5 +1,6 @@
 package comp1110.ass2;
 
+import comp1110.ass2.gui.GameGUI;
 import comp1110.ass2.gui.TilesShape;
 
 public class BuildingRegion{
@@ -85,11 +86,7 @@ public class BuildingRegion{
                 p.add_score(1);
             }
             if(row_ss1.isTouched(row)||row_ss2.isTouched(row)||row_ss3.isTouched(row)){
-                if(true) {
-                    p.ar.Shield1_window_tile();
-                }else {
-                    p.ar.Shield2_two_steps(p, 1);
-                }
+                Game_Start.gui.b_rabbits.setDisable(false);
             }
         }
     }
@@ -114,11 +111,7 @@ public class BuildingRegion{
                 p.add_score(2);
             }
             if(column_ss1.isTouched(column)|| column_ss2.isTouched(column)){
-                if(true) {
-                    p.ar.Shield1_window_tile();
-                }else {
-                    p.ar.Shield2_two_steps(p, 1);
-                }
+                Game_Start.gui.b_rabbits.setDisable(false);
             }
         }
     }

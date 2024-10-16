@@ -2,6 +2,10 @@ package comp1110.ass2.gui;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public enum Colour {
     RED(Color.RED, "Red"),
     BLUE(Color.BLUE, "Blue"),
@@ -11,8 +15,6 @@ public enum Colour {
     WHITE(Color.WHITE, "White"),
     GRAY(Color.GREY, "Gray"),
     MISTYROSE(Color.MISTYROSE, "MistyRose");
-
-
 
 
     private Color fxColor;

@@ -87,7 +87,7 @@ public class AbilityRegion{
     }
 
     public void Shield2_two_steps(Player p, int row){
-        p.advance_steps(p.ar.get_color(row),2);
+        p.advance_steps(p, p.ar.get_color(row),2);
     }
 
     public Colour get_color(int row){

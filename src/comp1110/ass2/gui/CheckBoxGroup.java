@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -43,9 +44,18 @@ public class CheckBoxGroup {
 
     public List<Integer> getSelection() {
         ArrayList<Integer> sel = new ArrayList<>();
-        for (int i = 0; i < selectors.length; i++)
-            if (selectors[i].isSelected()) sel.add(i);
-        return sel;
+        int index =-1;
+        for (int i = 0; i < selectors.length; i++) {
+            if (selectors[i].isSelected()) {
+                sel.add(i);
+                index = i;
+            }
+        }
+        if(sel.size()>1) {
+            return sel;
+        }else{
+            return Collections.singletonList(index);
+        }
     }
 
     public void enableRange(int from, int to) {
@@ -85,7 +95,7 @@ public class CheckBoxGroup {
                             selectors[finalI].setDisable(true);
                         }
                         if(p!=Game_Start.gui.getCurrent_now()){
-                            
+
                         }
                     }
                 });
