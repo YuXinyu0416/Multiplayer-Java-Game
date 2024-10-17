@@ -106,7 +106,7 @@ public class GameGUI extends BorderPane {
     public static boolean ys_ability =false;
     public static boolean can_place = true;
     private static TilesShape dice_remainder;
-    public static boolean whether_click = false;
+    public static boolean whether_click = true;
 
     public void setonAvailablePlayers(int np){
         players = new String[np];
@@ -326,8 +326,8 @@ public class GameGUI extends BorderPane {
             t_hint1.setDisable(true);
             t_hint2.setDisable(true);
             can_place = true;
-//            player_view.selectors.clearSelection();
-//            player_view.selectors.enableRange(0,5);
+            player_view.selectors.clearSelection();
+            player_view.selectors.enableRange(0,5);
             dice_view.selected.clearSelection();
             //Player player = Game_Start.gl.players.get(getSelectedPlayer());
             //int which = speed-1;
@@ -364,6 +364,7 @@ public class GameGUI extends BorderPane {
                     setSelectedPlayer(this_turn);
                     can_place = false;
                     //whether_pass = false;
+                    whether_click = true;
                     advanceListener();
                     t_hint2.setDisable(false);
                     updateAbilityMenu();
@@ -1145,7 +1146,7 @@ public class GameGUI extends BorderPane {
                 player_view.selectors.selectors[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if (oldValue && !newValue) {
+                        if (oldValue && !newValue&&whether_click) {
                             player_view.selectors.enableRange(0, 5);
                             withdrawTrackInfo(p, player.ar.get_color(finalI).toString(), 1);
                             player.withdrawSteps(player.ar.get_color(finalI), 1);
@@ -1259,6 +1260,7 @@ public class GameGUI extends BorderPane {
             case "Draw one tile with carrot":
                 TilesShape S1O = new TilesShape("S1O", Colour.GRAY, 1,0,0,0);
                 S1O.windows[0] = true;
+                can_place = true;
                 GameGUI.availableTS.add("S1O");
                 if(player==current_now) {
                     Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
@@ -1295,6 +1297,7 @@ public class GameGUI extends BorderPane {
             case "purpleStar":
                 TilesShape S1X = new TilesShape("S1X", Colour.GRAY, 1,0,0,0);
                 GameGUI.availableTS.add("S1X");
+                can_place = true;
                 if(player==current_now) {
                     Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
                 }

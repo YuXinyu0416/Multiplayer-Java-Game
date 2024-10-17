@@ -48,6 +48,8 @@ public class Game_Start extends Application {
 		//gui.setAbilityMenu(List.of("greenStar", "redStar", "blueStar", "yellowStar", "purpleStar",
 		//		"RedPlusSign", "YellowPlusSign", "GreenPlusSign", "PurplePlusSign", "BluePlusSign"));
 		gui.setAbilityMenu(List.of("redStar", "redStar"));
+		gl.players.get(0).store_ability(AbilityRegion.Abilities.getAbility("redStar"));
+		gl.players.get(0).store_ability(AbilityRegion.Abilities.getAbility("redStar"));
 		gui.setColourMenu(GameGUI.colours);
 		gui.setShieldsMenu(GameGUI.rabbit_a);
 		//gui.checkBoxInitial();
@@ -59,13 +61,9 @@ public class Game_Start extends Application {
 		});
 
 		gui.setOnTrackSelectionChanged((i) -> {
-		GameGUI.whether_click = true;
 		gui.setMessage("track selection: " + gui.getSelectedTracks());
 		gui.advanceListener();
-		if(GameGUI.whether_click) {
-			gui.withdrawListener();
-		}
-		GameGUI.whether_click = false;
+		gui.withdrawListener();
 		});
 
 		gui.setOnRabbitAction((s) -> {
