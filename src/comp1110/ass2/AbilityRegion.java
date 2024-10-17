@@ -3,6 +3,7 @@ package comp1110.ass2;
 import com.sun.jdi.Value;
 import comp1110.ass2.gui.Colour;
 import comp1110.ass2.gui.TilesShape;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -25,8 +26,35 @@ public class AbilityRegion{
     }
 
     public enum Abilities {
-        redStar, blueStar, greenStar, yellowStar, purpleStar, RedPlusSign, YellowPlusSign, GreenPlusSign, PurplePlusSign,
-        BluePlusSign, Shield1, Shield2
+        redStar ("redStar"),
+        blueStar ("blueStar"),
+        greenStar ("greenStar"),
+        yellowStar ("yellowStar"),
+        purpleStar ("purpleStar"),
+        RedPlusSign ("RedPlusSign"),
+        YellowPlusSign ("YellowPlusSign"),
+        GreenPlusSign ("GreenPlusSign"),
+        PurplePlusSign ("PurplePlusSign"),
+        BluePlusSign ("BluePlusSign");
+
+        public String name;
+
+        Abilities(String name) {
+            this.name = name;
+        }
+
+        public static Abilities getAbility(String name) {
+            for (var value : Abilities.values()) {
+                if (value.toString().startsWith(name)) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        public String toString() {
+            return name;
+        }
     }
     // all abilities players can get in this game
 

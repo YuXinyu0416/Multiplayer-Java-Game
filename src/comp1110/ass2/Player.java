@@ -60,65 +60,52 @@ public class Player{
        return ability_steps.get(c);
     }
 
-    public boolean choose_tiles_rules(HashMap<Colour,Integer> dices_color, TilesShape ts, boolean isWhite){
+    public boolean choose_tiles_rules(HashMap<Colour,Integer> dices_color, TilesShape ts, boolean isWhite) {
         //based on the max_same_color, which is gotten from Class RollRegion, players need to choose which
         //tiles they want, and max_same_color is a constraint on players
-        List<Colour> max_color=new ArrayList<>();
-        int max_value=0;
-        for(Map.Entry<Colour,Integer> pair :dices_color.entrySet()){
-            if(max_value==0|| pair.getValue().compareTo(max_value)>0){
-                max_value=pair.getValue();
-                max_color.clear();
-                max_color.add(pair.getKey());
-            }
-            else if(pair.getValue().compareTo(max_value)==0){
-                max_color.add(pair.getKey());
+        List<Colour> max_color = new ArrayList<>();
+        int num_white=-1;
+        if (isWhite) {
+            num_white = dices_color.get(Colour.WHITE);
+            //dices_color.remove(Colour.WHITE);
+        }
+        int max_value = 0;
+        for (Map.Entry<Colour, Integer> pair : dices_color.entrySet()) {
+            if (!pair.getKey().equals(Colour.WHITE)) {
+                if (max_value == 0 || pair.getValue().compareTo(max_value) > 0) {
+                    max_value = pair.getValue();
+                    max_color.clear();
+                    max_color.add(pair.getKey());
+                } else if (pair.getValue().compareTo(max_value) == 0) {
+                    max_color.add(pair.getKey());
+                }
             }
         }
 
-        Colour color1;
-        Colour color2;
-        boolean can_be_selected=false;
-        if(max_color.size()>2){
-            System.out.println("You cannot select any tiles!");
-        }
-        else if(max_color.size()<2){
-            color1=max_color.get(0);
-            if(ts.get_Color().equals(color1)){
-                int num=0;
-                for(Map.Entry<Colour,Integer> pair:dices_color.entrySet()){
-                    if(pair.getKey().equals(color1)){
-                        num=pair.getValue();
+        boolean can_be_selected = false;
+        if (isWhite) {
+                if (max_color.contains(ts.get_Color())) {
+                    int num = max_value+num_white;
+                    if (ts.num_of_tile <= num) {
+                        can_be_selected = true;
                     }
                 }
-                if(isWhite&&(ts.num_of_tile<=(num+1))){
-                    can_be_selected=true;
-                }
-                else if(!isWhite&&ts.num_of_tile<=num){
-                    can_be_selected=true;
+            }
+        else {
+            if (max_color.size() > 2) {
+                System.out.println("You cannot select any tiles!");
+            }
+            else {
+                if (max_color.contains(ts.get_Color())) {
+                    int num = max_value;
+                    if (ts.num_of_tile <= num) {
+                        can_be_selected = true;
+                    }
                 }
             }
         }
-        else{
-            color1=max_color.get(0);
-            color2=max_color.get(1);
-            if(ts.get_Color().equals(color1)||ts.get_Color().equals(color2)){
-                int num=0;
-                for(Map.Entry<Colour,Integer> pair:dices_color.entrySet()){
-                    if(pair.getKey().equals(color1)){
-                        num=pair.getValue();
-                    }
-                }
-                if(isWhite&&(ts.num_of_tile<=num+1)){
-                    can_be_selected=true;
-                }
-                else if(!isWhite&&ts.num_of_tile<=num){
-                    can_be_selected=true;
-                }
-            }
-        }
-        return can_be_selected;
-    }
+    return can_be_selected;
+}
 
     public HashMap<AbilityRegion.Abilities, Integer> store_ability(AbilityRegion.Abilities a){
         //input some abilities name to store
@@ -127,7 +114,7 @@ public class Player{
     }
 
     public void use_ability(String a){
-        AbilityRegion.Abilities a_u = AbilityRegion.Abilities.valueOf(a);
+        AbilityRegion.Abilities a_u = AbilityRegion.Abilities.getAbility(a);
         abilities.put(a_u,abilities.get(a_u)-1);
     }
 

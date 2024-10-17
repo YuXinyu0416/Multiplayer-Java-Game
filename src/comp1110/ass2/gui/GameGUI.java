@@ -98,6 +98,7 @@ public class GameGUI extends BorderPane {
 //    }
     private static int which_player= 1;
     private static boolean last_turn;
+    public static boolean ys_ability =false;
 
     public void setonAvailablePlayers(int np){
         players = new String[np];
@@ -238,7 +239,7 @@ public class GameGUI extends BorderPane {
 	    b_confirm.setOnAction((e) -> {
             int p = player_selector.getSelectionModel().getSelectedIndex();
             Player player = Game_Start.gl.players.get(p);
-		if (candidate != null&&(Game_Start.gl.tilesCanBeSelected(player, candidate)||candidate.name.equals("S1O")||candidate.name.equals("S1X"))) {
+		if (candidate != null&&((p ==current_now&&Game_Start.gl.tilesCanBeSelected(player, candidate))||candidate.name.equals("S1O")||candidate.name.equals("S1X")||(ys_ability&&candidate.num_of_tile>=4))) {
 		    TilesShape tmp = new TilesShape(candidate);
 		    candidate = null;
 		    library_view.clearSelection();
@@ -249,7 +250,7 @@ public class GameGUI extends BorderPane {
             tmp.Shape_change(tiles);
             if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tiles)){
                 setOnTilePlaced(onTilePlaced,tmp);
-                if(tmp.num_of_tile>3) {
+                if(!ys_ability&&(tmp.num_of_tile>3||tmp.name.equals("S1O")||tmp.name.equals("S1X"))) {
                     availableTS.remove(tmp.name);
                     setAvailableTiles(availableTS);
                 }
@@ -300,6 +301,7 @@ public class GameGUI extends BorderPane {
             player_view.selectors.clearSelection();
             setAbilityMenu(List.of("You have no ability now"));
             whether_endGame(getSelectedPlayer());
+            ys_ability = false;
             //Player player = Game_Start.gl.players.get(getSelectedPlayer());
             //int which = speed-1;
             if(which_player == 0){
@@ -839,7 +841,8 @@ public class GameGUI extends BorderPane {
         int p = getSelectedPlayer();
         //int index = Game_Start.gl.rounds.size()-1;
         Player player = Game_Start.gl.players.get(p);
-        player.abilities.put(AbilityRegion.Abilities.valueOf(a),player.abilities.get(AbilityRegion.Abilities.valueOf(a))-1);
+        AbilityRegion.Abilities a_r = AbilityRegion.Abilities.getAbility(a);
+        player.abilities.put(a_r,player.abilities.get(a_r)-1);
     }
 
     /**
@@ -1073,8 +1076,15 @@ public class GameGUI extends BorderPane {
 
     public void updateAbilityMenu() {
         int p = getSelectedPlayer();
+        Player player = Game_Start.gl.players.get(p);
+        boolean whether_empty = true;
+        for(Map.Entry<AbilityRegion.Abilities,Integer> pairs:player.abilities.entrySet()){
+            if(pairs.getValue()!=0){
+                whether_empty = false;
+            }
+        }
         List<String> abilities = new ArrayList<>();
-        if (!Game_Start.gl.players.get(p).abilities.isEmpty()) {
+        if (!whether_empty) {
             for (Map.Entry<AbilityRegion.Abilities, Integer> pairs : Game_Start.gl.players.get(p).abilities.entrySet()) {
                 abilities.add(String.valueOf(pairs.getKey()));
                 //abilities.add("nothing here");
@@ -1130,10 +1140,12 @@ public class GameGUI extends BorderPane {
         onColourChange = handler;
     }
 
-    public void handleSelectedOption(String selectedOption, int player) {
+    public void executeAbility(String ability, int player) {
         Player which_player = Game_Start.gl.players.get(player);
         int i=Game_Start.gl.rounds.size()-1;
-        switch (selectedOption){
+        use_a(ability);
+        updateAbilityMenu();
+        switch (ability){
             case "Draw one tile with carrot":
                 TilesShape S1O = new TilesShape("S1O", Colour.GRAY, 1,0,0,0);
                 S1O.windows[0] = true;
@@ -1165,9 +1177,10 @@ public class GameGUI extends BorderPane {
                 Game_Start.gui.changeDisable();
                 break;
             case "yellowStar":
+                ys_ability = true;
                 Game_Start.gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
-                Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
-                which_player.ar.yellowStar_pick_one(Game_Start.gui.candidate);
+                //Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
+                //which_player.ar.yellowStar_pick_one(Game_Start.gui.candidate);
                 break;
             case "purpleStar":
                 TilesShape S1X = new TilesShape("S1X", Colour.GRAY, 1,0,0,0);

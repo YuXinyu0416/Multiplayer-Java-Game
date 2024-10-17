@@ -60,15 +60,14 @@ public class Game_Start extends Application {
 		gui.setOnRabbitAction((s) -> {
 			gui.setMessage("ability: " + s);
 			//gui.player_view.selectors.enableRange(0,5);
-			gui.handleSelectedOption(s,gui.getSelectedPlayer());
+			gui.executeAbility(s,gui.getSelectedPlayer());
 			//gui.player_view.selectors.disableRange(0,5);
 			gui.b_rabbits.setDisable(true);
 		});
 
 		gui.setOnAbilityAction((s) -> {
 			gui.setMessage("ability: " + s);
-			gui.handleSelectedOption(s,gui.getSelectedPlayer());
-			gui.updateAbilityMenu();
+			gui.executeAbility(s,gui.getSelectedPlayer());
 		});
 
 		gui.setOnColourChange((s) -> {
