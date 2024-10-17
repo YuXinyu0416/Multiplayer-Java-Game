@@ -44,9 +44,10 @@ public class GameGUI extends BorderPane {
 
     // GUI components
     //public static Game_Logic gl;
+    private GridPane player_pane;
     private Label current_player_view;
     private TabPane player_selector;
-    private PlayerStateView player_view;
+    public PlayerStateView player_view;
     public BuildingView building_view;
     private LibraryView library_view;
     private FlowPane price_view;
@@ -87,6 +88,10 @@ public class GameGUI extends BorderPane {
     public static List<String> availableTS = new ArrayList<>();
     {
         Collections.addAll(availableTS,"R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5");
+    }
+    public static List<String> rabbit_a = new ArrayList<>();
+    {
+        Collections.addAll(rabbit_a,"Draw one tile with carrot", "Choose an ability track and advance 2 steps");
     }
 //    {
 //        players[0] = "has player one time";
@@ -187,11 +192,23 @@ public class GameGUI extends BorderPane {
 	}
         Button b_again = new Button("Play again");
         b_again.setOnAction(e -> {
-
 		control_view.getChildren().clear();
+        player_pane.getChildren().clear();
+//        player_view.getChildren().clear();
+//        building_view.getChildren().clear();
+            player_view = new PlayerStateView();
+            building_view = new BuildingView(BUILDING_WIDTH, BUILDING_HEIGHT);
+            building_view.setFocusTraversable(true);
 		control_view.getChildren().add(game_setup_controls);
+        player_pane.add(player_view,0,0);
+        player_pane.add(building_view,1,0,1,2);
+        //control_view.getChildren().add(current_player_controls);
+        //player_view.getChildren().add(game_setup_controls);
+        //building_view.getChildren().add(game_setup_controls);
 		showState();
         new Game_Start();
+        //new GameGUI();
+        //showState();
 	    });
 	int n = Math.min(finalScores.length, 4);
         controls.add(b_again, 0, n + 1, 2, 1);
@@ -268,16 +285,8 @@ public class GameGUI extends BorderPane {
         b_use = new MenuButton("Use Ability (player #)");
         controls.add(b_use, 0, 3);
         b_use.setOnAction((e) -> {
-            int p = getSelectedPlayer();
-            List<String> abilities = new ArrayList<>();
-            for(Map.Entry<AbilityRegion.Abilities, Integer> pairs :Game_Start.gl.players.get(p).abilities.entrySet()){
-                abilities.add(String.valueOf(pairs.getKey()));
-                //abilities.add("nothing here");
-            }
-            if(abilities.size()>0){
-            setAbilityMenu(abilities);
-            showState();
-            }
+
+
                 });
         b_pass = new Button("Pass (player #)");
         controls.add(b_pass, 0, 2);
@@ -285,6 +294,9 @@ public class GameGUI extends BorderPane {
         if (onPass != null) {
             int pno = players.length;
             b_rabbits.setDisable(true);
+            b_colour_change.setDisable(true);
+            player_view.selectors.clearSelection();
+            setAbilityMenu(List.of("You have no ability now"));
             whether_endGame(getSelectedPlayer());
             //Player player = Game_Start.gl.players.get(getSelectedPlayer());
             //int which = speed-1;
@@ -293,7 +305,9 @@ public class GameGUI extends BorderPane {
                 current_now=(current_now+1)%pno;
                 players[current_now]= "has played one time";
                 setSelectedPlayer(current_now);
+                updateAbilityMenu();
                 last_turn =false;
+                player_view.selectors.disableRange(0,5);
                 setMessage("Now You Are Active Player!" );
                 onPass.accept(b_pass.getText());
                 setAvailableTiles(availableTS);
@@ -315,11 +329,13 @@ public class GameGUI extends BorderPane {
                     }
                 }
                     setSelectedPlayer(this_turn);
+                    updateAbilityMenu();
                     which_player = (which_player+1)%pno;
                     players[this_turn] = "has played one time";
                     setAvailableActions(List.of("Give up", "End the game"));
                     if(!last_turn) {
                         dices_remainder();
+                        player_view.selectors.enableRange(0,5);
                         last_turn = true;
                     }
                     clear_DicesSelection();
@@ -399,7 +415,7 @@ public class GameGUI extends BorderPane {
         //player_selector.setBackground(new Background(new BackgroundFill(Color.MISTYROSE,CornerRadii.EMPTY,Insets.EMPTY) ));
         player_selector.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         left.getChildren().add(player_selector);
-        GridPane player_pane = new GridPane();
+        player_pane = new GridPane();
         //player_pane.setBorder(boxBorder);
         //player_pane.setSpacing(4);
         player_pane.setHgap(10);
@@ -680,6 +696,10 @@ public class GameGUI extends BorderPane {
 	dice_view.selectors().clearSelection();
     }
 
+    public void checkBoxInitial(){
+        player_view.selectors.disableRange(0,5);
+    }
+
     /**
      * Get the currently selected dice.
      * @return a list of indices of the currently selected dice.
@@ -797,20 +817,6 @@ public class GameGUI extends BorderPane {
 //     * @param nBonusToNext Number to show in the "Next/+" column.
 //     * @param nAbilityToNext Number to show in the "Next/star" column.
      */
-    public void setTrackInfo(int player, String colour, int step) {
-	    int[] info = player_view.getTrackInfo(player,colour);
-        for(int i =0;i<info.length;i++){
-            if(info[i]==0){
-                info[i]+=step;
-            }
-            if(info[i]>1){
-                info[i]-=1;
-                info[i+1]+=1;
-            }
-            break;
-        }
-        player_view.setTrackInfo(player, colour, info);
-    }
 
     /**
      * Clear track selection.
@@ -825,6 +831,13 @@ public class GameGUI extends BorderPane {
      */
     public List<Integer> getSelectedTracks() {
 	    return player_view.getTrackSelectors().getSelection();
+    }
+
+    public void use_a(String a){
+        int p = getSelectedPlayer();
+        //int index = Game_Start.gl.rounds.size()-1;
+        Player player = Game_Start.gl.players.get(p);
+        player.use_ability(a);
     }
 
     /**
@@ -1017,14 +1030,61 @@ public class GameGUI extends BorderPane {
             for(int j=0;j<dices.size();j++){
                 r_c.add(colours.get(j));
             }
-            if(r_c.contains(c.toString())) {
-                setTrackInfo(p, c.toString(),1);
-                player.advance_steps(player, c, 1);
-                player_view.setScore(p,player.get_score());
+            if(!dice_view.selected.getSelection().isEmpty()) {
+                int d_i = dice_view.selected.getSelection().get(0);
+                String d_c = Game_Start.gl.rounds.get(e).colours.get(d_i);
+                if(d_c.equals(c.toString())||d_c.equals(Colour.WHITE.name)) {
+                    setTrackInfo(p, c.toString(),1);
+                    player.advance_steps(player, c, 1);
+                    player_view.setScore(p,player.get_score());
+                    updateAbilityMenu();
+                    whether_endGame(p);
+                }
+            }
+            else{
+                if(r_c.contains(c.toString())||r_c.contains(Colour.WHITE.name)) {
+                    setTrackInfo(p, c.toString(),1);
+                    player.advance_steps(player, c, 1);
+                    player_view.setScore(p,player.get_score());
+                    updateAbilityMenu();
+                    whether_endGame(p);
+                }
             }
             showState();
         });
     }
+
+    public void setTrackInfo(int player, String colour, int step) {
+        int[] info = player_view.getTrackInfo(player,colour);
+        for(int i =info.length-1;i>=0;i--){
+            if(info[i]==0){
+                info[i]=info[i]+step;
+                if(info[i]>1) {
+                    info[i] = info[i] - 1;
+                    info[i - 1] = info[i - 1] + 1;
+                }
+                break;
+            }
+        }
+        player_view.setTrackInfo(player, colour, info);
+    }
+
+    public void updateAbilityMenu() {
+        int p = getSelectedPlayer();
+        List<String> abilities = new ArrayList<>();
+        if (!Game_Start.gl.players.get(p).abilities.isEmpty()) {
+            for (Map.Entry<AbilityRegion.Abilities, Integer> pairs : Game_Start.gl.players.get(p).abilities.entrySet()) {
+                abilities.add(String.valueOf(pairs.getKey()));
+                //abilities.add("nothing here");
+                setAbilityMenu(abilities);
+            }
+        }
+        else{
+                setAbilityMenu(List.of("You have no ability now"));
+            }
+        showState();
+        }
+
 
 
     /**
@@ -1076,7 +1136,12 @@ public class GameGUI extends BorderPane {
                 TilesShape S1O = new TilesShape("S1O", Colour.GRAY, 1,0,0,0);
                 S1O.windows[0] = true;
                 GameGUI.availableTS.add("S1O");
-                Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
+                if(player==current_now) {
+                    Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
+                }
+                else{
+                    Game_Start.gui.setAvailableTiles(List.of("S1X"));
+                }
                 break;
             case "Choose an ability track and advance 2 steps":
                 int index = Game_Start.gui.dice_view.selected.getSelection().get(0);
@@ -1100,7 +1165,12 @@ public class GameGUI extends BorderPane {
             case "purpleStar":
                 TilesShape S1X = new TilesShape("S1X", Colour.GRAY, 1,0,0,0);
                 GameGUI.availableTS.add("S1X");
-                Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
+                if(player==current_now) {
+                    Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
+                }
+                else{
+                    Game_Start.gui.setAvailableTiles(List.of("S1X"));
+                }
                 break;
             case "RedPlusSign":
                 Game_Start.gl.rounds.get(i).dices_color.put(Colour.RED, Game_Start.gl.rounds.get(i).dices_color.getOrDefault(Colour.RED, 0) + 1);

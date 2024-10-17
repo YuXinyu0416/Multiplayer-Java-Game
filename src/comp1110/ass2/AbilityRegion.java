@@ -33,7 +33,8 @@ public class AbilityRegion{
     public void redStar_reroll(HashMap<Colour,Integer> dices_color, List<String> colours, List<Integer> change){
         for(int i=0;i<change.size();i++){
             Random random = new Random();
-            dices_color.put(Colour.valueOf(colours.get(change.get(i))), dices_color.get(change.get(i))-1);
+            int num = dices_color.get(change.get(i))-1;
+            dices_color.put(Colour.valueOf(colours.get(change.get(i))), num);
             Colour new_color = AbilityRegion.colors.get(random.nextInt(6));
             colours.set(change.get(i),new_color.toString());
             dices_color.put(new_color, dices_color.getOrDefault(new_color,0)+1);

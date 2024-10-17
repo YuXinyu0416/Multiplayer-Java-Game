@@ -43,7 +43,12 @@ public class Player{
     public void advance_steps(Player p, Colour c, int step){
         //add steps to make players advance in the ability track and return this step number to determine
         //whether players can get corresponding abilities
-        if(ability_steps.get(c)<5) {
+        if(ability_steps.containsKey(c)&&ability_steps.get(c)<5) {
+            ability_steps.put(c, ability_steps.getOrDefault(c, 0) + step);
+            ar.get_ability(p, c);
+            ar.isFilled(p, c);
+        }
+        else if(!ability_steps.containsKey(c)){
             ability_steps.put(c, ability_steps.getOrDefault(c, 0) + step);
             ar.get_ability(p, c);
             ar.isFilled(p, c);
@@ -86,10 +91,10 @@ public class Player{
                         num=pair.getValue();
                     }
                 }
-                if(isWhite&&(ts.num_of_tile==num||ts.num_of_tile==(num+1))){
+                if(isWhite&&(ts.num_of_tile<=(num+1))){
                     can_be_selected=true;
                 }
-                else if(!isWhite&&ts.num_of_tile==num){
+                else if(!isWhite&&ts.num_of_tile<=num){
                     can_be_selected=true;
                 }
             }
@@ -104,10 +109,10 @@ public class Player{
                         num=pair.getValue();
                     }
                 }
-                if(isWhite&&(ts.num_of_tile==num||ts.num_of_tile==num+1)){
+                if(isWhite&&(ts.num_of_tile<=num+1)){
                     can_be_selected=true;
                 }
-                else if(!isWhite&&ts.num_of_tile==num){
+                else if(!isWhite&&ts.num_of_tile<=num){
                     can_be_selected=true;
                 }
             }
@@ -121,10 +126,9 @@ public class Player{
         return this.abilities;
     }
 
-    public void use_ability(Round rd, AbilityRegion.Abilities a){
-        if(this.abilities.get(a)!=0){
-            abilities.put(a,abilities.get(a)-1);
-        }
+    public void use_ability(String a){
+        AbilityRegion.Abilities a_u = AbilityRegion.Abilities.valueOf(a);
+        abilities.put(a_u,abilities.get(a_u)-1);
     }
 
     public void show_abilities(){

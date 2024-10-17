@@ -40,11 +40,12 @@ public class Game_Start extends Application {
 		gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
 		gui.setAvailableDice(gl.rounds.get(0).colours);
 		gui.setAvailableActions(List.of("Reroll", "Give up", "End the game"));
-//		gui.setAbilityMenu(List.of("greenStar", "redStar", "blueStar", "yellowStar", "purpleStar",
-//				"RedPlusSign", "YellowPlusSign", "GreenPlusSign", "PurplePlusSign", "BluePlusSign"));
-		gui.setAbilityMenu(List.of("nothing here"));
+		//gui.setAbilityMenu(List.of("greenStar", "redStar", "blueStar", "yellowStar", "purpleStar",
+		//		"RedPlusSign", "YellowPlusSign", "GreenPlusSign", "PurplePlusSign", "BluePlusSign"));
+		gui.setAbilityMenu(List.of("You have no ability now"));
 		gui.setColourMenu(GameGUI.colours);
-		gui.setShieldsMenu(List.of("Draw one tile with carrot", "Choose an ability track and advance 2 steps"));
+		gui.setShieldsMenu(GameGUI.rabbit_a);
+		gui.checkBoxInitial();
 		//u_ability.start(stage);
 	});
 
@@ -59,11 +60,14 @@ public class Game_Start extends Application {
 		gui.setOnRabbitAction((s) -> {
 			gui.setMessage("ability: " + s);
 			gui.handleSelectedOption(s,gui.getSelectedPlayer());
+			gui.b_rabbits.setDisable(true);
 		});
 
 		gui.setOnAbilityAction((s) -> {
 			gui.setMessage("ability: " + s);
 			gui.handleSelectedOption(s,gui.getSelectedPlayer());
+			gui.use_a(s);
+			gui.updateAbilityMenu();
 		});
 
 		gui.setOnColourChange((s) -> {
