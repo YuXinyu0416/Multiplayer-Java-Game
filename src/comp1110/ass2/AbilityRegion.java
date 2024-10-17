@@ -1,9 +1,7 @@
 package comp1110.ass2;
 
-import com.sun.jdi.Value;
 import comp1110.ass2.gui.Colour;
 import comp1110.ass2.gui.TilesShape;
-import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -171,21 +169,4 @@ public class AbilityRegion{
             p.add_score(2);
         }
     }
-
-//    static List<Abilities> get_ability_set(){
-//        List<Abilities> abilities =new ArrayList<>();
-//        abilities.add(Abilities.redStar);
-//        return abilities;
-//    }
-
-//    public void beColor(){
-//        //set the color of ability tracks in five different colors and return this color to support other methods
-//
-//    }
-
-//    public boolean isSelected(Player player, Game_Logic.Colors c) {
-//        //determine whether an ability track is selected right now(maybe by clicking )
-//        player.advance_steps(c);
-//        return true;
-//    }
 }

@@ -5,7 +5,6 @@ import comp1110.ass2.gui.Colour;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Round{
     static int number_rounds;
@@ -13,12 +12,7 @@ public class Round{
     public HashMap<Colour,Integer> dices_color=new HashMap<>();
     public List<String> colours = new ArrayList<>();
     public List<String> selected = new ArrayList<>();
-//    {
-//        dices_color.put(Colour.RED,3);
-//        dices_color.put(Colour.BLUE,1);
-//        dices_color.put(Colour.WHITE,1);
-//
-//    }
+
     {
         for(int i=0; i<new_dices.length;i++){
             new_dices[i]=new Dices();
@@ -36,26 +30,4 @@ public class Round{
     public boolean isWhite(HashMap<Colour, Integer> dices_color){
         return dices_color.containsKey(Colour.WHITE)? true:false;
     }
-
-
-//    public void turn(){
-//       //which player is operating
-//        for(int i=0;i<players.length;i++){
-//            players[i].makeMove();
-//        }
-//    }
-
-//    public int get_num(){
-//        //show which round now
-//        return number_rounds;
-//    }
-
-//    public HashMap<String, Integer> max_same_color(String[] colors){
-//        //I need some ways to determine which color is the max_same, maybe by using HashMap
-//        HashMap<String,Integer> colors_num=new HashMap();
-//        for(String str:colors) {
-//            colors_num.put(str,colors_num.getOrDefault(str,0)+1);
-//        }
-//        return colors_num;
-//    }
 }

@@ -82,8 +82,6 @@ public class CheckBoxGroup {
     }
 
     public void Listener_dices(IntConsumer handler) {
-        //BooleanProperty f = new SimpleBooleanProperty(true);
-        //selectors[i].setSelected(false);
         inhibitSelectionEvent = true;
         for(int i=0; i<size; i++) {
             int finalI = i;

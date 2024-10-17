@@ -33,15 +33,5 @@ public class Dices{
         //get the color of this dice
         return this.c;
     }
-
-//    public boolean isSelected() {
-//        //determine whether this dice has been selected right now
-//        return true;
-//    }
-
-//    public List get_dices_color(){
-//        dices_color= new String[]{"RED", "RED", "RED", "BLUE", "WHITE"};
-//        return dices_color;
-//    }
 }
 

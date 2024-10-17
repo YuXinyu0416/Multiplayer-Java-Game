@@ -21,9 +21,6 @@ public class Game_Logic {
     TilesShape Y3=new TilesShape("Y3", Colour.YELLOW,3,1,0,0);
     public List<Round> rounds = new ArrayList<>();
     Grid[] tiles= Y3.set_tiles();
-//    enum Colors{
-//        RED, BLUE, YELLOW, PURPLE, WHITE, GREEN
-//    }
 
     public Game_Logic(){
         //this.p_number=player_number;
@@ -36,38 +33,6 @@ public class Game_Logic {
             int name = i;
             players.add(new Player(name));
         }
-//        players.get(0).br.is_Occupied(players.get(0),B3);
-//        players.get(0).br.is_Occupied(players.get(0),G4L);
-    }
-
-    public void add_turn(Player p){
-        players_turn.put(p,players_turn.getOrDefault(p,0)+1);
-    }
-
-//    public void play(){
-//        while(isRunning){
-//            if(players.get(0).get_score()>=12||players.get(1).get_score()>=12){
-//                last_round();
-//            }
-//            rounds.add(new Round());
-//
-//
-//
-//
-//
-//        }
-//    }
-
-    public void rules_display(){
-        //show players all rules of this game, it will appear at the beginning of game and can be called by button
-        System.out.println("The rules of this game is as follow:" +
-                "" +
-                "" +
-                "" +
-                "" +
-                "" +
-                "" +
-                "");
     }
 
     public boolean Dices_canbe_selected(int i) {
@@ -146,7 +111,6 @@ public class Game_Logic {
                 isOccupied=false;
             }
         }
-        //
         for(int i = 0; i<ts.num_of_tile&&!isAbove; i++) {
             if(p.br.whether_Above(tiles[i].position[0],tiles[i].position[1])){
                 isAbove =true;
@@ -159,31 +123,6 @@ public class Game_Logic {
         else{
             return false;
         }
-    }
-
-    public void last_round(){
-        //need some if sentences to determine whether this round is the last round,
-        //for example players[i].score>=12, and all players can make move in the last round
-        //int which_op = (players.indexOf(p)+1)%players.size();
-        int max_turn=0;
-        for(Map.Entry<Player,Integer> pairs:players_turn.entrySet()) {
-            if (pairs.getValue().compareTo(max_turn)>0){
-                max_turn = pairs.getValue();
-            }
-        }
-        boolean whether_end = true;
-        for(Map.Entry<Player,Integer> pairs:players_turn.entrySet()){
-            if(pairs.getValue()!=max_turn){
-                whether_end = false;
-            }
-        }
-        if(whether_end){
-            end_game();
-        }
-    }
-
-    public void end_game(){
-        isRunning = false;
     }
 
     public static void main(String[] args) {

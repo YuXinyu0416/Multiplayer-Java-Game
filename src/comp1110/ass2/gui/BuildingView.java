@@ -1,7 +1,6 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Grid;
-import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -10,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineJoin;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,8 +38,6 @@ public class BuildingView extends GridPane {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++) {
                 grid[x][y] = new SquareView(SQUARE_SIZE);
-                //Background b = new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY,Insets.EMPTY));
-                //grid[x][y].setBackground(b);
                 add(grid[x][y], x, height - y);
 		for (int i = 0; i < GameGUI.MAX_N_PLAYERS; i++)
 		    content[i][x][y] = new Square();
@@ -119,7 +115,6 @@ public class BuildingView extends GridPane {
         }
 
         for (int x : List.of(1, 3)) {
-            //Image image = ((player >= 0) && showColCoA[player][x] ? redRabbit : yellowRabbit);
             Image image;
             if(x ==1) {
                 image = yellowRabbit;
@@ -130,7 +125,6 @@ public class BuildingView extends GridPane {
             topRow[x].setImage(image);
         }
         for (int y : List.of(1, 3, 5)) {
-            //Image image = ((player >= 0) && showRowCoA[player][y] ? redRabbit : yellowRabbit);
             Image image;
             if(y ==3) {
                 image = redRabbit;
@@ -146,8 +140,6 @@ public class BuildingView extends GridPane {
         show(player);
         Grid[] tiles = ts.set_tiles();
         ts.Shape_change(tiles);
-        //var mark = new LibraryView.LibraryItem(ts.name);
-        //mark.rotate();
         for (int i = 0; i < tiles.length; i++) {
                 int x = tiles[i].position[0];
                 int y = tiles[i].position[1];
@@ -156,8 +148,6 @@ public class BuildingView extends GridPane {
                         grid[x][y].markPlacement(valid, ts.getWindow(i));
             }
         }
-
-
 
     static class SquareView extends StackPane {
         Rectangle outer;
@@ -208,12 +198,6 @@ public class BuildingView extends GridPane {
     public void setSquare(int p, int x, int y, Colour colour, boolean window) {
         if (colour != Colour.WHITE) {
             content[p][x][y] = new Square(window, colour);
-//            SquareView sv = new SquareView(SQUARE_SIZE);
-//            Image carrot = new Image("carrot.png");
-//            BackgroundFill fill = new BackgroundFill(colour.getFXColor(), CornerRadii.EMPTY, Insets.EMPTY);
-//            BackgroundImage image = new BackgroundImage(carrot,BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-//            Background b = new Background(Collections.singletonList(fill), Collections.singletonList(image));
-//            sv.setBackground(b);
         } else {
             content[p][x][y] = new Square();
         }

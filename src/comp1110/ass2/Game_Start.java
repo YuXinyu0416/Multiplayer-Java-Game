@@ -3,26 +3,18 @@ package comp1110.ass2;
 import comp1110.ass2.gui.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.IntConsumer;
 
 public class Game_Start extends Application {
 	public static GameGUI gui;
 	public static Game_Logic gl;
-//	public static Stage stage;
-	//public static Dialogs u_ability;
 
     @Override
     public void start(Stage stage) {
 		gl = new Game_Logic();
 		gui = new GameGUI();
-		//u_ability = new Dialogs();
         Scene scene = new Scene(gui, GameGUI.WINDOW_WIDTH, GameGUI.WINDOW_HEIGHT);
 
 
@@ -45,15 +37,11 @@ public class Game_Start extends Application {
 		}
 		gui.setAvailableDice(gl.rounds.get(0).colours);
 		gui.setAvailableActions(List.of("End the game"));
-		//gui.setAbilityMenu(List.of("greenStar", "redStar", "blueStar", "yellowStar", "purpleStar",
-		//		"RedPlusSign", "YellowPlusSign", "GreenPlusSign", "PurplePlusSign", "BluePlusSign"));
 		gui.setAbilityMenu(List.of("redStar", "redStar"));
 		gl.players.get(0).store_ability(AbilityRegion.Abilities.getAbility("redStar"));
 		gl.players.get(0).store_ability(AbilityRegion.Abilities.getAbility("redStar"));
 		gui.setColourMenu(GameGUI.colours);
 		gui.setShieldsMenu(GameGUI.rabbit_a);
-		//gui.checkBoxInitial();
-		//u_ability.start(stage);
 	});
 
 		gui.setOnDiceSelectionChanged((i) -> {
@@ -68,9 +56,7 @@ public class Game_Start extends Application {
 
 		gui.setOnRabbitAction((s) -> {
 			gui.setMessage("ability: " + s);
-			//gui.player_view.selectors.enableRange(0,5);
 			gui.executeAbility(s,gui.getSelectedPlayer());
-			//gui.player_view.selectors.disableRange(0,5);
 			gui.b_rabbits.setDisable(true);
 		});
 
@@ -98,13 +84,6 @@ public class Game_Start extends Application {
 			gui.setAvailableDice(gl.rounds.get(gl.rounds.size()-1).colours);
 			gui.clear_DicesSelection();
 		}
-//		if(s.equals("Colour change")){
-//			List<Integer> dice = gui.getSelectedDice();
-//			int index = gl.rounds.size()-1;
-//			if(dice.size()==1&&gl.rounds.get(index).colours.get(dice.get(0)).equals(Colour.WHITE.name)) {
-//				//gui.setAvailableActions(List.of("Reroll", "End the game"));
-//			}
-//		}
 	    });
 
 	gui.setOnConfirm((s) -> {
@@ -120,15 +99,5 @@ public class Game_Start extends Application {
         stage.setTitle("Copenhagen Roll & Write");
 		stage.setFullScreen(true);
         stage.show();
-
-
-//		gl = new Game_Logic(2);
-//		gl.set_players();
-//		gl.play();
-		//	gui.setOnTilePlaced((p) -> {
-//		gui.setMessage("tile placed: " + p);
-//		if (p.getTileName().equals("R5"))
-//		    gui.endGame(new int[4]);
-//	    });
     }
 }

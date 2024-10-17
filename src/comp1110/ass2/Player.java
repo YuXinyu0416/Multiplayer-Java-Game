@@ -7,7 +7,6 @@ import java.util.*;
 
 public class Player{
     //create some players and support players' operations
-    //String id; // the primary key of player
     int name; // need to be scanner in by player
     int score;
     public HashMap<AbilityRegion.Abilities,Integer> abilities = new HashMap<>(); //store abilities players have gotten before
@@ -19,7 +18,6 @@ public class Player{
        //create a player
         this.name = name;
         score=0;
-        //this.id= UUID.randomUUID().toString();
     }
 
     public int return_Player(){
@@ -163,17 +161,4 @@ public class Player{
             System.out.println("("+(i)+") "+a+" "+abilities.get(a));
         }
     }
-
-//    public void makeMove(){
-//        //players operate this game through clicking to select other shapes and regions, and there
-//        //need to be some difference between active player in this round and other players
-//        br.grids[1][2].place_window();
-//    }
-
-//    public boolean use_now(Event e){
-//        //if players choose use the ability they get immediately, the boolean will be true, then call
-//        //the method use ability, if not ,then call the method store_ability
-//
-//        return true;
-//    }
 }

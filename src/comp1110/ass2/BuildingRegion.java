@@ -1,6 +1,5 @@
 package comp1110.ass2;
 
-import comp1110.ass2.gui.GameGUI;
 import comp1110.ass2.gui.TilesShape;
 
 public class BuildingRegion{
@@ -31,12 +30,6 @@ public class BuildingRegion{
         if(ts.num_of_tile>3){
             ts.cross_out();
         }
-//        for(int i=0;i<9;i++) {
-//            isFilled_row(p,i);
-//        }
-//        for(int i=0;i<5;i++){
-//            isFilled_column(p,i);
-//        }
     }
 
     public boolean whether_Occupied(int column, int row){
