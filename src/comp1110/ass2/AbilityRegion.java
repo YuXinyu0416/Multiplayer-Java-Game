@@ -10,10 +10,10 @@ import java.util.*;
 public class AbilityRegion{
     //this class is Ability tracks with different colors, can be chosen by players and there is some abilities
     //can be gotten
-    static int star1=1; // ability signs and locations
-    static int star2 =3;
-    static int plus_sign1=2;
-    static int plus_sign2=4;
+    int star1=1; // ability signs and locations
+    int star2 =3;
+    int plus_sign1=2;
+    int plus_sign2=4;
     static List<Colour> ability_region=new ArrayList<>();//store color of every row and distinguish them
     static List<Colour> colors = new ArrayList<>();
 

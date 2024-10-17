@@ -2,6 +2,8 @@ package comp1110.ass2.gui;
 
 import comp1110.ass2.*;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -104,6 +106,7 @@ public class GameGUI extends BorderPane {
     public static boolean ys_ability =false;
     public static boolean can_place = true;
     private static TilesShape dice_remainder;
+    public static boolean whether_click = false;
 
     public void setonAvailablePlayers(int np){
         players = new String[np];
@@ -315,14 +318,16 @@ public class GameGUI extends BorderPane {
             int pno = players.length;
             b_rabbits.setDisable(true);
             b_colour_change.setDisable(true);
-            player_view.selectors.clearSelection();
+            //player_view.selectors.clearSelection();
+            whether_click = false;
             setAbilityMenu(List.of("You have no ability now"));
             whether_endGame(getSelectedPlayer());
             ys_ability = false;
             t_hint1.setDisable(true);
             t_hint2.setDisable(true);
             can_place = true;
-            player_view.selectors.clearSelection();
+//            player_view.selectors.clearSelection();
+//            player_view.selectors.enableRange(0,5);
             dice_view.selected.clearSelection();
             //Player player = Game_Start.gl.players.get(getSelectedPlayer());
             //int which = speed-1;
@@ -331,6 +336,7 @@ public class GameGUI extends BorderPane {
                 current_now=(current_now+1)%pno;
                 players[current_now]= "has played one time";
                 setSelectedPlayer(current_now);
+                //whether_pass = false;
                 t_hint1.setDisable(false);
                 updateAbilityMenu();
                 last_turn =false;
@@ -338,7 +344,7 @@ public class GameGUI extends BorderPane {
                 setMessage("Now You Are Active Player!" );
                 onPass.accept(b_pass.getText());
                 setAvailableTiles(availableTS);
-                setAvailableActions(List.of("Reroll", "Give up", "End the game"));
+                setAvailableActions(List.of("End the game"));
                 Game_Start.gl.rounds.add(Game_Start.gl.rounds.size(),new Round());
                 setAvailableDice(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).colours);
                 clear_DicesSelection();
@@ -357,11 +363,13 @@ public class GameGUI extends BorderPane {
                 }
                     setSelectedPlayer(this_turn);
                     can_place = false;
+                    //whether_pass = false;
+                    advanceListener();
                     t_hint2.setDisable(false);
                     updateAbilityMenu();
                     which_player = (which_player+1)%pno;
                     players[this_turn] = "has played one time";
-                    setAvailableActions(List.of("Give up", "End the game"));
+                    setAvailableActions(List.of("End the game"));
                     if(!last_turn) {
                         dices_remainder();
                         //player_view.selectors.enableRange(0,5);
@@ -649,14 +657,29 @@ public class GameGUI extends BorderPane {
 
     public void colourChange(String colour){
         int index = Game_Start.gl.rounds.size()-1;
-        int i = Game_Start.gui.dice_view.selected.getSelection().get(0);
+        List<Integer> c_index = Game_Start.gui.dice_view.selected.getSelection();
         List<String> colours = new ArrayList<>(Game_Start.gl.rounds.get(index).colours);
-        int num = Game_Start.gl.rounds.get(index).dices_color.get(Colour.getColour(colours.get(i)));
-        Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colours.get(i)),num-1);
-        Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colour),Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.getColour(colour),0)+1);
-        colours.set(i,colour);
-        Game_Start.gui.setAvailableDice(colours);
-        showState();
+        List<String> s_c = new ArrayList<>();
+        for(int i = 0; i< c_index.size();i++){
+            s_c.add(colours.get(c_index.get(i)));
+        }
+        String first = s_c.get(0);
+        boolean is_equal = true;
+        for(String c:s_c){
+            if(!first.equals(c)){
+                is_equal= false;
+            }
+        }
+        if(is_equal) {
+            for(int i =0; i<colours.size();i++) {
+                int num = Game_Start.gl.rounds.get(index).dices_color.get(Colour.getColour(colours.get(c_index.get(i))));
+                Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colours.get(c_index.get(i))), num - 1);
+                Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colour), Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.getColour(colour), 0) + 1);
+                colours.set(c_index.get(i), colour);
+                Game_Start.gui.setAvailableDice(colours);
+                showState();
+            }
+        }
     }
 
     /**
@@ -1112,6 +1135,53 @@ public class GameGUI extends BorderPane {
         }
     }
 
+    public void withdrawListener() {
+            player_view.selectors.inhibitSelectionEvent = true;
+            int size = player_view.selectors.size;
+            int p = getSelectedPlayer();
+            Player player = Game_Start.gl.players.get(p);
+            for (int i = 0; i < size; i++) {
+                int finalI = i;
+                player_view.selectors.selectors[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                        if (oldValue && !newValue) {
+                            player_view.selectors.enableRange(0, 5);
+                            withdrawTrackInfo(p, player.ar.get_color(finalI).toString(), 1);
+                            player.withdrawSteps(player.ar.get_color(finalI), 1);
+                            player_view.setScore(p, player.get_score());
+                            updateAbilityMenu();
+                            showState();
+                        }
+                    }
+                });
+            }
+            player_view.selectors.inhibitSelectionEvent = false;
+        }
+
+    public void advanceListener(){
+        player_view.selectors.inhibitSelectionEvent=true;
+        int size= player_view.selectors.size;
+        int p = getSelectedPlayer();
+        Player player = Game_Start.gl.players.get(p);
+        for(int i=0;i<size;i++){
+            int finalI = i;
+            player_view.selectors.selectors[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if(!oldValue&&newValue){
+                       for(int j=0; j<size;j++){
+                           if(!player_view.selectors.selectors[j].isSelected()){
+                               player_view.selectors.selectors[j].setDisable(true);
+                           }
+                       }
+                    }
+                }
+            });
+        }
+        player_view.selectors.inhibitSelectionEvent=false;
+    }
+
     public void updateAbilityMenu() {
         int p = getSelectedPlayer();
         Player player = Game_Start.gl.players.get(p);
@@ -1124,9 +1194,11 @@ public class GameGUI extends BorderPane {
         List<String> abilities = new ArrayList<>();
         if (!whether_empty) {
             for (Map.Entry<AbilityRegion.Abilities, Integer> pairs : Game_Start.gl.players.get(p).abilities.entrySet()) {
-                abilities.add(String.valueOf(pairs.getKey()));
-                //abilities.add("nothing here");
-                setAbilityMenu(abilities);
+                if(pairs.getValue()>0) {
+                    abilities.add(String.valueOf(pairs.getKey()));
+                    //abilities.add("nothing here");
+                    setAbilityMenu(abilities);
+                }
             }
         }
         else{

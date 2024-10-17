@@ -37,12 +37,17 @@ public class Game_Start extends Application {
 		gui.setMessage("start new game with " + np + " players");
 		gl.set_players(np);
 		gui.setonAvailablePlayers(np);
-		gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
+		if(np==2){
+			gui.setAvailableTiles(List.of("R2", "R3", "R4", "R5", "B2", "B3", "B4L", "B5", "P2", "P3", "P4", "P5", "G2", "G3", "G4L", "G5", "Y2", "Y3", "Y4L", "Y5"));
+		}
+		else {
+			gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2", "P3", "P4", "P4", "P5", "G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
+		}
 		gui.setAvailableDice(gl.rounds.get(0).colours);
-		gui.setAvailableActions(List.of("Reroll", "Give up", "End the game"));
+		gui.setAvailableActions(List.of("End the game"));
 		//gui.setAbilityMenu(List.of("greenStar", "redStar", "blueStar", "yellowStar", "purpleStar",
 		//		"RedPlusSign", "YellowPlusSign", "GreenPlusSign", "PurplePlusSign", "BluePlusSign"));
-		gui.setAbilityMenu(List.of("You have no ability now"));
+		gui.setAbilityMenu(List.of("redStar", "redStar"));
 		gui.setColourMenu(GameGUI.colours);
 		gui.setShieldsMenu(GameGUI.rabbit_a);
 		//gui.checkBoxInitial();
@@ -54,8 +59,14 @@ public class Game_Start extends Application {
 		});
 
 		gui.setOnTrackSelectionChanged((i) -> {
+		GameGUI.whether_click = true;
 		gui.setMessage("track selection: " + gui.getSelectedTracks());
-	    });
+		gui.advanceListener();
+		if(GameGUI.whether_click) {
+			gui.withdrawListener();
+		}
+		GameGUI.whether_click = false;
+		});
 
 		gui.setOnRabbitAction((s) -> {
 			gui.setMessage("ability: " + s);

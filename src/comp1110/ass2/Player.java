@@ -56,7 +56,42 @@ public class Player{
     }
 
     public void withdrawSteps(Colour c, int step){
+        int total_step = ability_steps.get(c);
         ability_steps.put(c, ability_steps.get(c) - step);
+        if(total_step==ar.star1||total_step==ar.star2){
+            if(c.equals(Colour.RED)){
+                abilities.put(AbilityRegion.Abilities.redStar,abilities.get(AbilityRegion.Abilities.redStar)-1);
+            }
+            else if(c.equals(Colour.GREEN)){
+                abilities.put(AbilityRegion.Abilities.greenStar,abilities.get(AbilityRegion.Abilities.greenStar)-1);
+            }
+            else if(c.equals(Colour.BLUE)){
+                abilities.put(AbilityRegion.Abilities.blueStar,abilities.get(AbilityRegion.Abilities.blueStar)-1);
+            }
+            else if(c.equals(Colour.YELLOW)){
+                abilities.put(AbilityRegion.Abilities.yellowStar,abilities.get(AbilityRegion.Abilities.yellowStar)-1);
+            }
+            else if(c.equals(Colour.PURPLE)){
+                abilities.put(AbilityRegion.Abilities.purpleStar,abilities.get(AbilityRegion.Abilities.purpleStar)-1);
+            }
+        }
+        else if(total_step==ar.plus_sign1||total_step==ar.plus_sign2){
+            if(c.equals(Colour.RED)){
+                abilities.put(AbilityRegion.Abilities.RedPlusSign,abilities.get(AbilityRegion.Abilities.RedPlusSign)-1);
+            }
+            else if(c.equals(Colour.GREEN)){
+                abilities.put(AbilityRegion.Abilities.GreenPlusSign,abilities.get(AbilityRegion.Abilities.GreenPlusSign)-1);
+            }
+            else if(c.equals(Colour.BLUE)){
+                abilities.put(AbilityRegion.Abilities.BluePlusSign,abilities.get(AbilityRegion.Abilities.BluePlusSign)-1);
+            }
+            else if(c.equals(Colour.YELLOW)){
+                abilities.put(AbilityRegion.Abilities.YellowPlusSign,abilities.get(AbilityRegion.Abilities.YellowPlusSign)-1);
+            }
+            else if(c.equals(Colour.PURPLE)){
+                abilities.put(AbilityRegion.Abilities.PurplePlusSign,abilities.get(AbilityRegion.Abilities.PurplePlusSign)-1);
+            }
+        }
     }
 
     public int get_stepNUM(Colour c){
