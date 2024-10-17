@@ -53,9 +53,11 @@ public class CheckBoxGroup {
         }
         if(sel.size()>1) {
             return sel;
-        }else{
+        }
+        else if(sel.size()==1){
             return Collections.singletonList(index);
         }
+        return List.of();
     }
 
     public void enableRange(int from, int to) {

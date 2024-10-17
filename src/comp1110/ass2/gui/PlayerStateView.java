@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-class PlayerStateView extends GridPane {
+public class PlayerStateView extends GridPane {
     // display and button cells within the grid, by row
     Labeled[][] cells;
-    CheckBoxGroup selectors;
+    public CheckBoxGroup selectors;
 
     private static final Border cellBorder = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN));
 

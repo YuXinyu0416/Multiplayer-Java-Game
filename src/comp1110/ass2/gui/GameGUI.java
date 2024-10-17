@@ -245,7 +245,9 @@ public class GameGUI extends BorderPane {
 		    if (onTilePlaced != null) {
                 onTilePlaced.accept(tmp);
             }
-            if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tmp.set_tiles())){
+            Grid[] tiles = tmp.set_tiles();
+            tmp.Shape_change(tiles);
+            if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tiles)){
                 setOnTilePlaced(onTilePlaced,tmp);
                 if(tmp.num_of_tile>3) {
                     availableTS.remove(tmp.name);
@@ -254,7 +256,7 @@ public class GameGUI extends BorderPane {
                // LibraryView.LibraryItem.tiles.remove(tmp.name);
                 showState();
                 player.br.is_Occupied(player,tmp);
-                Grid[] tiles = tmp.set_tiles();
+                //Grid[] tiles = tmp.set_tiles();
                 for(int i=0;i<tiles.length;i++) {
                     if (i == 0) {
                         player.br.isFilled_row(player, tiles[i].position[1]);
@@ -307,7 +309,7 @@ public class GameGUI extends BorderPane {
                 setSelectedPlayer(current_now);
                 updateAbilityMenu();
                 last_turn =false;
-                player_view.selectors.disableRange(0,5);
+                //player_view.selectors.disableRange(0,5);
                 setMessage("Now You Are Active Player!" );
                 onPass.accept(b_pass.getText());
                 setAvailableTiles(availableTS);
@@ -335,7 +337,7 @@ public class GameGUI extends BorderPane {
                     setAvailableActions(List.of("Give up", "End the game"));
                     if(!last_turn) {
                         dices_remainder();
-                        player_view.selectors.enableRange(0,5);
+                        //player_view.selectors.enableRange(0,5);
                         last_turn = true;
                     }
                     clear_DicesSelection();
@@ -620,9 +622,9 @@ public class GameGUI extends BorderPane {
         int index = Game_Start.gl.rounds.size()-1;
         int i = Game_Start.gui.dice_view.selected.getSelection().get(0);
         List<String> colours = new ArrayList<>(Game_Start.gl.rounds.get(index).colours);
-        int num = Game_Start.gl.rounds.get(index).dices_color.get(Colour.valueOf(colours.get(i)));
-        Game_Start.gl.rounds.get(index).dices_color.put(Colour.valueOf(colours.get(i)),num-1);
-        Game_Start.gl.rounds.get(index).dices_color.put(Colour.valueOf(colour),Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.valueOf(colour),0)+1);
+        int num = Game_Start.gl.rounds.get(index).dices_color.get(Colour.getColour(colours.get(i)));
+        Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colours.get(i)),num-1);
+        Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colour),Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.getColour(colour),0)+1);
         colours.set(i,colour);
         Game_Start.gui.setAvailableDice(colours);
         showState();
@@ -837,7 +839,7 @@ public class GameGUI extends BorderPane {
         int p = getSelectedPlayer();
         //int index = Game_Start.gl.rounds.size()-1;
         Player player = Game_Start.gl.players.get(p);
-        player.use_ability(a);
+        player.abilities.put(AbilityRegion.Abilities.valueOf(a),player.abilities.get(AbilityRegion.Abilities.valueOf(a))-1);
     }
 
     /**
@@ -1023,17 +1025,15 @@ public class GameGUI extends BorderPane {
             List<String> r_c = new ArrayList<>();
             List<Integer> dices = new ArrayList<>();
             for(int j =0;j<dice_view.selected.size;j++){
-                if(!dice_view.selected.getCheckBox(i).isSelected()){
-                    dices.add(i);
+                if(!dice_view.selected.getCheckBox(j).isSelected()){
+                    dices.add(j);
                 }
             }
             for(int j=0;j<dices.size();j++){
                 r_c.add(colours.get(j));
             }
-            if(!dice_view.selected.getSelection().isEmpty()) {
-                int d_i = dice_view.selected.getSelection().get(0);
-                String d_c = Game_Start.gl.rounds.get(e).colours.get(d_i);
-                if(d_c.equals(c.toString())||d_c.equals(Colour.WHITE.name)) {
+            if(p!=current_now&&dice_view.selected.getSelection().isEmpty()){
+                if(r_c.contains(c.toString())||r_c.contains(Colour.WHITE.name)) {
                     setTrackInfo(p, c.toString(),1);
                     player.advance_steps(player, c, 1);
                     player_view.setScore(p,player.get_score());
@@ -1041,8 +1041,10 @@ public class GameGUI extends BorderPane {
                     whether_endGame(p);
                 }
             }
-            else{
-                if(r_c.contains(c.toString())||r_c.contains(Colour.WHITE.name)) {
+            else if(p!=current_now&&!dice_view.selected.getSelection().isEmpty()){
+                int d_i = dice_view.selected.getSelection().get(0);
+                String d_c = Game_Start.gl.rounds.get(e).colours.get(d_i);
+                if(d_c.equals(c.toString())||d_c.equals(Colour.WHITE.name)) {
                     setTrackInfo(p, c.toString(),1);
                     player.advance_steps(player, c, 1);
                     player_view.setScore(p,player.get_score());
@@ -1128,7 +1130,7 @@ public class GameGUI extends BorderPane {
         onColourChange = handler;
     }
 
-    public static void handleSelectedOption(String selectedOption, int player) {
+    public void handleSelectedOption(String selectedOption, int player) {
         Player which_player = Game_Start.gl.players.get(player);
         int i=Game_Start.gl.rounds.size()-1;
         switch (selectedOption){
@@ -1144,8 +1146,13 @@ public class GameGUI extends BorderPane {
                 }
                 break;
             case "Choose an ability track and advance 2 steps":
-                int index = Game_Start.gui.dice_view.selected.getSelection().get(0);
+                int index = Game_Start.gui.player_view.selectors.getSelection().get(0);
+                String c = Game_Start.gl.rounds.get(i).colours.get(index);
+                setTrackInfo(player,c,2);
                 which_player.advance_steps(which_player, which_player.ar.get_color(index),2);
+                player_view.setScore(player,which_player.get_score());
+                whether_endGame(player);
+                showState();
                 break;
             case "redStar":
                 which_player.ar.redStar_reroll(Game_Start.gl.rounds.get(i).dices_color,Game_Start.gl.rounds.get(i).colours, Game_Start.gui.dice_view.selected.getSelection());
@@ -1159,8 +1166,8 @@ public class GameGUI extends BorderPane {
                 break;
             case "yellowStar":
                 Game_Start.gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
-                which_player.ar.yellowStar_pick_one(Game_Start.gui.candidate);
                 Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
+                which_player.ar.yellowStar_pick_one(Game_Start.gui.candidate);
                 break;
             case "purpleStar":
                 TilesShape S1X = new TilesShape("S1X", Colour.GRAY, 1,0,0,0);

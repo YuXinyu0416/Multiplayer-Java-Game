@@ -31,10 +31,12 @@ public class AbilityRegion{
     // all abilities players can get in this game
 
     public void redStar_reroll(HashMap<Colour,Integer> dices_color, List<String> colours, List<Integer> change){
+        Random random = new Random();
         for(int i=0;i<change.size();i++){
-            Random random = new Random();
-            int num = dices_color.get(change.get(i))-1;
-            dices_color.put(Colour.valueOf(colours.get(change.get(i))), num);
+            String name = colours.get(change.get(i));
+            Colour c = Colour.getColour(name);
+            int num = dices_color.get(c)-1;
+            dices_color.put(c, num);
             Colour new_color = AbilityRegion.colors.get(random.nextInt(6));
             colours.set(change.get(i),new_color.toString());
             dices_color.put(new_color, dices_color.getOrDefault(new_color,0)+1);
