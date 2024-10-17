@@ -55,6 +55,10 @@ public class Player{
         }
     }
 
+    public void withdrawSteps(Colour c, int step){
+        ability_steps.put(c, ability_steps.get(c) - step);
+    }
+
     public int get_stepNUM(Colour c){
         //return how many steps in this row to support other method
        return ability_steps.get(c);

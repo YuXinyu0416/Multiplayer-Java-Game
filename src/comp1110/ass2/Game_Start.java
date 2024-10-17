@@ -15,11 +15,11 @@ import java.util.function.IntConsumer;
 public class Game_Start extends Application {
 	public static GameGUI gui;
 	public static Game_Logic gl;
-	//public static Stage dialogStage;
+//	public static Stage stage;
 	//public static Dialogs u_ability;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 		gl = new Game_Logic();
 		gui = new GameGUI();
 		//u_ability = new Dialogs();

@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 import comp1110.ass2.Game_Start;
+import javafx.stage.Stage;
 
 public class GameGUI extends BorderPane {
 
@@ -58,6 +59,8 @@ public class GameGUI extends BorderPane {
     private Button b_reroll;
     private Button b_confirm;
     private Button b_pass;
+    private Button t_hint1;
+    private Button t_hint2;
     private MenuButton b_use;
     public MenuButton b_colour_change;
     public MenuButton b_rabbits;
@@ -99,6 +102,8 @@ public class GameGUI extends BorderPane {
     private static int which_player= 1;
     private static boolean last_turn;
     public static boolean ys_ability =false;
+    public static boolean can_place = true;
+    private static TilesShape dice_remainder;
 
     public void setonAvailablePlayers(int np){
         players = new String[np];
@@ -163,6 +168,8 @@ public class GameGUI extends BorderPane {
         }
         control_view.getChildren().clear();
         control_view.getChildren().add(current_player_controls);
+//        player_view = new PlayerStateView();
+//        building_view = new BuildingView(BUILDING_WIDTH, BUILDING_HEIGHT);
         player_selector.getSelectionModel().select(0);
         player_selector.getSelectionModel().selectedIndexProperty().addListener(
             (property, old_value, new_value) -> {
@@ -194,20 +201,22 @@ public class GameGUI extends BorderPane {
         Button b_again = new Button("Play again");
         b_again.setOnAction(e -> {
 		control_view.getChildren().clear();
-        player_pane.getChildren().clear();
-//        player_view.getChildren().clear();
-//        building_view.getChildren().clear();
-            player_view = new PlayerStateView();
-            building_view = new BuildingView(BUILDING_WIDTH, BUILDING_HEIGHT);
-            building_view.setFocusTraversable(true);
+//        player_pane.getChildren().clear();
+////        player_view.getChildren().clear();
+////        building_view.getChildren().clear();
+//            player_view = new PlayerStateView();
+//            building_view = new BuildingView(BUILDING_WIDTH, BUILDING_HEIGHT);
+//            building_view.setFocusTraversable(true);
 		control_view.getChildren().add(game_setup_controls);
-        player_pane.add(player_view,0,0);
-        player_pane.add(building_view,1,0,1,2);
-        //control_view.getChildren().add(current_player_controls);
-        //player_view.getChildren().add(game_setup_controls);
+//        player_pane.add(player_view,0,0);
+//        player_pane.add(building_view,1,0,1,2);
+//        //control_view.getChildren().add(current_player_controls);
+//        //player_view.getChildren().add(game_setup_controls);
         //building_view.getChildren().add(game_setup_controls);
 		showState();
-        new Game_Start();
+        Game_Start again = new Game_Start();
+        again.start(new Stage());
+//        new Game_Start();
         //new GameGUI();
         //showState();
 	    });
@@ -239,8 +248,9 @@ public class GameGUI extends BorderPane {
 	    b_confirm.setOnAction((e) -> {
             int p = player_selector.getSelectionModel().getSelectedIndex();
             Player player = Game_Start.gl.players.get(p);
-		if (candidate != null&&((p ==current_now&&Game_Start.gl.tilesCanBeSelected(player, candidate))||candidate.name.equals("S1O")||candidate.name.equals("S1X")||(ys_ability&&candidate.num_of_tile>=4))) {
+		if (candidate != null&&can_place&&((p ==current_now&&Game_Start.gl.tilesCanBeSelected(player, candidate))||candidate.name.equals("S1O")||candidate.name.equals("S1X")||(ys_ability&&candidate.num_of_tile>=4))) {
 		    TilesShape tmp = new TilesShape(candidate);
+            dice_remainder = new TilesShape(candidate);
 		    candidate = null;
 		    library_view.clearSelection();
 		    if (onTilePlaced != null) {
@@ -250,6 +260,7 @@ public class GameGUI extends BorderPane {
             tmp.Shape_change(tiles);
             if(Game_Start.gl.Tiles_canbe_Placed(player,tmp,tiles)){
                 setOnTilePlaced(onTilePlaced,tmp);
+                can_place = false;
                 if(!ys_ability&&(tmp.num_of_tile>3||tmp.name.equals("S1O")||tmp.name.equals("S1X"))) {
                     availableTS.remove(tmp.name);
                     setAvailableTiles(availableTS);
@@ -285,6 +296,12 @@ public class GameGUI extends BorderPane {
 		    showState();
 		}
 	    });
+        t_hint1 = new Button("You can place just one tile shape this turn~");
+        t_hint2 = new Button("You cannot place any tile this turn~");
+        //t_hint1.setDisable(true);
+        t_hint2.setDisable(true);
+        controls.add(t_hint1,0,6);
+        controls.add(t_hint2,0,7);
         b_use = new MenuButton("Use Ability (player #)");
         controls.add(b_use, 0, 3);
         b_use.setOnAction((e) -> {
@@ -302,6 +319,11 @@ public class GameGUI extends BorderPane {
             setAbilityMenu(List.of("You have no ability now"));
             whether_endGame(getSelectedPlayer());
             ys_ability = false;
+            t_hint1.setDisable(true);
+            t_hint2.setDisable(true);
+            can_place = true;
+            player_view.selectors.clearSelection();
+            dice_view.selected.clearSelection();
             //Player player = Game_Start.gl.players.get(getSelectedPlayer());
             //int which = speed-1;
             if(which_player == 0){
@@ -309,6 +331,7 @@ public class GameGUI extends BorderPane {
                 current_now=(current_now+1)%pno;
                 players[current_now]= "has played one time";
                 setSelectedPlayer(current_now);
+                t_hint1.setDisable(false);
                 updateAbilityMenu();
                 last_turn =false;
                 //player_view.selectors.disableRange(0,5);
@@ -333,6 +356,8 @@ public class GameGUI extends BorderPane {
                     }
                 }
                     setSelectedPlayer(this_turn);
+                    can_place = false;
+                    t_hint2.setDisable(false);
                     updateAbilityMenu();
                     which_player = (which_player+1)%pno;
                     players[this_turn] = "has played one time";
@@ -345,7 +370,7 @@ public class GameGUI extends BorderPane {
                     clear_DicesSelection();
                     setMessage("Now You Are Other Player!");
                     onPass.accept(b_pass.getText());
-                    setAvailableTiles(List.of(""));
+                    //setAvailableTiles(List.of(" "));
                     showState();
                 }
             }
@@ -559,6 +584,8 @@ public class GameGUI extends BorderPane {
         control_view.setPadding(new Insets(2, 2, 2, 2));
         control_view.setAlignment(Pos.CENTER);
         right.getChildren().add(control_view);
+//        TextField text = new TextField("hi~");
+//        right.getChildren().add(text);
         VBox.setVgrow(control_view, Priority.ALWAYS);
         BorderPane.setAlignment(right, Pos.CENTER_RIGHT);
         BorderPane.setMargin(right, new Insets(4, 4, 4, 4));
@@ -712,48 +739,46 @@ public class GameGUI extends BorderPane {
         return dice_view.selectors().getSelection();
     }
 
-    public void dices_remainder(){
-        //HashMap<Colour,Integer> all = new HashMap<>(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).dices_color);
-        //List<String> all = new ArrayList<>(Game_Start.gl.rounds.get(Game_Start.gl.rounds.size()-1).colours);
-//        List<Integer> chosen = getSelectedDice();
-//        for(int i=0; i< 5; i++){
-//            if(!chosen.contains(i)){
-//                remainder.add(i);
-//            }
-//        }
-//        //return remainder;
-//        int index = Game_Start.gl.rounds.size()-1;
-//        HashMap<Colour,Integer> dices_colors = Game_Start.gl.rounds.get(index).dices_color;
-//        List<String> max_color = new ArrayList<>();
-//        int max_value = 0;
-//        for (Map.Entry<Colour, Integer> pair : dices_colors.entrySet()) {
-//            if (max_value == 0 || pair.getValue().compareTo(max_value) > 0) {
-//                max_value = pair.getValue();
-//                max_color.clear();
-//                max_color.add(pair.getKey().toString());
-//            } else if (pair.getValue().compareTo(max_value) == 0) {
-//                max_color.add(pair.getKey().toString());
-//            }
-//        }
-//        List<String> colours = Game_Start.gl.rounds.get(index).colours;
-//
-//        for(String c:max_color){
-//            for(int i=0; i< dice_view.selected.size;i++){
-//                if(colours.get(i).equals(c)){
-//
-//                }
-//            }
-//        }
-        dice_view.selected.enableRange(0,4);
-        List<Integer> exclude = getSelectedDice();
-        for(int index:exclude) {
-            for (int i = 0; i < dice_view.selected.size; i++) {
-                if (i == index) {
-                    dice_view.selected.selectors[i].setDisable(true);
-                }
-            }
+    public void dices_remainder() {
+        dice_view.selected.enableRange(0, 4);
+        int index = Game_Start.gl.rounds.size() - 1;
+        List<String> colours = Game_Start.gl.rounds.get(index).colours;
+        Colour c = dice_remainder.get_Color();
+        int n = dice_remainder.num_of_tile;
+        int num_colours=0;
+        List<Integer> index_colours = new ArrayList<>();
+        for (int i = 0; i < colours.size(); i++) {
+            if (colours.get(i).equals(c.toString())) {
+                num_colours++;
+                index_colours.add(i);
             }
         }
+        if(num_colours==n){
+            for(int i=0; i<index_colours.size();i++){
+                dice_view.selected.selectors[index_colours.get(i)].setDisable(true);
+            }
+        }
+        else if(num_colours>n){
+            for(int i=0; i<n;i++){
+                dice_view.selected.selectors[index_colours.get(i)].setDisable(true);
+            }
+        }
+        else{
+            List<Integer> index_white = new ArrayList<>();
+            for(int i=0;i<colours.size();i++){
+                if(colours.get(i).equals(Colour.WHITE.name)){
+                    index_white.add(i);
+                }
+            }
+            int difference = n-num_colours;
+            for(int i=0;i<num_colours;i++){
+                dice_view.selected.selectors[index_colours.get(i)].setDisable(true);
+            }
+            for(int i=0;i<difference;i++){
+                dice_view.selected.selectors[index_white.get(i)].setDisable(true);
+            }
+        }
+    }
 
 
     /**
@@ -852,6 +877,9 @@ public class GameGUI extends BorderPane {
      * quit or play again.
      */
     public void endGame(int[] finalScores) {
+        for(int i=0; i<finalScores.length;i++){
+            finalScores[i] = Game_Start.gl.players.get(i).get_score();
+        }
 	    Pane gameOverControls = makeGameOverControls(finalScores);
 	    control_view.getChildren().clear();
 	    control_view.getChildren().add(gameOverControls);
@@ -1024,27 +1052,27 @@ public class GameGUI extends BorderPane {
             List<Integer> index = getSelectedTracks();
             Colour c = Game_Start.gl.players.get(p).ar.get_color(index.get(0));
             int e = Game_Start.gl.rounds.size() - 1;
-            List<String> colours = Game_Start.gl.rounds.get(e).colours;
-            List<String> r_c = new ArrayList<>();
-            List<Integer> dices = new ArrayList<>();
-            for(int j =0;j<dice_view.selected.size;j++){
-                if(!dice_view.selected.getCheckBox(j).isSelected()){
-                    dices.add(j);
-                }
-            }
-            for(int j=0;j<dices.size();j++){
-                r_c.add(colours.get(j));
-            }
-            if(p!=current_now&&dice_view.selected.getSelection().isEmpty()){
-                if(r_c.contains(c.toString())||r_c.contains(Colour.WHITE.name)) {
-                    setTrackInfo(p, c.toString(),1);
-                    player.advance_steps(player, c, 1);
-                    player_view.setScore(p,player.get_score());
-                    updateAbilityMenu();
-                    whether_endGame(p);
-                }
-            }
-            else if(p!=current_now&&!dice_view.selected.getSelection().isEmpty()){
+//            List<String> colours = Game_Start.gl.rounds.get(e).colours;
+//            List<String> r_c = new ArrayList<>();
+//            List<Integer> dices = new ArrayList<>();
+//            for(int j =0;j<dice_view.selected.size;j++){
+//                if(!dice_view.selected.getCheckBox(j).isSelected()){
+//                    dices.add(j);
+//                }
+//            }
+//            for(int j=0;j<dices.size();j++){
+//                r_c.add(colours.get(j));
+//            }
+//            if(p!=current_now&&dice_view.selected.getSelection().isEmpty()){
+//                if(r_c.contains(c.toString())||r_c.contains(Colour.WHITE.name)) {
+//                    setTrackInfo(p, c.toString(),1);
+//                    player.advance_steps(player, c, 1);
+//                    player_view.setScore(p,player.get_score());
+//                    updateAbilityMenu();
+//                    whether_endGame(p);
+//                }
+//            }
+            if(p!=current_now&&!dice_view.selected.getSelection().isEmpty()){
                 int d_i = dice_view.selected.getSelection().get(0);
                 String d_c = Game_Start.gl.rounds.get(e).colours.get(d_i);
                 if(d_c.equals(c.toString())||d_c.equals(Colour.WHITE.name)) {
@@ -1072,6 +1100,16 @@ public class GameGUI extends BorderPane {
             }
         }
         player_view.setTrackInfo(player, colour, info);
+    }
+
+    public void withdrawTrackInfo(int player, String colour, int step){
+        int[] info = player_view.getTrackInfo(player,colour);
+        for(int i=0; i<info.length&&step>0;i++){
+            if(info[i]!=0){
+                info[i] = info[i]-1;
+                step--;
+            }
+        }
     }
 
     public void updateAbilityMenu() {
