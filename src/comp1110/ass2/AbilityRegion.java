@@ -56,7 +56,7 @@ public class AbilityRegion{
     }
     // all abilities players can get in this game
 
-    public void redStar_reroll(HashMap<Colour,Integer> dices_color, List<String> colours, List<Integer> change){
+    public void redStar(HashMap<Colour,Integer> dices_color, List<String> colours, List<Integer> change){
         Random random = new Random();
         for(int i=0;i<change.size();i++){
             String name = colours.get(change.get(i));
@@ -69,54 +69,11 @@ public class AbilityRegion{
         }
     }
 
-    public TilesShape blueStar_all_windows(TilesShape ts){
+    public TilesShape blueStar(TilesShape ts){
         for(int i=0;i<ts.windows.length;i++) {
             ts.windows[i] = true;
         }
         return ts;
-    }
-
-    public void greenStar_change_color(HashMap<Colour,Integer> dices_color, int num, Colour c1, Colour c2){
-        dices_color.put(c1,dices_color.get(c1)-num);
-        dices_color.put(c2, dices_color.getOrDefault(c2,0)+num);
-    }
-
-    public boolean yellowStar_pick_one(TilesShape ts){
-        boolean whether =false;
-        if(ts.num_of_tile==4||ts.num_of_tile==5){
-            if(ts.get_state()==false){
-                ts.set_state(true);
-            }
-            whether = true;
-        }
-        return whether;
-    }
-
-    public TilesShape purpleStar_extra_tile(){
-        TilesShape one = new TilesShape("one", Colour.PURPLE, 1,0,0,0);
-        return one;
-    }
-
-    public void PlusSign_next_larger(HashMap<Colour,Integer> dices_color, Abilities a) {
-        if (a.equals(Abilities.RedPlusSign)) {
-            dices_color.put(Colour.RED, dices_color.getOrDefault(Colour.RED, 0) + 1);
-        } else if (a.equals(Abilities.BluePlusSign)) {
-            dices_color.put(Colour.BLUE, dices_color.getOrDefault(Colour.BLUE, 0) + 1);
-        } else if (a.equals(Abilities.GreenPlusSign)) {
-            dices_color.put(Colour.GREEN, dices_color.getOrDefault(Colour.GREEN, 0) + 1);
-        } else if (a.equals(Abilities.YellowPlusSign)) {
-            dices_color.put(Colour.YELLOW, dices_color.getOrDefault(Colour.YELLOW, 0) + 1);
-        } else if (a.equals(Abilities.PurplePlusSign)) {
-            dices_color.put(Colour.PURPLE, dices_color.getOrDefault(Colour.PURPLE, 0) + 1);
-        }
-    }
-
-    public TilesShape Shield1_window_tile(){
-        return blueStar_all_windows(purpleStar_extra_tile());
-    }
-
-    public void Shield2_two_steps(Player p, int row){
-        p.advance_steps(p, p.ar.get_color(row),2);
     }
 
     public Colour get_color(int row){

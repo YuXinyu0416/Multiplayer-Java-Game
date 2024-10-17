@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
-public class D2CTest {
-    public D2CTest(){
+public class GameTest {
+    public GameTest(){
 
     }
 
@@ -68,4 +68,45 @@ public class D2CTest {
         System.out.println("checking gl.Tiles_canbe_Placed(gl.player1,gl.Y3, gl.tiles)");
         Assertions.assertEquals(false, gl.Tiles_canbe_Placed(gl.players.get(0),gl.Y3, gl.tiles));
     }
+
+    public void testDices_canbe_selected(){
+
+
+    }
+
+    public void test_advance_steps(){
+
+
+
+    }
+
+    public void test_withdrawSteps(){
+
+
+
+    }
+
+    public void test_store_ability(){
+
+
+    }
+
+    public void test_is_Occupied(){
+
+    }
+
+    public void test_isFilled_row(){
+
+    }
+
+    public void test_isFilled_column(){
+
+
+    }
+
+    public void test_redStar(){
+
+    }
+
+
 }

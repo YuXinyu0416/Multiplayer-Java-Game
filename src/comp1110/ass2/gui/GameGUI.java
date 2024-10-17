@@ -1126,11 +1126,11 @@ public class GameGUI extends BorderPane {
                 showState();
                 break;
             case "redStar":
-                which_player.ar.redStar_reroll(Game_Start.gl.rounds.get(i).dices_color,Game_Start.gl.rounds.get(i).colours, Game_Start.gui.dice_view.selected.getSelection());
+                which_player.ar.redStar(Game_Start.gl.rounds.get(i).dices_color,Game_Start.gl.rounds.get(i).colours, Game_Start.gui.dice_view.selected.getSelection());
                 Game_Start.gui.setAvailableDice(Game_Start.gl.rounds.get(i).colours);
                 break;
             case "blueStar":
-                which_player.ar.blueStar_all_windows(Game_Start.gui.candidate);
+                which_player.ar.blueStar(Game_Start.gui.candidate);
                 break;
             case "greenStar":
                 Game_Start.gui.changeDisable();
