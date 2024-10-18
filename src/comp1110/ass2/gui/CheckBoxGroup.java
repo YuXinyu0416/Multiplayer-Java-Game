@@ -81,25 +81,25 @@ public class CheckBoxGroup {
         inhibitSelectionEvent = false;
     }
 
-    public void Listener_dices(IntConsumer handler) {
-        inhibitSelectionEvent = true;
-        for(int i=0; i<size; i++) {
-            int finalI = i;
-                selectors[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        int index = Game_Start.gl.rounds.size() - 1;
-                        int p = Game_Start.gui.getSelectedPlayer();
-                        if (p==Game_Start.gui.getCurrent_now()&&!Game_Start.gl.Dices_canbe_selected(finalI)&&!Game_Start.gl.rounds.get(index).colours.get(finalI).equals(Colour.WHITE.name)) {
-                            selectors[finalI].setSelected(false);
-                            selectors[finalI].setDisable(true);
-                        }
-                        if(p!=Game_Start.gui.getCurrent_now()){
-
-                        }
-                    }
-                });
-            }
-        inhibitSelectionEvent=false;
-    }
+//    public void Listener_dices(IntConsumer handler) {
+//        inhibitSelectionEvent = true;
+//        for(int i=0; i<size; i++) {
+//            int finalI = i;
+//                selectors[i].selectedProperty().addListener(new ChangeListener<Boolean>() {
+//                    @Override
+//                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//                        int index = Game_Start.gl.rounds.size() - 1;
+//                        int p = Game_Start.gui.getSelectedPlayer();
+//                        if (p==Game_Start.gui.getCurrent_now()&&!Game_Start.gl.Dices_canbe_selected(finalI)&&!Game_Start.gl.rounds.get(index).colours.get(finalI).equals(Colour.WHITE.name)) {
+//                            selectors[finalI].setSelected(false);
+//                            selectors[finalI].setDisable(true);
+//                        }
+//                        if(p!=Game_Start.gui.getCurrent_now()){
+//
+//                        }
+//                    }
+//                });
+//            }
+//        inhibitSelectionEvent=false;
+//    }
 }

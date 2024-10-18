@@ -35,61 +35,10 @@ public class Game_Logic {
         }
     }
 
-    public boolean Dices_canbe_selected(int i) {
-        int index = rounds.size() - 1;
-        boolean whether = true;
-        List<String> max_color = new ArrayList<>();
-        int max_value = 0;
-        for (Map.Entry<Colour, Integer> pair : rounds.get(index).dices_color.entrySet()) {
-            if (max_value == 0 || pair.getValue().compareTo(max_value) > 0) {
-                max_value = pair.getValue();
-                max_color.clear();
-                max_color.add(pair.getKey().toString());
-            } else if (pair.getValue().compareTo(max_value) == 0) {
-                max_color.add(pair.getKey().toString());
-            }
-        }
-
-        if(max_color.size()==1&&!max_color.get(0).equals(rounds.get(index).colours.get(i))){
-            whether = false;
-        }
-        else if(max_color.size()>2){
-            whether =false;
-            System.out.println("Must be rerolled!");
-        }
-        else{
-            boolean whether1 = true;
-            boolean whether2 = true;
-            whether = false;
-            if(!rounds.get(index).colours.get(i).equals(max_color.get(0))){
-                whether1 = false;
-            }
-            if(!rounds.get(index).colours.get(i).equals(max_color.get(1))){
-                whether2 = false;
-            }
-            if(whether1||whether2){
-                whether =true;
-            }
-        }
-
-        if(whether){
-            if(rounds.get(index).selected.isEmpty()){
-                rounds.get(index).selected.add(rounds.get(index).colours.get(i));
-            }
-            else{
-                if(!rounds.get(index).selected.contains(rounds.get(index).colours.get(i))){
-                    if(!max_color.get(0).equals(Colour.WHITE.name))
-                    whether=false;
-                }
-            }
-        }
-        return whether;
-    }
-
     public boolean tilesCanBeSelected(Player p, TilesShape ts){
         boolean whether;
         if(ts.get_state()) {
-        whether=p.choose_tiles_rules(rounds.get(rounds.size()-1).dices_color, ts, rounds.get(rounds.size()-1).isWhite(rounds.get(rounds.size()-1).dices_color));
+            whether=p.choose_tiles_rules(rounds.get(rounds.size()-1).dices_color, ts, rounds.get(rounds.size()-1).isWhite(rounds.get(rounds.size()-1).dices_color));
         }
         else{
             whether=false;

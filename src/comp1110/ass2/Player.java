@@ -55,10 +55,14 @@ public class Player{
 
     public void withdrawSteps(Colour c, int step){
         int total_step = ability_steps.get(c);
-        ability_steps.put(c, ability_steps.get(c) - step);
+        if(step>0) {
+            ability_steps.put(c, ability_steps.get(c) - step);
+        }
         if(total_step==ar.star1||total_step==ar.star2){
             if(c.equals(Colour.RED)){
+                int n1= abilities.get(AbilityRegion.Abilities.redStar);
                 abilities.put(AbilityRegion.Abilities.redStar,abilities.get(AbilityRegion.Abilities.redStar)-1);
+                int n2 = abilities.get(AbilityRegion.Abilities.redStar);
             }
             else if(c.equals(Colour.GREEN)){
                 abilities.put(AbilityRegion.Abilities.greenStar,abilities.get(AbilityRegion.Abilities.greenStar)-1);
