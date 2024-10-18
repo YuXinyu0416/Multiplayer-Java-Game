@@ -829,12 +829,12 @@ public class GameGUI extends BorderPane {
     }
 
     public void whether_endGame(int p){
-        Player player = Game_Start.gl.players.get(p);
-        if(player.get_score()>=12){
+           Player player = Game_Start.gl.players.get(p);
+           if(player.get_score()>=12){
             boolean whether = true;
-            for(int i=0;i<players.length;i++){
-                if(players[i].length()==0){
-                    whether=false;
+            for(int i=0;i<players.length;i++) {
+                if (players[i] == null || players[i].isEmpty()) {
+                    whether = false;
                 }
             }
             if(whether){
