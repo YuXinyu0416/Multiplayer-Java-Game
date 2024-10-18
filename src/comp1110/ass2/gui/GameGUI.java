@@ -222,7 +222,7 @@ public class GameGUI extends BorderPane {
             Player player = Game_Start.gl.players.get(p);
 		if (candidate != null&&can_place&&((p ==current_now&&Game_Start.gl.tilesCanBeSelected(player, candidate))||candidate.name.equals("S1O")||candidate.name.equals("S1X")||(ys_ability&&candidate.num_of_tile>=4))) {
 		    TilesShape tmp = new TilesShape(candidate);
-            if(!candidate.name.equals("S1O")||!candidate.name.equals("S1X")) {
+            if(!candidate.name.equals("S1O")&&!candidate.name.equals("S1X")) {
                 dice_remainder = new TilesShape(candidate);
             }
 		    candidate = null;
@@ -255,8 +255,8 @@ public class GameGUI extends BorderPane {
                     }
                 }
                 player_view.setScore(p,player.get_score());
-                whether_endGame(getSelectedPlayer());
                 showState();
+                whether_endGame(getSelectedPlayer());
             }
 		}
         else if(!Game_Start.gl.tilesCanBeSelected(player,candidate)){
@@ -610,11 +610,12 @@ public class GameGUI extends BorderPane {
                 int num = Game_Start.gl.rounds.get(index).dices_color.get(Colour.getColour(colours.get(c_index.get(i))));
                 Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colours.get(c_index.get(i))), num - 1);
                 Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colour), Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.getColour(colour), 0) + 1);
+                Game_Start.gl.rounds.get(index).colours.set(i,colours.get(i));
                 colours.set(c_index.get(i), colour);
-                Game_Start.gui.setAvailableDice(colours);
-                b_colour_change.setDisable(true);
-                showState();
             }
+            Game_Start.gui.setAvailableDice(colours);
+            b_colour_change.setDisable(true);
+            showState();
         }
     }
 
