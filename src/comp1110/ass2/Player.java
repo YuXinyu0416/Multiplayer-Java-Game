@@ -42,14 +42,20 @@ public class Player{
         //add steps to make players advance in the ability track and return this step number to determine
         //whether players can get corresponding abilities
         if(ability_steps.containsKey(c)&&ability_steps.get(c)<5) {
-            ability_steps.put(c, ability_steps.getOrDefault(c, 0) + step);
-            ar.get_ability(p, c);
-            ar.isFilled(p, c);
+            while (step>0) {
+                step--;
+                ability_steps.put(c, ability_steps.getOrDefault(c, 0) + 1);
+                ar.get_ability(p, c);
+                ar.isFilled(p, c);
+            }
         }
         else if(!ability_steps.containsKey(c)){
-            ability_steps.put(c, ability_steps.getOrDefault(c, 0) + step);
-            ar.get_ability(p, c);
-            ar.isFilled(p, c);
+            while (step>0) {
+                step--;
+                ability_steps.put(c, ability_steps.getOrDefault(c, 0) + 1);
+                ar.get_ability(p, c);
+                ar.isFilled(p, c);
+            }
         }
     }
 

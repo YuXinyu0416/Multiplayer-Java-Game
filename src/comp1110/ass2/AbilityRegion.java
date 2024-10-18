@@ -84,7 +84,7 @@ public class AbilityRegion{
         //there are some abilities and bonus of different signs and colors, so there need to be some if-else
         //sentences to determine which color ability track and its related ability, then call some other
         //methods to apply this ability
-        if(p.get_stepNUM(c) >= star1||p.get_stepNUM(c) >= star2){
+        if(p.get_stepNUM(c) == star1||p.get_stepNUM(c) == star2){
             if(c.equals(Colour.RED)){
                 p.store_ability(Abilities.redStar);
             }
@@ -101,7 +101,7 @@ public class AbilityRegion{
                 p.store_ability(Abilities.purpleStar);
             }
         }
-        if(p.get_stepNUM(c)>=plus_sign1||p.get_stepNUM(c)>=plus_sign2){
+        if(p.get_stepNUM(c)==plus_sign1||p.get_stepNUM(c)==plus_sign2){
             if(c.equals(Colour.RED)){
                 p.store_ability(Abilities.RedPlusSign);
             }

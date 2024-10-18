@@ -32,6 +32,7 @@ import java.util.function.IntConsumer;
 import comp1110.ass2.Game_Start;
 import javafx.stage.Stage;
 
+
 public class GameGUI extends BorderPane {
 
     static final int BUILDING_WIDTH = 5;
@@ -63,8 +64,9 @@ public class GameGUI extends BorderPane {
     private Button b_pass;
     private Button t_hint1;
     private Button t_hint2;
+    private Button b_again;
     private MenuButton b_use;
-    public MenuButton b_colour_change;
+    private MenuButton b_colour_change;
     public MenuButton b_rabbits;
     private MenuButton b_action;
 
@@ -188,15 +190,15 @@ public class GameGUI extends BorderPane {
 	    controls.add(score_i, 1, 1 + i, 1, 1);
 	    GridPane.setHalignment(score_i, HPos.RIGHT);
 	}
-        Button b_again = new Button("Play again");
+        b_again = new Button("Play again");
         b_again.setOnAction(e -> {
-		control_view.getChildren().clear();
-		control_view.getChildren().add(game_setup_controls);
-		showState();
-        Game_Start again = new Game_Start();
-        again.start(new Stage());
-	    });
-	int n = Math.min(finalScores.length, 4);
+           control_view.getChildren().clear();
+           control_view.getChildren().add(game_setup_controls);
+           showState();
+            Game_Start again = new Game_Start();
+            again.start(new Stage());
+        });
+	    int n = Math.min(finalScores.length, 4);
         controls.add(b_again, 0, n + 1, 2, 1);
         GridPane.setHalignment(b_again, HPos.CENTER);
         Button b_quit = new Button("Quit");
@@ -220,7 +222,9 @@ public class GameGUI extends BorderPane {
             Player player = Game_Start.gl.players.get(p);
 		if (candidate != null&&can_place&&((p ==current_now&&Game_Start.gl.tilesCanBeSelected(player, candidate))||candidate.name.equals("S1O")||candidate.name.equals("S1X")||(ys_ability&&candidate.num_of_tile>=4))) {
 		    TilesShape tmp = new TilesShape(candidate);
-            dice_remainder = new TilesShape(candidate);
+            if(!candidate.name.equals("S1O")||!candidate.name.equals("S1X")) {
+                dice_remainder = new TilesShape(candidate);
+            }
 		    candidate = null;
 		    library_view.clearSelection();
 		    if (onTilePlaced != null) {
@@ -345,7 +349,7 @@ public class GameGUI extends BorderPane {
         current_player_controls = controls;
     }
 
-    private void showState() {
+    public void showState() {
 	int i = player_selector.getSelectionModel().getSelectedIndex();
 	if (candidate != null && (i == candidate_index))
 	    building_view.show(i, candidate, false);
