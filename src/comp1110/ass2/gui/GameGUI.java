@@ -94,12 +94,12 @@ public class GameGUI extends BorderPane {
         Collections.addAll(rabbit_a,"Draw one tile with carrot", "Choose an ability track and advance 2 steps");
     }
 
-    private static int which_player= 1;
-    private static boolean last_turn;
-    public static boolean ys_ability =false;
-    public static boolean can_place = true;
-    private static TilesShape dice_remainder;
-    public static boolean whether_click = true;
+    private int which_player= 1;
+    private boolean last_turn;
+    public boolean ys_ability =false;
+    public boolean can_place = true;
+    private TilesShape dice_remainder;
+    public boolean whether_click = true;
 
     public void setonAvailablePlayers(int np){
         players = new String[np];
@@ -277,10 +277,10 @@ public class GameGUI extends BorderPane {
         controls.add(b_pass, 0, 2);
 	    b_pass.setOnAction((e) -> {
         if (onPass != null) {
+            whether_click = false;
             int pno = players.length;
             b_rabbits.setDisable(true);
             b_colour_change.setDisable(true);
-            whether_click = false;
             setAbilityMenu(List.of("You have no ability now"));
             whether_endGame(getSelectedPlayer());
             ys_ability = false;
@@ -546,11 +546,13 @@ public class GameGUI extends BorderPane {
         if (!whether_empty) {
             for (Map.Entry<AbilityRegion.Abilities, Integer> pairs : Game_Start.gl.players.get(p).abilities.entrySet()) {
                 if(pairs.getValue()>0) {
-                    abilities.add(String.valueOf(pairs.getKey()));
-                    //abilities.add("nothing here");
-                    setAbilityMenu(abilities);
+                    int num = pairs.getValue();
+                    for(int i=0;i<num;i++) {
+                        abilities.add(String.valueOf(pairs.getKey()));
+                    }
                 }
             }
+            setAbilityMenu(abilities);
         }
         else{
             setAbilityMenu(List.of("You have no ability now"));
@@ -606,6 +608,7 @@ public class GameGUI extends BorderPane {
                 Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colour), Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.getColour(colour), 0) + 1);
                 colours.set(c_index.get(i), colour);
                 Game_Start.gui.setAvailableDice(colours);
+                b_colour_change.setDisable(true);
                 showState();
             }
         }
@@ -981,6 +984,7 @@ public class GameGUI extends BorderPane {
                     whether_endGame(p);
                 }
             }
+
             showState();
         });
     }
@@ -1137,6 +1141,7 @@ public class GameGUI extends BorderPane {
                 break;
             case "yellowStar":
                 ys_ability = true;
+                can_place = true;
                 Game_Start.gui.setAvailableTiles(List.of("R2", "R3", "R4", "R4", "R5", "B2", "B3", "B4L", "B4R", "B5", "P2","P3","P4","P4","P5","G2", "G3", "G4L", "G4R", "G5", "Y2", "Y3", "Y4L", "Y4R", "Y5"));
                 //Game_Start.gui.setAvailableTiles(GameGUI.availableTS);
                 //which_player.ar.yellowStar_pick_one(Game_Start.gui.candidate);

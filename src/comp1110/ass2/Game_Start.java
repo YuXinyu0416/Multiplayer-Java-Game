@@ -38,8 +38,7 @@ public class Game_Start extends Application {
 		gui.setAvailableDice(gl.rounds.get(0).colours);
 		gui.setAvailableActions(List.of("End the game"));
 		gui.setAbilityMenu(List.of("redStar", "redStar"));
-		gl.players.get(0).store_ability(AbilityRegion.Abilities.getAbility("redStar"));
-		gl.players.get(0).store_ability(AbilityRegion.Abilities.getAbility("redStar"));
+		gl.players.get(0).abilities.put(AbilityRegion.Abilities.getAbility("redStar"),2);
 		gui.setColourMenu(GameGUI.colours);
 		gui.setShieldsMenu(GameGUI.rabbit_a);
 	});
@@ -68,7 +67,6 @@ public class Game_Start extends Application {
 		gui.setOnColourChange((s) -> {
 			gui.setMessage("Color: " + s);
 			gui.colourChange(s);
-			gui.b_colour_change.setDisable(true);
 				});
 
 		gui.setOnGameAction((s) -> {
