@@ -12,7 +12,7 @@ public class AbilityRegion{
     int star2 =3;
     int plus_sign1=2;
     int plus_sign2=4;
-    static List<Colour> ability_region=new ArrayList<>();//store color of every row and distinguish them
+    public List<Colour> ability_region=new ArrayList<>();//store color of every row and distinguish them
     static List<Colour> colors = new ArrayList<>();
 
     {

@@ -1110,8 +1110,10 @@ public class GameGUI extends BorderPane {
     public void executeAbility(String ability, int player) {
         Player which_player = Game_Start.gl.players.get(player);
         int i=Game_Start.gl.rounds.size()-1;
-        use_a(ability);
-        updateAbilityMenu();
+        if(!ability.equals("Draw one tile with carrot")&&!ability.equals("Choose an ability track and advance 2 steps")) {
+            use_a(ability);
+            updateAbilityMenu();
+        }
         switch (ability){
             case "Draw one tile with carrot":
                 TilesShape S1O = new TilesShape("S1O", Colour.GRAY, 1,0,0,0);
@@ -1127,10 +1129,11 @@ public class GameGUI extends BorderPane {
                 break;
             case "Choose an ability track and advance 2 steps":
                 int index = Game_Start.gui.player_view.selectors.getSelection().get(0);
-                String c = Game_Start.gl.rounds.get(i).colours.get(index);
+                String c = Game_Start.gl.players.get(player).ar.ability_region.get(index).toString();
                 setTrackInfo(player,c,2);
                 which_player.advance_steps(which_player, which_player.ar.get_color(index),2);
                 player_view.setScore(player,which_player.get_score());
+                updateAbilityMenu();
                 whether_endGame(player);
                 showState();
                 break;
