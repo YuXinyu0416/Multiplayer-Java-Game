@@ -102,6 +102,7 @@ public class GameGUI extends BorderPane {
     public boolean can_place = true;
     private TilesShape dice_remainder;
     public boolean whether_click = true;
+    private boolean last_round = false;
 
     public void setonAvailablePlayers(int np){
         players = new String[np];
@@ -299,6 +300,9 @@ public class GameGUI extends BorderPane {
                 current_now=(current_now+1)%pno;
                 players[current_now]= "has played one time";
                 setSelectedPlayer(current_now);
+                if(last_round){
+                    endGame(new int[Game_Start.gl.players.size()]);
+                }
                 t_hint1.setDisable(false);
                 updateAbilityMenu();
                 last_turn =false;
@@ -832,8 +836,9 @@ public class GameGUI extends BorderPane {
            Player player = Game_Start.gl.players.get(p);
            if(player.get_score()>=12){
             boolean whether = true;
+            last_round = true;
             for(int i=0;i<players.length;i++) {
-                if (players[i] == null || players[i].isEmpty()) {
+                if (players[i] == null||players[i].isEmpty()) {
                     whether = false;
                 }
             }
