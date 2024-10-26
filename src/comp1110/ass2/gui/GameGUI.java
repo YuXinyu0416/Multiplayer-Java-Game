@@ -333,7 +333,7 @@ public class GameGUI extends BorderPane {
                     which_player = (which_player+1)%pno;
                     players[this_turn] = "has played one time";
                     setAvailableActions(List.of("End the game"));
-                    if(!last_turn) {
+                    if(!last_turn&&dice_remainder!=null) {
                         dices_remainder();
                         last_turn = true;
                     }
@@ -610,12 +610,14 @@ public class GameGUI extends BorderPane {
             }
         }
         if(is_equal) {
-            for(int i =0; i<colours.size();i++) {
+            for(int i =0; i<c_index.size();i++) {
                 int num = Game_Start.gl.rounds.get(index).dices_color.get(Colour.getColour(colours.get(c_index.get(i))));
                 Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colours.get(c_index.get(i))), num - 1);
                 Game_Start.gl.rounds.get(index).dices_color.put(Colour.getColour(colour), Game_Start.gl.rounds.get(index).dices_color.getOrDefault(Colour.getColour(colour), 0) + 1);
-                Game_Start.gl.rounds.get(index).colours.set(i,colours.get(i));
                 colours.set(c_index.get(i), colour);
+            }
+            for(int i = 0;i< colours.size();i++){
+                Game_Start.gl.rounds.get(index).colours.set(i,colours.get(i));
             }
             Game_Start.gui.setAvailableDice(colours);
             b_colour_change.setDisable(true);
@@ -727,6 +729,7 @@ public class GameGUI extends BorderPane {
                 dice_view.selected.selectors[index_white.get(i)].setDisable(true);
             }
         }
+        dice_remainder = null;
     }
 
     /**
