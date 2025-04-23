@@ -24,6 +24,7 @@ A local multiplayer turn-based desktop game built with Java. Players take turns 
 
 ### 📥 Clone the Repository
 
+```bash
 git clone https://github.com/YuXinyu0416/Multiplayer-Java-Game.git
 cd Multiplayer-Java-Game
 
